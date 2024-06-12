@@ -1,0 +1,18 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --color-Harbor-first: #354649;
+  --color-Harbor-sec: #6c7a89;
+  --color-Harbor-third: #a3c6c4;
+  --color-Harbor-firth: #e0e7e9;
+  --color-Naver-main: #ffc72c;
+  --color-main: #354649;
+  --color-Naver-green: #17b75e;
+  --color-Naver-gray: #404040;
+  --color-Naver-dark-gray: #606060;
+  --color-Naver-black: #101010;
+  --color-Naver-footer: #f5f6f7;
+  --color-widget-bg: #f4f6fa;
+}
