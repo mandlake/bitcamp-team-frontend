@@ -12,18 +12,12 @@ import { useDispatch } from "react-redux";
 import { useRouter } from "next/navigation";
 import { logout } from "../user/service/user.service";
 import { getAccessToken } from "./cookies";
+import MenuPage from "@/app/pages/menues/page";
 
-const Header = () => {
+const Header = ({ isDropdownOpen, setIsDropdownOpen }: any) => {
   const dispatch = useDispatch();
   const router = useRouter();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [isDropdownOpen, setIsDropdownOpen] = useState({
-    menu: false,
-    cash: false,
-    message: false,
-    notification: false,
-    account: false,
-  });
 
   const checkAuthentication: any = async () => {
     const accessToken: any = await getAccessToken();
@@ -37,11 +31,6 @@ const Header = () => {
       ...isDropdownOpen,
       menu: !isDropdownOpen.menu,
     });
-    if (isDropdownOpen.menu) {
-      router.push("/");
-    } else {
-      router.push("/pages/menues");
-    }
   };
 
   const handleAccount = () => {
@@ -69,44 +58,52 @@ const Header = () => {
 
   return (
     <>
-      {isLoggedIn ? (
-        <nav
-          className={`flex justify-between items-center fixed top-0 w-screen `}
-        >
-          <div className="flex justify-between items-center">
-            <div className={`${rounded}`} onClick={() => handleMenu()}>
-              {isDropdownOpen.menu ? (
+      <nav
+        className={`items-center fixed top-0 h-[5vh] w-screen flex flex-row justify-between `}
+      >
+        <div className={`flex flex-row items-center `}>
+          <div className={`${rounded} relative`} onClick={() => handleMenu()}>
+            {isDropdownOpen.menu ? (
+              <>
                 <ClearOutlinedIcon className={iconsCSS} />
-              ) : (
-                <MenuIcon className={`h-[50px] w-[50px] font-semibold`} />
-              )}
-            </div>
-            <div
-              className={`${rounded} ${
-                isDropdownOpen.menu ? "invisible" : "visible"
-              }`}
-            >
-              <LocalAtmOutlinedIcon className={iconsCSS} />
-            </div>
+                <MenuPage menu={isDropdownOpen.menu}></MenuPage>
+              </>
+            ) : (
+              <MenuIcon className={`h-[50px] w-[50px] font-semibold`} />
+            )}
           </div>
+          <div>
+            {isLoggedIn ? (
+              <div
+                className={`${rounded} ${
+                  isDropdownOpen.cash ? "invisible" : "visible"
+                } ${isDropdownOpen.menu ? "ml-[250px]" : "ml-0"}`}
+              >
+                <LocalAtmOutlinedIcon className={iconsCSS} />
+              </div>
+            ) : null}
+          </div>
+        </div>
+
+        {isLoggedIn ? (
           <div className="flex justify-between items-center">
             <div
               className={`${rounded} ${
-                isDropdownOpen.menu ? "invisible" : "visible"
+                isDropdownOpen.message ? "invisible" : "visible"
               }`}
             >
               <TextsmsOutlinedIcon className={iconsCSS} />
             </div>
             <div
               className={`${rounded} ${
-                isDropdownOpen.menu ? "invisible" : "visible"
+                isDropdownOpen.notification ? "invisible" : "visible"
               }`}
             >
               <NotificationsOutlinedIcon className={iconsCSS} />
             </div>
             <div
               className={`${rounded} ${
-                isDropdownOpen.menu ? "invisible" : "visible"
+                isDropdownOpen.account ? "invisible" : "visible"
               } flex flex-col`}
             >
               <AccountCircleOutlinedIcon
@@ -114,14 +111,16 @@ const Header = () => {
                 onClick={() => handleAccount()}
               />
               {isDropdownOpen.account && (
-                <div className="flex flex-col">
+                <div className="flex flex-col fixed top-0 right-0">
                   <button onClick={() => handleLogOut()}>logout</button>
                 </div>
               )}
             </div>
           </div>
-        </nav>
-      ) : null}
+        ) : (
+          <div></div>
+        )}
+      </nav>
     </>
   );
 };

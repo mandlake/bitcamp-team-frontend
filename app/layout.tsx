@@ -2,7 +2,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import dynamic from "next/dynamic";
 import { Metadata } from "next";
-import Header from "./components/modules/header";
+import Layout from "./components/Layout";
 
 const ReduxProvider = dynamic(() => import("@/redux/redux-provider"), {
   ssr: false,
@@ -24,10 +24,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={inter.className}>
         <ReduxProvider>
-          <div className="h-screen">
-            <Header />
-            {children}
-          </div>
+          <Layout>{children}</Layout>
         </ReduxProvider>
       </body>
     </html>
