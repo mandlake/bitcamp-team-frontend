@@ -5,12 +5,12 @@ import { useEffect, useState } from "react";
 
 const MenuPage = (props: any) => {
   const [animate, setAnimate] = useState(
-    "animate__animated animate__backInLeft"
+    "animate__animated animate__fadeInLeft"
   );
 
   useEffect(() => {
     if (props.menu === true) {
-      setAnimate("animate__animated animate__backInLeft");
+      setAnimate("animate__animated animate__fadeInLeft fast");
     } else {
       setAnimate("animate__animated animate__backOutLeft");
     }

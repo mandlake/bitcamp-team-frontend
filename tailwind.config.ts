@@ -8,6 +8,20 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      keyframes: {
+        "swing-right-fwd": {
+          "0%": { transform: "rotateY(0deg) translateX(0px)" }, // Corrected typo
+          "100%": { transform: "rotateY(180deg) translateX(50vw)" },
+        },
+        "swing-left-fwd": {
+          "0%": { transform: "rotateY(0deg) translateX(0px)" },
+          "100%": { transform: "rotateY(-180deg) translateX(-50vw)" },
+        },
+      },
+      animation: {
+        "swing-right-fwd": "swing-right-fwd 2s ease-in-out",
+        "swing-left-fwd": "swing-left-fwd 2s ease-in-out",
+      },
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
         "gradient-conic":

@@ -1,7 +1,8 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { use, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
+import ChevronRightOutlinedIcon from "@mui/icons-material/ChevronRightOutlined";
 
 export default function Home(props: any) {
   const router = useRouter();
@@ -23,9 +24,12 @@ export default function Home(props: any) {
         <div className=" bg-[var(--color-Harbor-sec)] h-[20vh] w-[60vw] text-[var(--color-Harbor-firth)]">
           추후 로고 혹은 이미지 삽입
         </div>
+        <div className="h-[30vh] bg-[var(--color-Harbor-sec)] text-[var(--color-Harbor-firth)] w-[60vw]">
+          그 밖의 내용 삽입
+        </div>
         <div className=" bg-[var(--color-Harbor-first)] h-[32vh] w-[60vw] text-[var(--color-Harbor-firth)] flex flex-col gap-5 py-3">
           <div className=" mx-10">추천 변호사</div>
-          <div className=" flex flex-row items-center justify-center gap-7">
+          <div className=" animate__animated animate__fadeInRight animate__slow ease-in flex flex-row items-center justify-center gap-7">
             <div className=" bg-[var(--color-Harbor-sec)] h-[23vh] w-[10vw]">
               1
             </div>
@@ -41,10 +45,10 @@ export default function Home(props: any) {
             <div className=" bg-[var(--color-Harbor-sec)] h-[23vh] w-[10vw]">
               5
             </div>
+            <div>
+              <ChevronRightOutlinedIcon />
+            </div>
           </div>
-        </div>
-        <div className="h-[30vh] bg-[var(--color-Harbor-sec)] text-[var(--color-Harbor-firth)] w-[60vw]">
-          그 밖의 내용 삽입
         </div>
         <div
           className="h-[5vw] w-[5vw] bg-slate-600 fixed bottom-10 right-20"
