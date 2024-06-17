@@ -27,24 +27,27 @@ export default function Home(props: any) {
         <div className="h-[30vh] bg-[var(--color-Harbor-sec)] text-[var(--color-Harbor-firth)] w-[60vw]">
           그 밖의 내용 삽입
         </div>
-        <div className=" bg-[var(--color-Harbor-first)] h-[32vh] w-[60vw] text-[var(--color-Harbor-firth)] flex flex-col gap-5 py-3">
-          <div className=" mx-10">추천 변호사</div>
+        <div className=" border-2 border-dashed border-[var(--color-Harbor-first)] h-[32vh] w-[60vw] text-[var(--color-Harbor-first)] flex flex-col gap-5 py-3">
+          <div className=" text-[18px] mx-8">추천 변호사</div>
           <div className=" animate__animated animate__fadeInRight animate__slow ease-in flex flex-row items-center justify-center gap-7">
-            <div className=" bg-[var(--color-Harbor-sec)] h-[23vh] w-[10vw]">
-              1
-            </div>
-            <div className=" bg-[var(--color-Harbor-sec)] h-[23vh] w-[10vw]">
-              2
-            </div>
-            <div className=" bg-[var(--color-Harbor-sec)] h-[23vh] w-[10vw]">
-              3
-            </div>
-            <div className=" bg-[var(--color-Harbor-sec)] h-[23vh] w-[10vw]">
-              4
-            </div>
-            <div className=" bg-[var(--color-Harbor-sec)] h-[23vh] w-[10vw]">
-              5
-            </div>
+            {[1, 2, 3, 4, 5].map((item) => (
+              <div
+                key={item}
+                className=" border border-[var(--color-Harbor-first)] text-[var(--color-Harbor-sec)] items-center flex flex-col py-5 px-3"
+              >
+                <img
+                  className="h-[120px] w-[120px]"
+                  src="https://d2ai3ajp99ywjy.cloudfront.net/uploads/original/5c66037ebb38fe09bee50c8f-original-1698724743004.jpg?s=256x256"
+                />
+                <div className="w-[155px] flex flex-col gap-2">
+                  <h1 className="text-[15px] font-semibold">진보라 변호사</h1>
+                  <div className="text-[13px] flex gap-2">
+                    <div>#성매매알선</div>
+                    <div>#장부단속</div>
+                  </div>
+                </div>
+              </div>
+            ))}
             <div>
               <ChevronRightOutlinedIcon />
             </div>

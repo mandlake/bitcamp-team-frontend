@@ -1,7 +1,6 @@
 "use client";
 
 import { loginId } from "@/app/components/user/service/user.service";
-import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
@@ -50,7 +49,7 @@ const Login = () => {
                 src="https://w7.pngwing.com/pngs/344/344/png-transparent-google-logo-google-logo-g-suite-google-text-logo-symbol-thumbnail.png"
                 className="w-[4vh] h-[4vh]"
               />
-              Log in with Google
+              Login with Google
             </button>
           </div>
           <p>or</p>
