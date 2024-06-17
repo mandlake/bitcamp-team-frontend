@@ -3,18 +3,19 @@
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import ChevronRightOutlinedIcon from "@mui/icons-material/ChevronRightOutlined";
+import "animate.css";
 
 export default function Home(props: any) {
   const router = useRouter();
-  const [isOpenRoRo, setIsOpenRoRo] = useState(false);
+  const [isOpenLawLaw, setIsOpenLawLaw] = useState(false);
 
   useEffect(() => {
-    if (isOpenRoRo) {
-      console.log("isOpenRoRo", isOpenRoRo);
+    if (isOpenLawLaw) {
+      console.log("isOpenLawLaw", isOpenLawLaw);
     } else {
-      console.log("isOpenRoRo", isOpenRoRo);
+      console.log("isOpenLawLaw", isOpenLawLaw);
     }
-  }, [isOpenRoRo]);
+  }, [isOpenLawLaw]);
 
   return (
     <>
@@ -54,8 +55,15 @@ export default function Home(props: any) {
           </div>
         </div>
         <div
+          className={`fixed h-screen z-0 bottom-0 right-0 w-screen bg-yellow-500 ${
+            isOpenLawLaw
+              ? "visible animate__animated animate__fadeInBottomRight"
+              : "invisible"
+          }`}
+        ></div>
+        <div
           className="h-[5vw] w-[5vw] bg-slate-600 fixed bottom-10 right-20"
-          onClick={() => setIsOpenRoRo(!isOpenRoRo)}
+          onClick={() => setIsOpenLawLaw(!isOpenLawLaw)}
         ></div>
       </div>
     </>

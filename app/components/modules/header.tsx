@@ -21,7 +21,6 @@ const Header = ({ isDropdownOpen, setIsDropdownOpen }: any) => {
 
   const checkAuthentication: any = async () => {
     const accessToken: any = await getAccessToken();
-    console.log("accessToken: ", accessToken);
     setIsLoggedIn(!!accessToken);
     return accessToken;
   };
@@ -59,7 +58,7 @@ const Header = ({ isDropdownOpen, setIsDropdownOpen }: any) => {
   return (
     <>
       <nav
-        className={`items-center fixed top-0 h-[5vh] w-screen flex flex-row justify-between `}
+        className={`items-center fixed top-0 h-[5vh] w-screen z-20 flex flex-row justify-between `}
       >
         <div className={`flex flex-row items-center `}>
           <div className={`${rounded} relative`} onClick={() => handleMenu()}>
@@ -108,7 +107,7 @@ const Header = ({ isDropdownOpen, setIsDropdownOpen }: any) => {
             >
               <AccountCircleOutlinedIcon
                 className={iconsCSS}
-                onClick={() => handleAccount()}
+                onClick={() => handleLogOut()}
               />
               {isDropdownOpen.account && (
                 <div className="flex flex-col fixed top-0 right-0">
