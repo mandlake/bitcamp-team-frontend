@@ -4,6 +4,8 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import ChevronRightOutlinedIcon from "@mui/icons-material/ChevronRightOutlined";
 import "animate.css";
+import Image from "next/image";
+import LawLawPage from "./pages/lawlaw/page";
 
 export default function Home(props: any) {
   const router = useRouter();
@@ -37,21 +39,21 @@ export default function Home(props: any) {
                 <div className=" font-semibold">
                   인공지능 기술 기반 맞춤형 법률 서비스
                 </div>
-                개인의 상황과 문제에 맞는 최적의 해결책을 제시합니다.
+                <div>개인의 상황과 문제에 맞는 최적의 해결책을 제시합니다.</div>
               </li>
               <li>
                 <div className=" font-semibold">
                   엄선된 전문 변호사 네트워크
                 </div>
-                풍부한 경험과 전문성을 갖춘 변호사와 빠르게 연결
+                <div>풍부한 경험과 전문성을 갖춘 변호사와 빠르게 연결</div>
               </li>
               <li>
                 <div className=" font-semibold">합리적인 비용</div>
-                투명한 비용 체계로 예상치 못한 부담 없이 이용 가능
+                <div>투명한 비용 체계로 예상치 못한 부담 없이 이용 가능</div>
               </li>
               <li>
                 <div className=" font-semibold">안전하고 보안</div>
-                엄격한 정보 보호 정책으로 개인정보 안전을 최우선으로
+                <div>엄격한 정보 보호 정책으로 개인정보 안전을 최우선으로</div>
               </li>
             </ul>
           </section>
@@ -75,9 +77,12 @@ export default function Home(props: any) {
                 key={item}
                 className=" border border-[var(--color-Harbor-sec)] text-[var(--color-Harbor-first)] items-center flex flex-col py-5 px-3"
               >
-                <img
-                  className="h-[120px] w-[120px] mb-3"
-                  src="https://d2ai3ajp99ywjy.cloudfront.net/uploads/original/5c66037ebb38fe09bee50c8f-original-1698724743004.jpg?s=256x256"
+                <Image
+                  src="https://mblogthumb-phinf.pstatic.net/MjAyMTA1MjlfNzYg/MDAxNjIyMjE1MjMwOTk5.TSOSi5EAsh3MX9bdN3W9ugQyjSBYV_I0jMkcLwN9Wkwg.6KIRElwl9bBEUu-Br1UmWMMb0Fuku_CIFNb64SttOHkg.JPEG.acttosun08/IMAGE%EF%BC%BF2020%EF%BC%BF09%EF%BC%BF18%EF%BC%BF06%EF%BC%BF09%EF%BC%BF35.jpg?type=w800"
+                  className="mb-3"
+                  width={120}
+                  height={120}
+                  alt="lawyer-image"
                 />
                 <div className="w-[155px] flex flex-col gap-2">
                   <h1 className="text-[15px] font-semibold">진보라 변호사</h1>
@@ -93,13 +98,7 @@ export default function Home(props: any) {
             </div>
           </div>
         </div>
-        <div
-          className={`fixed h-screen z-0 bottom-0 right-0 w-screen bg-yellow-500 ${
-            isOpenLawLaw
-              ? "visible animate__animated animate__fadeInBottomRight"
-              : "invisible"
-          }`}
-        ></div>
+        <LawLawPage isOpenLawLaw={isOpenLawLaw} />
         <div
           className="h-[5vw] w-[5vw] bg-slate-600 fixed bottom-10 right-20 rounded-full"
           onClick={() => setIsOpenLawLaw(!isOpenLawLaw)}

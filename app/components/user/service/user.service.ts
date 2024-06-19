@@ -1,5 +1,3 @@
-"server";
-
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import {
   forgotPasswordApi,
