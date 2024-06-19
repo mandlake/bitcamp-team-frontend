@@ -93,7 +93,7 @@ export default function Home(props: any) {
                 </div>
               </div>
             ))}
-            <div>
+            <div onClick={() => router.push("/pages/articles/lawyers/all")}>
               <ChevronRightOutlinedIcon />
             </div>
           </div>
