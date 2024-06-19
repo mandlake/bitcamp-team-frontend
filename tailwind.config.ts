@@ -27,6 +27,12 @@ const config: Config = {
         "gradient-conic":
           "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
       },
+      fontFamily: {
+        roboto: ["Roboto", "sans-serif"],
+        chosunlo: ["ChosunLo", "sans-serif"],
+        chosunsg: ["ChosunSg", "sans-serif"],
+        chosunkg: ["ChosunKg", "sans-serif"],
+      },
     },
   },
   plugins: [],
