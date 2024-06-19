@@ -5,7 +5,9 @@ const LawyersBoardPage = () => {
     <>
       <div className={`flex flex-col justify-center items-center relative`}>
         <div className="flex flex-col items-center justify-center py-16 gap-3">
-          <h1 className="text-[40px] font-semibold">Lawyers Board</h1>
+          <h1 className="text-[40px] font-semibold font-chosunlo">
+            Lawyers Board
+          </h1>
           <div className="w-[60vw] flex flex-col items-center gap-5">
             <div className="w-[60vw] border border-[var(--color-Harbor-first)] rounded-md h-[25vh]"></div>
             <div className="flex w-[60vw] flex-wrap justify-start items-baseline gap-3">
@@ -13,7 +15,7 @@ const LawyersBoardPage = () => {
                 (item) => (
                   <div
                     key={item}
-                    className=" border border-[var(--color-Harbor-first)] rounded-md text-[var(--color-Harbor-first)] items-center flex flex-col p-3"
+                    className=" border border-[var(--color-Harbor-first)] rounded-md text-[var(--color-Harbor-first)] items-center flex flex-col p-3  font-chosunsg"
                   >
                     <Image
                       src="https://mblogthumb-phinf.pstatic.net/MjAyMTA1MjlfNzYg/MDAxNjIyMjE1MjMwOTk5.TSOSi5EAsh3MX9bdN3W9ugQyjSBYV_I0jMkcLwN9Wkwg.6KIRElwl9bBEUu-Br1UmWMMb0Fuku_CIFNb64SttOHkg.JPEG.acttosun08/IMAGE%EF%BC%BF2020%EF%BC%BF09%EF%BC%BF18%EF%BC%BF06%EF%BC%BF09%EF%BC%BF35.jpg?type=w800"
