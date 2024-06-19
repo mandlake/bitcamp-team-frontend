@@ -14,7 +14,12 @@ const MenuBeforeLogin = [
     path: "/pages/articles/news/all",
     sub: "뉴스",
   },
-  { key: 4, title: "Menues", path: "/", sub: "sub" },
+  {
+    key: 4,
+    title: "Lawyers",
+    path: "/pages/articles/lawyers/all",
+    sub: "변호사",
+  },
   { key: 5, title: "Menues", path: "/", sub: "sub" },
   { key: 6, title: "Menues", path: "/", sub: "sub" },
 ];
