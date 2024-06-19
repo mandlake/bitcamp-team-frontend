@@ -71,7 +71,7 @@ export default function Home(props: any) {
         </div>
         <div className="h-[32vh] w-[60vw] text-[var(--color-Harbor-first)] flex flex-col gap-5 py-3">
           <p className=" text-[18px] mx-8 font-semibold">추천 변호사</p>
-          <div className=" animate__animated animate__fadeInRight animate__slow ease-in flex flex-row items-center justify-center gap-7">
+          <div className="h-[181px] animate__animated animate__fadeInRight animate__slow ease-in flex flex-wrap items-center justify-center gap-7">
             {[1, 2, 3, 4, 5].map((item) => (
               <div
                 key={item}
