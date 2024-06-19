@@ -24,7 +24,7 @@ const Layout = ({
       <div
         className={`${
           isDropdownOpen.menu ? "w-[80vw] ml-[20vw]" : "w-[100vw] ml-0"
-        } items-center flex flex-col justify-center`}
+        } items-center flex flex-col justify-center text-[var(--color-Harbor-first) font-roboto`}
       >
         {children}
       </div>
