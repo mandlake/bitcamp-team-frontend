@@ -2,7 +2,6 @@
 
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import ChevronRightOutlinedIcon from "@mui/icons-material/ChevronRightOutlined";
 import "animate.css";
 import Image from "next/image";
 import LawLawPage from "./pages/lawlaw/page";
@@ -94,7 +93,12 @@ export default function Home(props: any) {
               </div>
             ))}
             <div onClick={() => router.push("/pages/articles/lawyers/all")}>
-              <ChevronRightOutlinedIcon />
+              <Image
+                src="https://img.icons8.com/?size=100&id=45286&format=png&color=000000"
+                width={22}
+                height={22}
+                alt="arrow-right"
+              />
             </div>
           </div>
         </div>

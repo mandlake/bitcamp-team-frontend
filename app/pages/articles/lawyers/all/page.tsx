@@ -6,7 +6,7 @@ const LawyersBoardPage = () => {
       <div className={`flex flex-col justify-center items-center relative`}>
         <div className="flex flex-col items-center justify-center py-16 gap-3">
           <h1 className="text-[40px] font-semibold font-chosunlo">
-            Lawyers Board
+            LAWYERS BOARD
           </h1>
           <div className="w-[60vw] flex flex-col items-center gap-5">
             <div className="w-[60vw] border border-[var(--color-Harbor-first)] rounded-md h-[25vh]"></div>

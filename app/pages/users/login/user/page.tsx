@@ -13,12 +13,12 @@ const UserLogin = () => {
   return (
     <>
       <div className="flex flex-col w-screen h-screen items-center justify-center">
-        <ul className="flex w-[25vw] flex-wrap text-sm font-medium text-center text-gray-500 border-b border-gray-200 dark:border-gray-700 dark:text-gray-400">
+        <ul className="flex w-[25vw] flex-wrap text-sm font-medium text-center text-[var(--color-Harbor-firth)] border-b border-gray-200 dark:border-gray-700 dark:text-gray-400">
           <li className="me-2">
             <Link
               href="/pages/users/login/user"
               aria-current="page"
-              className="inline-block p-4 text-[var(--color-Harbor-first)] bg-gray-100 rounded-t-lg active dark:bg-gray-800 dark:text-blue-500"
+              className="inline-block p-4 bg-[var(--color-Harbor-first)] rounded-t-lg active"
             >
               User
             </Link>
@@ -26,7 +26,7 @@ const UserLogin = () => {
           <li className="me-2">
             <Link
               href="/pages/users/login/lawyer"
-              className="inline-block p-4 rounded-t-lg hover:text-gray-600 hover:bg-gray-50 dark:hover:bg-gray-800 dark:hover:text-gray-300"
+              className="inline-block p-4 rounded-t-lg text-[var(--color-Harbor-first)] hover:text-gray-600 hover:bg-gray-100 dark:hover:bg-gray-800 dark:hover:text-gray-300"
             >
               Lawyers
             </Link>
@@ -34,7 +34,7 @@ const UserLogin = () => {
         </ul>
         <div
           id="login"
-          className="font-roboto w-[25vw] border border-gray-700 flex flex-col gap-3 items-baseline bg-gray-100 p-7"
+          className="font-roboto w-[25vw] border border-gray-700 flex flex-col gap-3 items-baseline bg-[var(--color-Harbor-firth)] p-7"
         >
           <p className=" text-[28px] font-medium align-middle">
             쉽게 가입하고
@@ -42,7 +42,7 @@ const UserLogin = () => {
             간편하게 로그인하세요.
           </p>
           <button
-            className="w-[22vw] h-[5vh] mt-[2vh] bg-white border font-bold flex justify-center items-center gap-[1.111vh]"
+            className="w-[22vw] h-[5vh] mt-[2vh] bg-white border font-bold flex justify-center items-center gap-[1.111vh] border-[var(--color-Harbor-first)]"
             type="button"
           >
             <Image
@@ -54,7 +54,7 @@ const UserLogin = () => {
             Login with Google
           </button>
           <button
-            className="w-[22vw] h-[5vh] mt-[2vh] bg-white border font-bold flex justify-center items-center gap-[1.111vh]"
+            className="w-[22vw] h-[5vh] mt-[2vh] bg-white border font-bold flex justify-center items-center gap-[1.111vh] border-[var(--color-Harbor-first)]"
             type="button"
           >
             <Image
