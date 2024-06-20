@@ -6,8 +6,18 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 const MenuBeforeLogin = [
-  { key: 1, title: "Login", path: "/pages/users/login", sub: "로그인" },
-  { key: 2, title: "Join", path: "/pages/users/join", sub: "회원가입" },
+  {
+    key: 1,
+    title: "User Login",
+    path: "/pages/users/login/user",
+    sub: "일반 회원 로그인",
+  },
+  {
+    key: 2,
+    title: "Lawyer Login",
+    path: "/pages/users/login/lawyer",
+    sub: "변호사 로그인",
+  },
   {
     key: 3,
     title: "News",
