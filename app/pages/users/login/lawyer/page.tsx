@@ -1,11 +1,12 @@
 "use client";
 
 import { loginId } from "@/app/components/user/service/user.service";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 
-const Login = () => {
+const LawyerLogin = () => {
   const router = useRouter();
   const dispatch = useDispatch();
   const [formData, setFormData] = useState({
@@ -33,28 +34,35 @@ const Login = () => {
 
   return (
     <>
-      <div className="flex w-screen h-screen items-center justify-center">
+      <div className="flex flex-col w-screen h-screen items-center justify-center">
+        <ul className="flex w-[25vw] flex-wrap text-sm font-medium text-center text-[var(--color-Harbor-firth)] border-b border-gray-200 dark:border-gray-700 dark:text-gray-400">
+          <li className="me-2">
+            <Link
+              href="/pages/users/login/user"
+              aria-current="page"
+              className="inline-block p-4 rounded-t-lg text-[var(--color-Harbor-first)] hover:text-gray-600 hover:bg-gray-100"
+            >
+              User
+            </Link>
+          </li>
+          <li className="me-2">
+            <Link
+              href="/pages/users/login/lawyer"
+              className="inline-block p-4 bg-[var(--color-Harbor-first)] rounded-t-lg active"
+            >
+              Lawyers
+            </Link>
+          </li>
+        </ul>
         <div
           id="login"
-          className="font-roboto w-[25vw] h-[50vh] border border-gray-700 flex flex-col justify-between items-center gap-[1.111vh] bg-gray-200 p-[1.111vh]"
+          className="font-roboto w-[25vw] border border-gray-700 flex flex-col gap-3 items-baseline bg-[var(--color-Harbor-firth)] p-7"
         >
+          <p className=" text-[28px] font-medium align-middle">
+            변호사 님, <br />
+            저희와 함께하세요.
+          </p>
           <div>
-            <legend className="sr-only">소셜 로그인</legend>
-            <button
-              className="w-[24vw] h-[5vh] mt-[2vh] bg-white border border-gray-700 font-bold flex justify-center items-center gap-[1.111vh]"
-              type="button"
-            >
-              <img
-                alt="google-logo"
-                src="https://w7.pngwing.com/pngs/344/344/png-transparent-google-logo-google-logo-g-suite-google-text-logo-symbol-thumbnail.png"
-                className="w-[4vh] h-[4vh]"
-              />
-              Login with Google
-            </button>
-          </div>
-          <p>or</p>
-          <div>
-            <legend>일반 로그인</legend>
             <label htmlFor="username">
               <input
                 type="text"
@@ -65,7 +73,7 @@ const Login = () => {
                 onChange={(e: any) =>
                   setFormData({ ...formData, username: e.target.value })
                 }
-                className="w-[24vw] h-[5vh] border border-gray-700 px-[1.111vw] mb-[1.111vh] bg-gray-200"
+                className="w-[22vw] h-[5vh] border border-[var(--color-Harbor-first)] px-[1.111vw] mb-[1.111vh] bg-white"
               />
             </label>
             <label htmlFor="password">
@@ -83,17 +91,17 @@ const Login = () => {
                     handleLogin();
                   }
                 }}
-                className="w-[24vw] h-[5vh] border border-gray-700 px-[1.111vw] mb-[1.111vh] bg-gray-200"
+                className="w-[22vw] h-[5vh] border border-[var(--color-Harbor-first)] px-[1.111vw] mb-[1.111vh] bg-white"
               />
             </label>
             <button
               onClick={() => handleLogin()}
-              className="w-[24vw] h-[5vh] bg-white border border-gray-700 hover:bg-gray-700 hover:text-white  font-bold"
+              className="w-[22vw] h-[5vh] bg-white border border-[var(--color-Harbor-first)] hover:bg-[var(--color-Harbor-first)] hover:text-white  font-bold"
             >
               Login
             </button>
           </div>
-          <div className="w-[24vw] flex flex-col justify-between items-center p-[1.111vh]">
+          <div className="w-[22vw] flex flex-col p-[1.111vh]">
             <p
               onClick={() => router.push(`/pages/users/find-username`)}
               className="text-gray-700 text-sm"
@@ -119,4 +127,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default LawyerLogin;

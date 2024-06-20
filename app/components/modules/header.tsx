@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from "react";
 import MenuIcon from "@mui/icons-material/Menu";
-import LocalAtmOutlinedIcon from "@mui/icons-material/LocalAtmOutlined";
 import ClearOutlinedIcon from "@mui/icons-material/ClearOutlined";
 import TextsmsOutlinedIcon from "@mui/icons-material/TextsmsOutlined";
 import NotificationsOutlinedIcon from "@mui/icons-material/NotificationsOutlined";
@@ -13,6 +12,7 @@ import { useRouter } from "next/navigation";
 import { logout } from "../user/service/user.service";
 import { getAccessToken } from "./cookies";
 import MenuPage from "@/app/pages/menues/page";
+import Image from "next/image";
 
 const Header = ({ isDropdownOpen, setIsDropdownOpen }: any) => {
   const dispatch = useDispatch();
@@ -29,13 +29,6 @@ const Header = ({ isDropdownOpen, setIsDropdownOpen }: any) => {
     setIsDropdownOpen({
       ...isDropdownOpen,
       menu: !isDropdownOpen.menu,
-    });
-  };
-
-  const handleAccount = () => {
-    setIsDropdownOpen({
-      ...isDropdownOpen,
-      account: !isDropdownOpen.account,
     });
   };
 
@@ -64,23 +57,24 @@ const Header = ({ isDropdownOpen, setIsDropdownOpen }: any) => {
           <div className={`${rounded} relative`} onClick={() => handleMenu()}>
             {isDropdownOpen.menu ? (
               <>
-                <ClearOutlinedIcon className={iconsCSS} />
+                <Image
+                  src="https://img.icons8.com/?size=100&id=9433&format=png&color=000000"
+                  width={20}
+                  height={20}
+                  alt="arrow-right"
+                  className="z-20"
+                />
                 <MenuPage menu={isDropdownOpen.menu}></MenuPage>
               </>
             ) : (
-              <MenuIcon className={`h-[50px] w-[50px] font-semibold`} />
+              <Image
+                src="https://img.icons8.com/?size=100&id=8113&format=png&color=000000"
+                width={20}
+                height={20}
+                alt="arrow-right"
+                className="z-20"
+              />
             )}
-          </div>
-          <div>
-            {isLoggedIn ? (
-              <div
-                className={`${rounded} ${
-                  isDropdownOpen.cash ? "invisible" : "visible"
-                } ${isDropdownOpen.menu ? "ml-[250px]" : "ml-0"}`}
-              >
-                <LocalAtmOutlinedIcon className={iconsCSS} />
-              </div>
-            ) : null}
           </div>
         </div>
 

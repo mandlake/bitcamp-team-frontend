@@ -13,7 +13,6 @@ const Layout = ({
     cash: false,
     message: false,
     notification: false,
-    account: false,
   });
   return (
     <>
