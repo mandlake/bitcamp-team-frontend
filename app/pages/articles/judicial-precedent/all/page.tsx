@@ -79,24 +79,26 @@ const JudicialPrecidentPage = () => {
           <h1 className=" text-[40px] font-semibold font-chosunlo">
             판례 게시판
           </h1>
-          <div className="flex flex-wrap items-center justify-center w-[60vw] box-border gap-8 py-7">
-            <div className="flex flex-row items-center border rounded-md border-[var(--color-Harbor-sec)] w-[60vw] h-[20vh] p-8 gap-8"></div>
-            {judicialPrecident.map((item) => (
-              <div
-                key={item.serialNumber}
-                className="flex flex-col items-baseline border rounded-md border-[var(--color-Harbor-sec)] w-[60vw] h-[17vh] p-8 gap-3"
-              >
-                <div className="flex flex-row w-[55vw] justify-between font-chosunsg text-[14px]">
-                  <div>{item.serialNumber}</div>
-                  <div>
-                    {item.caseNumber} ~ {item.dateOfDecision}
+          <div className="flex flex-wrap items-center justify-center w-[60vw] box-border gap-7 py-7">
+            <div className="flex flex-col items-baseline border rounded-md border-[var(--color-Harbor-sec)] w-[60vw] h-[22vh] p-8 gap-2"></div>
+            <div className="flex flex-wrap items-center justify-center w-[60vw] box-border gap-6">
+              {judicialPrecident.map((item) => (
+                <div
+                  key={item.serialNumber}
+                  className="flex flex-col items-baseline border rounded-md border-[var(--color-Harbor-sec)] w-[60vw] h-[15vh] p-8 gap-2"
+                >
+                  <div className="flex flex-row w-[55vw] justify-between font-chosunsg text-[14px]">
+                    <div>{item.serialNumber}</div>
+                    <div>
+                      {item.caseNumber} ~ {item.dateOfDecision}
+                    </div>
+                  </div>
+                  <div className="text-[36px]">
+                    {truncateCaseName(item.caseName)}
                   </div>
                 </div>
-                <div className="text-[42px]">
-                  {truncateCaseName(item.caseName)}
-                </div>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
         </div>
       </div>

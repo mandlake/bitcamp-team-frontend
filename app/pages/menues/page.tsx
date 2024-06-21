@@ -52,7 +52,7 @@ const MenuBeforeLogin = [
       },
       {
         key: 2.4,
-        title: "Menue",
+        title: "Menues",
         path: "/",
         sub: "sub",
       },
@@ -80,9 +80,9 @@ const MenuAfterLogin = [
       },
       {
         key: 2.3,
-        title: "Menues",
-        path: "/",
-        sub: "sub",
+        title: "판례 게시판",
+        path: "/pages/articles/judicial-precedent/all",
+        sub: "판례",
       },
       {
         key: 2.4,
