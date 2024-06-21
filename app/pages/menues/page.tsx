@@ -52,7 +52,7 @@ const MenuBeforeLogin = [
       },
       {
         key: 2.4,
-        title: "Menues",
+        title: "Menue",
         path: "/",
         sub: "sub",
       },
