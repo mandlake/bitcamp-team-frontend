@@ -2,10 +2,8 @@
 
 import { PrismaClient } from "@prisma/client";
 import { IUser } from "../model/user";
-import { cookies } from "next/headers";
 
 const prisma = new PrismaClient();
-const setCookie = cookies();
 
 export const joinApi = async (user: IUser) => {
   const { username, password, firstName, lastName, email } = user;
@@ -38,7 +36,6 @@ export const loginApi = async (user: IUser) => {
         accessToken: "1234567890",
       },
     });
-    setCookie.set("accessToken", "1234567890");
     return response;
   } catch (error) {
     return error;
@@ -85,7 +82,6 @@ export const logoutApi = async (accessToken: string) => {
         accessToken: "",
       },
     });
-    setCookie.delete("accessToken");
     return response;
   } catch (error) {
     return error;

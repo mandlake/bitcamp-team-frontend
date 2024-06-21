@@ -1,6 +1,11 @@
-import Image from "next/image";
+"use client";
+
+import { getCaseLawList } from "@/app/components/judicial-precedent/service/judicial.service";
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
 
 const JudicialPrecidentPage = () => {
+  const dispatch = useDispatch();
   const judicialPrecident = [
     {
       serialNumber: "000001",
@@ -64,6 +69,12 @@ const JudicialPrecidentPage = () => {
       dateOfDecision: "2021.10.01",
     },
   ];
+
+  useEffect(() => {
+    dispatch(getCaseLawList()).then((res: any) => {
+      console.log(res);
+    });
+  }, []);
 
   const truncateCaseName = (caseName: any, maxLength = 25) => {
     if (caseName.length <= maxLength) {

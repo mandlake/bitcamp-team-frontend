@@ -1,8 +1,6 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import MenuIcon from "@mui/icons-material/Menu";
-import ClearOutlinedIcon from "@mui/icons-material/ClearOutlined";
 import TextsmsOutlinedIcon from "@mui/icons-material/TextsmsOutlined";
 import NotificationsOutlinedIcon from "@mui/icons-material/NotificationsOutlined";
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
@@ -10,9 +8,9 @@ import { iconsCSS, rounded } from "../common/icons";
 import { useDispatch } from "react-redux";
 import { useRouter } from "next/navigation";
 import { logout } from "../user/service/user.service";
-import { getAccessToken } from "./cookies";
 import MenuPage from "@/app/pages/menues/page";
 import Image from "next/image";
+import { parseCookies } from "nookies";
 
 const Header = ({ isDropdownOpen, setIsDropdownOpen }: any) => {
   const dispatch = useDispatch();
@@ -20,7 +18,7 @@ const Header = ({ isDropdownOpen, setIsDropdownOpen }: any) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   const checkAuthentication: any = async () => {
-    const accessToken: any = await getAccessToken();
+    const accessToken = parseCookies().accessToken;
     setIsLoggedIn(!!accessToken);
     return accessToken;
   };

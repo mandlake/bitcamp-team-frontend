@@ -1,10 +1,10 @@
 "use client";
 
-import { getAccessToken } from "@/app/components/modules/cookies";
 import ChevronRightOutlinedIcon from "@mui/icons-material/ChevronRightOutlined";
 import "animate.css";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import { parseCookies } from "nookies";
 import { useEffect, useState } from "react";
 
 const MenuBeforeLogin = [
@@ -103,7 +103,7 @@ const MenuPage = (props: any) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   const checkAuthentication: any = async () => {
-    const accessToken: any = await getAccessToken();
+    const accessToken = parseCookies().accessToken;
     console.log("accessToken : ", accessToken);
     setIsLoggedIn(!!accessToken);
     return accessToken;
@@ -127,11 +127,8 @@ const MenuPage = (props: any) => {
         <div className="flex flex-col items-center gap-5">
           {isLoggedIn
             ? MenuAfterLogin.map((item: any) => (
-                <>
-                  <div
-                    key={item.key}
-                    className="border-b border-[var(--color-Harbor-sec)] flex flex-row justify-between items-baseline w-[250px] px-[5px]"
-                  >
+                <div key={item.key}>
+                  <div className="border-b border-[var(--color-Harbor-sec)] flex flex-row justify-between items-baseline w-[250px] px-[5px] mb-3">
                     <h1>{item.title}</h1>
                     <p className=" font-light text-[14px]">{item.sub}</p>
                   </div>
@@ -152,14 +149,11 @@ const MenuPage = (props: any) => {
                       </div>
                     ))}
                   </div>
-                </>
+                </div>
               ))
             : MenuBeforeLogin.map((item: any) => (
-                <>
-                  <div
-                    key={item.key}
-                    className="border-b border-[var(--color-Harbor-sec)] flex flex-row justify-between items-baseline w-[250px] px-[5px]"
-                  >
+                <div key={item.key}>
+                  <div className="border-b border-[var(--color-Harbor-sec)] flex flex-row justify-between items-baseline w-[250px] px-[5px] mb-3">
                     <h1>{item.title}</h1>
                     <p className=" font-light text-[14px]">{item.sub}</p>
                   </div>
@@ -187,7 +181,7 @@ const MenuPage = (props: any) => {
                       </div>
                     ))}
                   </div>
-                </>
+                </div>
               ))}
         </div>
       </div>

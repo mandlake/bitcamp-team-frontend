@@ -16,7 +16,7 @@ const NewsBoardPage = () => {
               >
                 <Image
                   src="https://img.etoday.co.kr/pto_db/2024/04/600/20240419110132_2014644_647_358.jpg"
-                  alt="news"
+                  alt="news-image"
                   width={300}
                   height={200}
                 />

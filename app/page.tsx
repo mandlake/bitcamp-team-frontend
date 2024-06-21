@@ -76,13 +76,14 @@ export default function Home(props: any) {
                 key={item}
                 className=" border border-[var(--color-Harbor-sec)] text-[var(--color-Harbor-first)] items-center flex flex-col py-5 px-3"
               >
-                <Image
-                  src="https://mblogthumb-phinf.pstatic.net/MjAyMTA1MjlfNzYg/MDAxNjIyMjE1MjMwOTk5.TSOSi5EAsh3MX9bdN3W9ugQyjSBYV_I0jMkcLwN9Wkwg.6KIRElwl9bBEUu-Br1UmWMMb0Fuku_CIFNb64SttOHkg.JPEG.acttosun08/IMAGE%EF%BC%BF2020%EF%BC%BF09%EF%BC%BF18%EF%BC%BF06%EF%BC%BF09%EF%BC%BF35.jpg?type=w800"
-                  className="mb-3"
-                  width={120}
-                  height={120}
-                  alt="lawyer-image"
-                />
+                <div className="w-[120px] h-[130px] mb-3">
+                  <Image
+                    src="https://mblogthumb-phinf.pstatic.net/MjAyMTA1MjlfNzYg/MDAxNjIyMjE1MjMwOTk5.TSOSi5EAsh3MX9bdN3W9ugQyjSBYV_I0jMkcLwN9Wkwg.6KIRElwl9bBEUu-Br1UmWMMb0Fuku_CIFNb64SttOHkg.JPEG.acttosun08/IMAGE%EF%BC%BF2020%EF%BC%BF09%EF%BC%BF18%EF%BC%BF06%EF%BC%BF09%EF%BC%BF35.jpg?type=w800"
+                    width={140}
+                    height={160}
+                    alt="lawyer-image"
+                  />
+                </div>
                 <div className="w-[155px] flex flex-col gap-2">
                   <h1 className="text-[15px] font-semibold">진보라 변호사</h1>
                   <div className="text-[13px] flex gap-2">
