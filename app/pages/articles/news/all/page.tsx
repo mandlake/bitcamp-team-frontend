@@ -12,7 +12,7 @@ const NewsBoardPage = () => {
             {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((item) => (
               <div
                 key={item}
-                className="flex flex-row items-center border-2 rounded-md border-[var(--color-Harbor-firth)] w-[60vw] h-[25vh] p-8 gap-8"
+                className="flex flex-row items-center border rounded-md border-[var(--color-Harbor-sec)] w-[60vw] h-[25vh] p-8 gap-8"
               >
                 <Image
                   src="https://img.etoday.co.kr/pto_db/2024/04/600/20240419110132_2014644_647_358.jpg"

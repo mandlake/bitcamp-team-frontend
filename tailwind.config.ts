@@ -44,9 +44,6 @@ const config: Config = {
             "animation-timing-function": "ease-in",
             opacity: "1",
           },
-          "24%": {
-            opacity: "1",
-          },
           "40%": {
             transform: "translateX(-26px)",
             "animation-timing-function": "ease-in",
