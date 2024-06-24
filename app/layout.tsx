@@ -2,7 +2,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import dynamic from "next/dynamic";
 import { Metadata } from "next";
-import Layout from "./components/Layout";
+import Layout from "./_components/Layout";
 
 const ReduxProvider = dynamic(() => import("@/redux/redux-provider"), {
   ssr: false,

@@ -3,8 +3,8 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useDispatch } from "react-redux";
-import { joinId } from "@/app/components/user/service/user.service";
-import { IUser } from "@/app/components/user/model/user";
+import { joinId } from "@/app/_components/user/service/user.service";
+import { IUser } from "@/app/_components/user/model/user";
 
 function Join() {
   const router = useRouter();
