@@ -38,7 +38,7 @@ const LawyerLogin = () => {
         <ul className="flex w-[25vw] flex-wrap text-sm font-medium text-center text-[var(--color-Harbor-firth)] border-b border-gray-200 dark:border-gray-700 dark:text-gray-400">
           <li className="me-2">
             <Link
-              href="/pages/users/login/user"
+              href="/login/user"
               aria-current="page"
               className="inline-block p-4 rounded-t-lg text-[var(--color-Harbor-first)] hover:text-gray-600 hover:bg-gray-100"
             >
@@ -47,7 +47,7 @@ const LawyerLogin = () => {
           </li>
           <li className="me-2">
             <Link
-              href="/pages/users/login/lawyer"
+              href="/login/lawyer"
               className="inline-block p-4 bg-[var(--color-Harbor-first)] rounded-t-lg active"
             >
               Lawyers
@@ -103,19 +103,19 @@ const LawyerLogin = () => {
           </div>
           <div className="w-[22vw] flex flex-col p-[1.111vh]">
             <p
-              onClick={() => router.push(`/pages/users/find-username`)}
+              onClick={() => router.push(`/find-username`)}
               className="text-gray-700 text-sm"
             >
               Forgot your username?
             </p>
             <p
-              onClick={() => router.push(`/pages/users/find-password`)}
+              onClick={() => router.push(`/find-password`)}
               className="text-gray-700 text-sm"
             >
               Forgot your password?
             </p>
             <p
-              onClick={() => router.push(`/pages/users/join`)}
+              onClick={() => router.push(`/join`)}
               className="text-gray-700 text-sm"
             >
               Aren&apos;t you a member yet? Join now!

@@ -1,56 +1,48 @@
 "use client";
 
-import { forgotPassword } from "@/app/components/user/service/user.service";
+import { forgotUsername } from "@/app/components/user/service/user.service";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 
-function ForgotPassword() {
+function ForgotUsername() {
   const router = useRouter();
   const dispatch = useDispatch();
   const [formData, setFormData] = useState({
-    username: "",
-    password: "",
+    email: "",
   });
-  const handleForgotPassword = async () => {
+
+  const handleForgotUsername = async () => {
     try {
-      await dispatch(forgotPassword(formData))
+      await dispatch(forgotUsername(formData))
         .then((res: any) => {
-          alert("success to change password");
+          alert("당신의 아이디는 " + res.payload + " 입니다.");
         })
         .then((res: any) => {
-          router.push(`/pages/users/login`);
+          router.push(`/login`);
         });
     } catch (error) {
       console.error(error);
     }
   };
+
   return (
     <>
       <div className="w-screen h-screen flex align-middle justify-center items-center">
         <div className="font-roboto w-[25vw] h-[50vh] border border-gray-700 flex flex-col justify-between items-center gap-[1.111vh] bg-gray-200 p-[1.111vh]">
-          <h1>Forgot Password</h1>
+          <h1>Forgot Username</h1>
           <div>
             <div className="flex flex-col">
-              <p>Enter Your username</p>
+              <p>Enter Your email</p>
               <input
                 type="text"
                 onChange={(e: any) =>
-                  setFormData({ ...formData, username: e.target.value })
-                }
-              />
-            </div>
-            <div className="flex flex-col">
-              <p>Enter Your New Password</p>
-              <input
-                type="password"
-                onChange={(e: any) =>
-                  setFormData({ ...formData, password: e.target.value })
+                  setFormData({ ...formData, email: e.target.value })
                 }
               />
             </div>
           </div>
-          <button onClick={() => handleForgotPassword()} className="">
+          <button onClick={() => handleForgotUsername()} className="">
             Submit
           </button>
         </div>
@@ -59,4 +51,4 @@ function ForgotPassword() {
   );
 }
 
-export default ForgotPassword;
+export default ForgotUsername;

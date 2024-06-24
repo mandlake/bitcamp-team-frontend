@@ -19,7 +19,7 @@ function Join() {
           console.log(res.payload.userId);
         })
         .then(() => {
-          router.push("/pages/users/login");
+          router.push("/login");
         })
         .catch((error: any) => {
           console.log(error);

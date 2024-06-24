@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import "animate.css";
 import Image from "next/image";
-import LawLawPage from "./pages/lawlaw/page";
+import LawLawPage from "./(route)/lawlaw/page";
 
 export default function Home(props: any) {
   const router = useRouter();
@@ -93,7 +93,7 @@ export default function Home(props: any) {
                 </div>
               </div>
             ))}
-            <div onClick={() => router.push("/pages/articles/lawyers/all")}>
+            <div onClick={() => router.push("/lawyers/all")}>
               <Image
                 src="https://img.icons8.com/?size=100&id=45286&format=png&color=000000"
                 width={22}

@@ -8,7 +8,7 @@ import { iconsCSS, rounded } from "../common/icons";
 import { useDispatch } from "react-redux";
 import { useRouter } from "next/navigation";
 import { logout } from "../user/service/user.service";
-import MenuPage from "@/app/pages/menues/page";
+import MenuPage from "@/app/(route)/menues/page";
 import Image from "next/image";
 import { parseCookies } from "nookies";
 
