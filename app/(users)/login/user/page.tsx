@@ -16,7 +16,7 @@ const UserLogin = () => {
         <ul className="flex w-[25vw] flex-wrap text-sm font-medium text-center text-[var(--color-Harbor-firth)] border-b border-gray-200 dark:border-gray-700 dark:text-gray-400">
           <li className="me-2">
             <Link
-              href="/pages/users/login/user"
+              href="/login/user"
               aria-current="page"
               className="inline-block p-4 bg-[var(--color-Harbor-first)] rounded-t-lg active"
             >
@@ -25,7 +25,7 @@ const UserLogin = () => {
           </li>
           <li className="me-2">
             <Link
-              href="/pages/users/login/lawyer"
+              href="/login/lawyer"
               className="inline-block p-4 rounded-t-lg text-[var(--color-Harbor-first)] hover:text-gray-600 hover:bg-gray-100 dark:hover:bg-gray-800 dark:hover:text-gray-300"
             >
               Lawyers

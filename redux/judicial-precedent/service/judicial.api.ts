@@ -1,6 +1,6 @@
 "use client";
 
-import instance from "@/app/_config/judicial-config";
+import instance from "@/components/config/judicial-config";
 
 export const getCaseLawListApi = async () => {
   try {

@@ -7,8 +7,8 @@ import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined
 import { iconsCSS, rounded } from "../common/icons";
 import { useDispatch } from "react-redux";
 import { useRouter } from "next/navigation";
-import { logout } from "../user/service/user.service";
-import MenuPage from "@/app/(page)/menues/page";
+import { logout } from "../../redux/user/service/user.service";
+import MenuPage from "@/app/menues/page";
 import Image from "next/image";
 import { parseCookies } from "nookies";
 

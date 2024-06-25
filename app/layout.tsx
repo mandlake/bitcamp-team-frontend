@@ -1,8 +1,8 @@
 import { Inter } from "next/font/google";
-import "./globals.css";
+import "@/styles/globals.css";
 import dynamic from "next/dynamic";
 import { Metadata } from "next";
-import Layout from "./_components/Layout";
+import BaseLayout from "@/components/layouts/BaseLayout";
 
 const ReduxProvider = dynamic(() => import("@/redux/redux-provider"), {
   ssr: false,
@@ -24,7 +24,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={inter.className}>
         <ReduxProvider>
-          <Layout>{children}</Layout>
+          <BaseLayout>{children}</BaseLayout>
         </ReduxProvider>
       </body>
     </html>

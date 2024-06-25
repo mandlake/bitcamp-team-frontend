@@ -1,6 +1,6 @@
 "use client";
 
-import { loginId } from "@/app/_components/user/service/user.service";
+import { loginId } from "@/redux/user/service/user.service";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";

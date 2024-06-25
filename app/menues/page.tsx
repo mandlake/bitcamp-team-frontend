@@ -35,19 +35,19 @@ const MenuBeforeLogin = [
       {
         key: 2.1,
         title: "News Board",
-        path: "/news/all",
+        path: "/news",
         sub: "뉴스",
       },
       {
         key: 2.2,
         title: "Lawyers Board",
-        path: "/lawyers/all",
+        path: "/lawyers",
         sub: "변호사",
       },
       {
         key: 2.3,
         title: "판례 게시판",
-        path: "/judicial-precedent/all",
+        path: "/judicial-precedent",
         sub: "판례",
       },
       {
@@ -69,19 +69,19 @@ const MenuAfterLogin = [
       {
         key: 2.1,
         title: "News Board",
-        path: "/news/all",
+        path: "/news",
         sub: "뉴스",
       },
       {
         key: 2.2,
         title: "Lawyers Board",
-        path: "/lawyers/all",
+        path: "/lawyers",
         sub: "변호사",
       },
       {
         key: 2.3,
         title: "판례 게시판",
-        path: "/judicial-precedent/all",
+        path: "/judicial-precedent",
         sub: "판례",
       },
       {

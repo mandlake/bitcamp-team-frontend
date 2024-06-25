@@ -1,9 +1,9 @@
 "use client";
 
 import { useState } from "react";
-import Header from "./modules/header";
+import Header from "../modules/header";
 
-const Layout = ({
+const BaseLayout = ({
   children,
 }: Readonly<{
   children: React.ReactNode;
@@ -31,4 +31,4 @@ const Layout = ({
   );
 };
 
-export default Layout;
+export default BaseLayout;

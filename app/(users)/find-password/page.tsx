@@ -1,6 +1,6 @@
 "use client";
 
-import { forgotPassword } from "@/app/_components/user/service/user.service";
+import { forgotPassword } from "@/redux/user/service/user.service";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
