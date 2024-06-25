@@ -3,6 +3,7 @@ import { persistReducer } from "redux-persist";
 import createWebStorage from "redux-persist/lib/storage/createWebStorage";
 import userReducer from "@/redux/user/service/user.slice";
 import judicialReducer from "@/redux/judicial-precedent/service/judicial.slice";
+import lawlawReducer from "@/redux/lawlaw/service/lawlaw.slice";
 
 const createNoopStorage = () => {
   return {
@@ -34,13 +35,24 @@ const judicialPersistConfig = {
   whitelist: ["judicialState"],
 };
 
+const lawlawPersistConfig = {
+  key: "lawlaw",
+  storage,
+  whitelist: ["lawlawState"],
+};
+
 const persistedUserReducer = persistReducer(userPersistConfig, userReducer);
 const persistedJudicialReducer = persistReducer(
   judicialPersistConfig,
   judicialReducer
 );
+const persistedLawlawReducer = persistReducer(
+  lawlawPersistConfig,
+  lawlawReducer
+);
 
 export const rootReducer = combineReducers({
   user: persistedUserReducer,
   judicial: persistedJudicialReducer,
+  lawlaw: persistedLawlawReducer,
 });
