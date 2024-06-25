@@ -1,10 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import TextsmsOutlinedIcon from "@mui/icons-material/TextsmsOutlined";
-import NotificationsOutlinedIcon from "@mui/icons-material/NotificationsOutlined";
-import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
-import { iconsCSS, rounded } from "../common/icons";
+import { rounded } from "../common/icons";
 import { useDispatch } from "react-redux";
 import { useRouter } from "next/navigation";
 import { logout } from "../../redux/user/service/user.service";
@@ -83,22 +80,38 @@ const Header = ({ isDropdownOpen, setIsDropdownOpen }: any) => {
                 isDropdownOpen.message ? "invisible" : "visible"
               }`}
             >
-              <TextsmsOutlinedIcon className={iconsCSS} />
+              <Image
+                src="https://img.icons8.com/?size=100&id=8kHOhdrNngb3&format=png&color=000000"
+                width={20}
+                height={20}
+                alt="arrow-right"
+                className="z-20"
+              />
             </div>
             <div
               className={`${rounded} ${
                 isDropdownOpen.notification ? "invisible" : "visible"
               }`}
             >
-              <NotificationsOutlinedIcon className={iconsCSS} />
+              <Image
+                src="https://img.icons8.com/?size=100&id=ZW2vgTIQ1bkh&format=png&color=000000"
+                width={20}
+                height={20}
+                alt="arrow-right"
+                className="z-20"
+              />
             </div>
             <div
               className={`${rounded} ${
                 isDropdownOpen.account ? "invisible" : "visible"
               } flex flex-col`}
             >
-              <AccountCircleOutlinedIcon
-                className={iconsCSS}
+              <Image
+                src="https://img.icons8.com/?size=100&id=ckaioC1qqwCu&format=png&color=000000"
+                width={20}
+                height={20}
+                alt="arrow-right"
+                className="z-20"
                 onClick={() => handleLogOut()}
               />
               {isDropdownOpen.account && (

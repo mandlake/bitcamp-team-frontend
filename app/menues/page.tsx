@@ -1,6 +1,5 @@
 "use client";
 
-import ChevronRightOutlinedIcon from "@mui/icons-material/ChevronRightOutlined";
 import "animate.css";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
@@ -144,7 +143,12 @@ const MenuPage = (props: any) => {
                         <h1 className="">{child.title}</h1>
                         <p className=" font-light text-[12px]">
                           {child.sub}
-                          <ChevronRightOutlinedIcon />
+                          <Image
+                            src="https://img.icons8.com/?size=100&id=86517&format=png&color=000000"
+                            width={12}
+                            height={12}
+                            alt="arrow-right"
+                          />
                         </p>
                       </div>
                     ))}

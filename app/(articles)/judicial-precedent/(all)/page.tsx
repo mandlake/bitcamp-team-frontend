@@ -70,10 +70,14 @@ const JudicialPrecidentPage = () => {
     },
   ];
 
-  useEffect(() => {
-    dispatch(getCaseLawList()).then((res: any) => {
+  const handleCaseLawList = async () => {
+    await dispatch(getCaseLawList()).then((res: any) => {
       console.log(res);
     });
+  };
+
+  useEffect(() => {
+    handleCaseLawList();
   }, []);
 
   const truncateCaseName = (caseName: any, maxLength = 25) => {
