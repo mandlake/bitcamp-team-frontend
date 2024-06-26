@@ -1,9 +1,9 @@
 import { combineReducers } from "@reduxjs/toolkit";
 import { persistReducer } from "redux-persist";
 import createWebStorage from "redux-persist/lib/storage/createWebStorage";
-import userReducer from "@/redux/user/service/user.slice";
-import judicialReducer from "@/redux/judicial-precedent/service/judicial.slice";
-import lawlawReducer from "@/redux/lawlaw/service/lawlaw.slice";
+import userReducer from "@/components/_service/user/user.slice";
+import judicialReducer from "@/components/_service/judicial-precedent/judicial.slice";
+import lawlawReducer from "@/components/_service/lawlaw/lawlaw.slice";
 
 const createNoopStorage = () => {
   return {

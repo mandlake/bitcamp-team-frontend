@@ -4,4 +4,4 @@ const userURL = "/users";
 const lawyerURL = "/lawyers";
 const adminURL = "/admin";
 const chatURL = "/chats";
-const caseLawURL = "/caselaws";
+const manageURL = "/manage";

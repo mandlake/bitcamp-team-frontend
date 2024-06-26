@@ -1,6 +1,6 @@
 "use client";
 
-import { getCaseLawList } from "@/redux/judicial-precedent/service/judicial.service";
+import { getCaseLawList } from "@/components/_service/judicial-precedent/judicial.service";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 

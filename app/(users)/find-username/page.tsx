@@ -1,6 +1,5 @@
 "use client";
 
-import { forgotUsername } from "@/redux/user/service/user.service";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
@@ -14,13 +13,13 @@ function ForgotUsername() {
 
   const handleForgotUsername = async () => {
     try {
-      await dispatch(forgotUsername(formData))
-        .then((res: any) => {
-          alert("당신의 아이디는 " + res.payload + " 입니다.");
-        })
-        .then((res: any) => {
-          router.push(`/login`);
-        });
+      // await dispatch(forgotUsername(formData))
+      //   .then((res: any) => {
+      //     alert("당신의 아이디는 " + res.payload + " 입니다.");
+      //   })
+      //   .then((res: any) => {
+      //     router.push(`/login`);
+      //   });
     } catch (error) {
       console.error(error);
     }

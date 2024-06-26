@@ -1,6 +1,5 @@
 "use client";
 
-import { forgotPassword } from "@/redux/user/service/user.service";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
@@ -14,13 +13,13 @@ function ForgotPassword() {
   });
   const handleForgotPassword = async () => {
     try {
-      await dispatch(forgotPassword(formData))
-        .then((res: any) => {
-          alert("success to change password");
-        })
-        .then((res: any) => {
-          router.push(`/login`);
-        });
+      // await dispatch(forgotPassword(formData))
+      //   .then((res: any) => {
+      //     alert("success to change password");
+      //   })
+      //   .then((res: any) => {
+      //     router.push(`/login`);
+      //   });
     } catch (error) {
       console.error(error);
     }
