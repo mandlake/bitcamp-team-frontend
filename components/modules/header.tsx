@@ -4,10 +4,10 @@ import { useState, useEffect } from "react";
 import { rounded } from "../common/icons";
 import { useDispatch } from "react-redux";
 import { useRouter } from "next/navigation";
-import { logout } from "../_service/user/service/user.service";
 import MenuPage from "@/app/menues/page";
 import Image from "next/image";
 import { parseCookies } from "nookies";
+import { logout } from "../_service/user/user.service";
 
 const Header = ({ isDropdownOpen, setIsDropdownOpen }: any) => {
   const dispatch = useDispatch();
