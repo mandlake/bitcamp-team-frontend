@@ -1,6 +1,6 @@
 "use client";
 
-import instance from "@/components/config/lawlaw-config";
+import instance from "@/components/config/axios-config";
 
 export const tempApi = async (all: any) => {
   try {
