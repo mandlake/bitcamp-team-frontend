@@ -17,7 +17,7 @@ const LawyerColumnPage = () => {
             {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((item) => (
               <div
                 key={item}
-                className="flex flex-col border rounded-md border-[var(--color-Harbor-sec)] items-baseline justify-between w-[29vw] h-[23vh] p-8 gap-8"
+                className="flex flex-col border rounded-md border-[var(--color-Harbor-sec)] items-baseline justify-between w-[29vw] h-[24vh] p-8 gap-8"
                 onClick={() => router.push(`/column/${item}`)}
               >
                 <div className="font-roboto flex flex-col items-baseline gap-2">
@@ -25,15 +25,17 @@ const LawyerColumnPage = () => {
                     <p># 성범죄</p>
                     <p># 미성년 대상 성범죄</p>
                   </div>
-                  <p className="text-[22px] font-bold max-w-[24vw] text-wrap truncate">
+                  <p className="text-[22px] font-bold max-w-[24vw] truncate">
                     title{item}title{item}title{item}title{item}title{item}title
                     {item}title{item}title{item}title{item}title{item}title
                     {item}
                   </p>
-                  <p className="text-[18px] font-normal max-w-[24vw] text-wrap truncate">
+                  <div className="text-[18px] font-normal w-[24vw] break-all line-clamp-2">
+                    content{item}content{item}content{item}content{item}
                     content{item}content{item}content{item}content{item}content
-                    {item}content{item}content{item}content{item}
-                  </p>
+                    {item}content{item}content{item}content{item}content{item}
+                    content{item}content{item}content{item}content{item}
+                  </div>
                 </div>
                 <p className=" font-light font-roboto text-[14px]">
                   By 홍길동 변호사
