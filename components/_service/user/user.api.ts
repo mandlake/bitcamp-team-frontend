@@ -1,14 +1,11 @@
 "use server";
 
-import { PrismaClient } from "@prisma/client";
-import instance from "@/components/config/axios-config";
+import { userInstance } from "@/components/config/axios-config";
 import { IUser } from "@/components/_model/user/user";
-
-const prisma = new PrismaClient();
 
 export const joinApi = async (user: IUser) => {
   try {
-    const response = await instance().post("/users/users/save", user);
+    const response = await userInstance().post("/users/save", user);
 
     console.log("success");
     return response.data;
@@ -20,7 +17,7 @@ export const joinApi = async (user: IUser) => {
 
 export const loginApi = async (user: IUser) => {
   try {
-    const response = await instance().post("/users/users/login", user);
+    const response = await userInstance().post("/users/login", user);
 
     console.log("success");
     return response.data;
@@ -32,7 +29,7 @@ export const loginApi = async (user: IUser) => {
 
 export const logoutApi = async ({ authorization }: any) => {
   try {
-    const response = await instance().get("/users/users/logout", authorization);
+    const response = await userInstance().get("/users/logout", authorization);
     console.log("success");
     return response.data;
   } catch (error) {
@@ -43,7 +40,7 @@ export const logoutApi = async ({ authorization }: any) => {
 
 export const getUserByIdApi = async ({ id }: any) => {
   try {
-    const response = await instance().get("/users/users/exists", id);
+    const response = await userInstance().get("/users/exists", id);
 
     console.log("success");
     return response.data;
@@ -55,7 +52,7 @@ export const getUserByIdApi = async ({ id }: any) => {
 
 export const getUserByEmailApi = async ({ email }: any) => {
   try {
-    const response = await instance().get("/users/users/existsEmail", email);
+    const response = await userInstance().get("/users/existsEmail", email);
 
     console.log("success");
     return response.data;
@@ -67,7 +64,7 @@ export const getUserByEmailApi = async ({ email }: any) => {
 
 export const getUserDetailApi = async ({ id }: any) => {
   try {
-    const response = await instance().get("/users/users/detail", id);
+    const response = await userInstance().get("/users/detail", id);
 
     console.log("success");
     return response.data;
@@ -79,7 +76,7 @@ export const getUserDetailApi = async ({ id }: any) => {
 
 export const deleteUserApi = async ({ id }: any) => {
   try {
-    const response = await instance().delete("/users/users/delete", id);
+    const response = await userInstance().delete("/users/delete", id);
 
     console.log("success");
     return response.data;
