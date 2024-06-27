@@ -1,6 +1,10 @@
+"use client";
+
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 
 const LawyersBoardPage = () => {
+  const router = useRouter();
   return (
     <>
       <div className={`flex flex-col justify-center items-center relative`}>
@@ -16,6 +20,7 @@ const LawyersBoardPage = () => {
                   <div
                     key={item}
                     className=" border border-[var(--color-Harbor-first)] rounded-md text-[var(--color-Harbor-first)] items-center flex flex-col p-3  font-chosunsg"
+                    onClick={() => router.push(`/lawyers/${item}`)}
                   >
                     <Image
                       src="https://mblogthumb-phinf.pstatic.net/MjAyMTA1MjlfNzYg/MDAxNjIyMjE1MjMwOTk5.TSOSi5EAsh3MX9bdN3W9ugQyjSBYV_I0jMkcLwN9Wkwg.6KIRElwl9bBEUu-Br1UmWMMb0Fuku_CIFNb64SttOHkg.JPEG.acttosun08/IMAGE%EF%BC%BF2020%EF%BC%BF09%EF%BC%BF18%EF%BC%BF06%EF%BC%BF09%EF%BC%BF35.jpg?type=w800"

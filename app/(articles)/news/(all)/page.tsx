@@ -1,6 +1,10 @@
+"use client";
+
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 
 const NewsBoardPage = () => {
+  const router = useRouter();
   return (
     <>
       <div
@@ -13,6 +17,7 @@ const NewsBoardPage = () => {
               <div
                 key={item}
                 className="flex flex-row items-center border rounded-md border-[var(--color-Harbor-sec)] w-[60vw] h-[25vh] p-8 gap-8"
+                onClick={() => router.push(`/news/${item}`)}
               >
                 <Image
                   src="https://img.etoday.co.kr/pto_db/2024/04/600/20240419110132_2014644_647_358.jpg"

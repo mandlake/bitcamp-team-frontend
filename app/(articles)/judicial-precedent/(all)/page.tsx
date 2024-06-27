@@ -1,11 +1,13 @@
 "use client";
 
 import { getCaseLawList } from "@/components/_service/judicial-precedent/judicial.service";
+import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 
 const JudicialPrecidentPage = () => {
   const dispatch = useDispatch();
+  const router = useRouter();
   const judicialPrecident = [
     {
       serialNumber: "000001",
@@ -101,6 +103,9 @@ const JudicialPrecidentPage = () => {
                 <div
                   key={item.serialNumber}
                   className="flex flex-col items-baseline border rounded-md border-[var(--color-Harbor-sec)] w-[60vw] h-[15vh] p-8 gap-2"
+                  onClick={() =>
+                    router.push(`/judicial-precedent/${item.serialNumber}`)
+                  }
                 >
                   <div className="flex flex-row w-[55vw] justify-between font-chosunsg text-[14px]">
                     <div>{item.serialNumber}</div>
