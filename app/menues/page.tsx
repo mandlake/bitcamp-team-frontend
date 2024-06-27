@@ -51,9 +51,15 @@ const MenuBeforeLogin = [
       },
       {
         key: 2.4,
-        title: "Q&A 게시판",
+        title: "법률 상담 Q&A",
         path: "/qna",
         sub: "Q&A",
+      },
+      {
+        key: 2.5,
+        title: "변호사 법률 칼럼",
+        path: "/column",
+        sub: "칼럼",
       },
     ],
   },
@@ -85,9 +91,15 @@ const MenuAfterLogin = [
       },
       {
         key: 2.4,
-        title: "Q&A 게시판",
+        title: "법률 상담 Q&A",
         path: "/qna",
         sub: "Q&A",
+      },
+      {
+        key: 2.5,
+        title: "변호사 법률 칼럼",
+        path: "/column",
+        sub: "칼럼",
       },
     ],
   },

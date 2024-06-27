@@ -49,7 +49,7 @@ const Header = ({ isDropdownOpen, setIsDropdownOpen }: any) => {
         className={`items-center fixed top-0 h-[5vh] w-screen z-20 flex flex-row justify-between `}
       >
         <div className={`flex flex-row items-center `}>
-          <div className={`${rounded} relative`} onClick={() => handleMenu()}>
+          <div className={`${rounded} relative`}>
             {isDropdownOpen.menu ? (
               <>
                 <Image
@@ -58,6 +58,7 @@ const Header = ({ isDropdownOpen, setIsDropdownOpen }: any) => {
                   height={20}
                   alt="arrow-right"
                   className="z-20"
+                  onClick={() => handleMenu()}
                 />
                 <MenuPage menu={isDropdownOpen.menu}></MenuPage>
               </>
@@ -68,6 +69,7 @@ const Header = ({ isDropdownOpen, setIsDropdownOpen }: any) => {
                 height={20}
                 alt="arrow-right"
                 className="z-20"
+                onClick={() => handleMenu()}
               />
             )}
           </div>
