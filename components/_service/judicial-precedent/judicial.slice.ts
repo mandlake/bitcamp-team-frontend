@@ -1,5 +1,5 @@
+import { initialState } from "@/components/_model/manage/manageState.init";
 import { createSlice } from "@reduxjs/toolkit";
-import { initialState } from "@/components/_model/judicial-precedent/init/judicialState.init";
 
 export const judicialSlice = createSlice({
   name: "judicial",

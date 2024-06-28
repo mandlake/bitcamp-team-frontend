@@ -1,12 +1,12 @@
 export interface IUser {
   id: number;
-  email: string;
-  name: string;
+  email?: string;
+  name?: string;
   picture?: string;
   role?: string;
-  phone: string;
+  phone?: string;
   age?: string;
   sex?: string;
-  point: number;
   token?: string;
+  point?: number;
 }

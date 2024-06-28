@@ -1,6 +1,6 @@
 import { IUser } from "./user";
 
-export interface userState {
+export interface IUserState {
   array?: Array<IUser>;
-  json?: JSON;
+  json?: IUser;
 }

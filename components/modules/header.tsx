@@ -7,7 +7,6 @@ import { useRouter } from "next/navigation";
 import MenuPage from "@/app/menues/page";
 import Image from "next/image";
 import { parseCookies } from "nookies";
-import { logout } from "../_service/user/user.service";
 
 const Header = ({ isDropdownOpen, setIsDropdownOpen }: any) => {
   const dispatch = useDispatch();
@@ -28,15 +27,15 @@ const Header = ({ isDropdownOpen, setIsDropdownOpen }: any) => {
   };
 
   const handleLogOut = () => {
-    dispatch(logout(checkAuthentication.value))
-      .then((res: any) => {
-        setIsLoggedIn(false);
-        router.push("/");
-      })
-      .catch((error: any) => {
-        console.log("로그아웃 실행에서 에러가 발생함 : ");
-        console.log(error);
-      });
+    // dispatch(logout(checkAuthentication.value))
+    //   .then((res: any) => {
+    //     setIsLoggedIn(false);
+    //     router.push("/");
+    //   })
+    //   .catch((error: any) => {
+    //     console.log("로그아웃 실행에서 에러가 발생함 : ");
+    //     console.log(error);
+    //   });
   };
 
   useEffect(() => {

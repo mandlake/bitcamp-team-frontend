@@ -1,6 +1,6 @@
 "use client";
 
-import { temp } from "@/components/_service/lawlaw/lawlaw.service";
+import { temp } from "@/components/_service/chat/chat.service";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 

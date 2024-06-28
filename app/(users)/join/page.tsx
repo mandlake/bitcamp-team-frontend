@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useDispatch } from "react-redux";
 import { ILawyer } from "@/components/_model/lawyer/lawyer";
+import { lawyerJoin } from "@/components/_service/lawyer/lawyer.service";
 
 function Join() {
   const router = useRouter();
@@ -13,17 +14,17 @@ function Join() {
   const handleJoin = async () => {
     try {
       console.log(formData);
-      // await dispatch(joinId(formData))
-      //   .then((res: any) => {
-      //     alert("success to join us");
-      //     console.log(res.payload.userId);
-      //   })
-      //   .then(() => {
-      //     router.push("/login");
-      //   })
-      //   .catch((error: any) => {
-      //     console.log(error);
-      //   });
+      await dispatch(lawyerJoin(formData))
+        .then((res: any) => {
+          alert("success to join us");
+          console.log(res);
+        })
+        .then(() => {
+          router.push("/login/lawyer");
+        })
+        .catch((error: any) => {
+          console.log(error);
+        });
     } catch (error) {
       console.log(error);
     }

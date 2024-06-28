@@ -1,6 +1,4 @@
-import { IUser } from "../user";
-
-export const initialState: IUser = {
+export const IUserState = {
   id: 0,
   email: "",
   name: "",
@@ -9,6 +7,6 @@ export const initialState: IUser = {
   phone: "",
   age: "",
   sex: "",
-  point: 0,
   token: "",
+  point: 0,
 };
