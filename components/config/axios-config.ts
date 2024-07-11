@@ -9,31 +9,31 @@ import {
 } from "../common/url";
 
 export const userInstance = () => {
-  const instance = axios.create({ baseURL: userURL });
+  const instance = axios.create({ baseURL: "http://localhost:8080" });
   setInterceptor(instance);
   return instance;
 };
 
 export const lawyerInstance = () => {
-  const instance = axios.create({ baseURL: lawyerURL });
+  const instance = axios.create({ baseURL: "http://localhost:8081" });
   setInterceptor(instance);
   return instance;
 };
 
 export const adminInstance = () => {
-  const instance = axios.create({ baseURL: adminURL });
+  const instance = axios.create({ baseURL: "http://localhost:8082" });
   setInterceptor(instance);
   return instance;
 };
 
 export const chatInstance = () => {
-  const instance = axios.create({ baseURL: chatURL });
+  const instance = axios.create({ baseURL: "http://localhost:8083" });
   setInterceptor(instance);
   return instance;
 };
 
 export const manageInstance = () => {
-  const instance = axios.create({ baseURL: manageURL });
+  const instance = axios.create({ baseURL: "http://localhost:8084" });
   setInterceptor(instance);
   return instance;
 };

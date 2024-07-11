@@ -1,5 +1,6 @@
 "use client";
 
+import { lawyerLogin } from "@/components/_service/lawyer/lawyer.service";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -15,17 +16,17 @@ const LawyerLogin = () => {
 
   const handleLogin = async () => {
     try {
-      // await dispatch(loginId(formData))
-      //   .then((res: any) => {
-      //     alert("success to login");
-      //     console.log(res.payload.userId);
-      //   })
-      //   .then(() => {
-      //     router.push("/");
-      //   })
-      //   .catch((error: any) => {
-      //     console.log(error);
-      //   });
+      await dispatch(lawyerLogin(formData))
+        .then((res: any) => {
+          alert("success to login");
+          console.log(res.payload.userId);
+        })
+        .then(() => {
+          router.push("/");
+        })
+        .catch((error: any) => {
+          console.log(error);
+        });
     } catch (error) {
       console.log(error);
     }

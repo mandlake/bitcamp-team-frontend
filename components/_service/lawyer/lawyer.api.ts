@@ -146,3 +146,30 @@ export const insertLawyerApi = async (lawyer: ILawyer) => {
     return error;
   }
 };
+
+export const uploadfilesApi = async (formData: any) => {
+  try {
+    const response = await lawyerInstance().post(
+      `files/upload/${formData.lawyerId}`,
+      formData
+    );
+
+    console.log("success");
+    return response.data;
+  } catch (error) {
+    console.log(error);
+    return error;
+  }
+};
+
+export const downloadfilesApi = async (id: string) => {
+  try {
+    const response = await lawyerInstance().get(`files/download/${id}`);
+
+    console.log("success");
+    return response.data;
+  } catch (error) {
+    console.log(error);
+    return error;
+  }
+};
