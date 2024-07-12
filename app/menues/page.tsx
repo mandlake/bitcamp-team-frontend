@@ -67,6 +67,18 @@ const MenuBeforeLogin = [
 
 const MenuAfterLogin = [
   {
+    key: 1,
+    title: "My Page",
+    sub: "마이 페이지",
+    children: [
+      {
+        key: 1.1,
+        title: "User Info",
+        sub: "회원 정보",
+      },
+    ],
+  },
+  {
     key: 2,
     title: "Boards",
     sub: "게시판",
@@ -115,7 +127,6 @@ const MenuPage = (props: any) => {
 
   const checkAuthentication: any = async () => {
     const accessToken = parseCookies().accessToken;
-    console.log("accessToken : ", accessToken);
     setIsLoggedIn(!!accessToken);
     return accessToken;
   };
@@ -151,10 +162,12 @@ const MenuPage = (props: any) => {
                           onClick={() => {
                             router.push(child.path);
                           }}
-                          className="flex flex-row justify-between items-baseline w-[240px] px-[5px] text-[14px]"
+                          className="flex flex-row justify-between items-baseline w-[240px] px-[5px] text-[14px] group"
                         >
-                          <h1 className="">{child.title}</h1>
-                          <p className=" font-light text-[12px]">
+                          <h1 className="group-hover:animate-bounce-left group-hover:text-cyan-900">
+                            {child.title}
+                          </h1>
+                          <p className="group-hover:text-cyan-700 font-light text-[12px] items-center justify-center flex flex-row gap-2">
                             {child.sub}
                             <Image
                               src="https://img.icons8.com/?size=100&id=86517&format=png&color=000000"

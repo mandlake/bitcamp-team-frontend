@@ -6,7 +6,8 @@ import { useDispatch } from "react-redux";
 import { useRouter } from "next/navigation";
 import MenuPage from "@/app/menues/page";
 import Image from "next/image";
-import { parseCookies } from "nookies";
+import { destroyCookie, parseCookies } from "nookies";
+import { lawyerLogout } from "../_service/lawyer/lawyer.service";
 
 const Header = ({ isDropdownOpen, setIsDropdownOpen }: any) => {
   const dispatch = useDispatch();
@@ -27,15 +28,22 @@ const Header = ({ isDropdownOpen, setIsDropdownOpen }: any) => {
   };
 
   const handleLogOut = () => {
-    // dispatch(logout(checkAuthentication.value))
-    //   .then((res: any) => {
-    //     setIsLoggedIn(false);
-    //     router.push("/");
-    //   })
-    //   .catch((error: any) => {
-    //     console.log("로그아웃 실행에서 에러가 발생함 : ");
-    //     console.log(error);
-    //   });
+    dispatch(lawyerLogout(checkAuthentication.value))
+      .then((res: any) => {
+        console.log(res);
+        if (res.payload.message === "SUCCESS") {
+          setIsLoggedIn(false);
+          destroyCookie({}, "accessToken");
+        }
+        return res;
+      })
+      .catch((error: any) => {
+        console.log("로그아웃 실행에서 에러가 발생함 : ");
+        console.log(error);
+      })
+      .then(() => {
+        router.push("/");
+      });
   };
 
   useEffect(() => {

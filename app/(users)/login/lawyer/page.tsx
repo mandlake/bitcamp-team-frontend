@@ -3,6 +3,7 @@
 import { lawyerLogin } from "@/components/_service/lawyer/lawyer.service";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { setCookie } from "nookies";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 
@@ -18,11 +19,18 @@ const LawyerLogin = () => {
     try {
       await dispatch(lawyerLogin(formData))
         .then((res: any) => {
-          alert("success to login");
-          console.log(res.payload.userId);
-        })
-        .then(() => {
-          router.push("/");
+          if (res.payload.message === "SUCCESS") {
+            alert("로그인 성공");
+            setCookie({}, "accessToken", res.payload.accessToken, {
+              httpOnly: false,
+              path: "/",
+            });
+            router.refresh();
+            router.push("/");
+          } else {
+            alert("로그인 실패");
+          }
+          return res;
         })
         .catch((error: any) => {
           console.log(error);

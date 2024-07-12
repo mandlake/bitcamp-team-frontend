@@ -5,12 +5,16 @@ import { useEffect, useState } from "react";
 import "animate.css";
 import Image from "next/image";
 import LawLawPage from "./lawlaw/page";
+import { parseCookies } from "nookies";
 
 export default function Home(props: any) {
   const router = useRouter();
   const [isOpenLawLaw, setIsOpenLawLaw] = useState(false);
+  const [isLogin, setIsLogin] = useState(false);
 
   useEffect(() => {
+    const accessToken = parseCookies().accessToken;
+    setIsLogin(!!accessToken);
     if (isOpenLawLaw) {
       console.log("isOpenLawLaw", isOpenLawLaw);
     } else {
@@ -105,8 +109,12 @@ export default function Home(props: any) {
         </div>
         <LawLawPage isOpenLawLaw={isOpenLawLaw} />
         <div
-          className="h-[5vw] w-[5vw] bg-slate-600 fixed bottom-10 right-20 rounded-full"
-          onClick={() => setIsOpenLawLaw(!isOpenLawLaw)}
+          className={` h-[5vw] w-[5vw] bg-slate-600 fixed bottom-10 right-20 rounded-full`}
+          onClick={() => {
+            isLogin
+              ? setIsOpenLawLaw(!isOpenLawLaw)
+              : alert("로그인이 필요합니다.");
+          }}
         ></div>
       </div>
     </>
