@@ -8,6 +8,7 @@ import {
   uploadfilesApi,
 } from "./lawyer.api";
 import { ILawyer, ILawyerDetail } from "@/components/_model/lawyer/lawyer";
+import axios from "axios";
 
 export const lawyerLogin: any = createAsyncThunk(
   "lawyer/getCaseLawList",
@@ -44,7 +45,15 @@ export const lawyerSaveDetail: any = createAsyncThunk(
 export const uploadfiles: any = createAsyncThunk(
   "lawyer/uploadfiles",
   async (formData: any) => {
-    const data: any = await uploadfilesApi(formData);
+    const data: any = await axios.post(
+      "http://localhost:8081/files/upload/1",
+      formData,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      }
+    );
     return data;
   }
 );

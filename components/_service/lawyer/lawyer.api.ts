@@ -1,7 +1,10 @@
 "use server";
 
 import { ILawyer, ILawyerDetail } from "@/components/_model/lawyer/lawyer";
-import { lawyerInstance } from "@/components/config/axios-config";
+import {
+  lawyerFileInstance,
+  lawyerInstance,
+} from "@/components/config/axios-config";
 
 export const lawyerLoginApi = async (lawyer: ILawyer) => {
   try {
@@ -149,14 +152,14 @@ export const insertLawyerApi = async (lawyer: ILawyer) => {
 
 export const uploadfilesApi = async (formData: any) => {
   try {
-    const response = await lawyerInstance().post(
-      `files/upload/${formData.lawyerId}`,
+    const response = await lawyerFileInstance().post(
+      `/files/upload/1`,
       formData
     );
-
     console.log("success");
     return response.data;
   } catch (error) {
+    console.log("false");
     console.log(error);
     return error;
   }
@@ -164,7 +167,9 @@ export const uploadfilesApi = async (formData: any) => {
 
 export const downloadfilesApi = async (id: string) => {
   try {
-    const response = await lawyerInstance().get(`files/download/${id}`);
+    const response = await lawyerFileInstance().get(`files/download/${id}`, {
+      responseType: "blob",
+    });
 
     console.log("success");
     return response.data;

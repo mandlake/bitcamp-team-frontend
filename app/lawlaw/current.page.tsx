@@ -1,6 +1,6 @@
 "use client";
 
-import { temp } from "@/components/_service/chat/chat.service";
+import { saveChat } from "@/components/_service/chat/chat.service";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 
@@ -20,7 +20,7 @@ const LawLawCurrentPage = () => {
   const handleSubmit = async () => {
     console.log(message);
     console.log("submit");
-    await dispatch(temp(message)).then((res: any) => {
+    await dispatch(saveChat(message)).then((res: any) => {
       console.log(res);
       setMessage({ ...message, answer: res });
       setSend(true);

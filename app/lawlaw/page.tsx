@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import LawLawBeforePage from "./before.page";
-import LawLawCurrentPage from "./after.page";
+import LawLawCurrentPage from "./current.page";
 
 const LawLawPage = ({ isOpenLawLaw }: any) => {
   const [isBefore, setIsBefore] = useState(false);

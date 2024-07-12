@@ -15,21 +15,9 @@ export const tempApi = async () => {
   }
 };
 
-export const createRoomApi = async (id: number) => {
+export const saveChatApi = async (chat: any) => {
   try {
-    const response = await chatInstance().get(`/createRoom/${id}`, {});
-
-    console.log("success");
-    return response.data;
-  } catch (error) {
-    console.log(error);
-    return error;
-  }
-};
-
-export const saveChatApi = async (chat: IChat) => {
-  try {
-    const response = await chatInstance().post(`/saveChat`, chat);
+    const response = await chatInstance().post("/save", chat);
 
     console.log("success");
     return response.data;
@@ -41,7 +29,7 @@ export const saveChatApi = async (chat: IChat) => {
 
 export const deleteChatApi = async () => {
   try {
-    const response = await chatInstance().delete(`/delete`);
+    const response = await chatInstance().delete("/delete");
 
     console.log("success");
     return response.data;
@@ -51,19 +39,7 @@ export const deleteChatApi = async () => {
   }
 };
 
-export const addNewChatApi = async (userId: number) => {
-  try {
-    const response = await chatInstance().get(`/newRoomId/${userId}`);
-
-    console.log("success");
-    return response.data;
-  } catch (error) {
-    console.log(error);
-    return error;
-  }
-};
-
-export const chattingListApi = async (userId: number) => {
+export const getChatApi = async (userId: number) => {
   try {
     const response = await chatInstance().get(`/list/${userId}`);
 
@@ -75,9 +51,9 @@ export const chattingListApi = async (userId: number) => {
   }
 };
 
-export const messageOrderHistoryApi = async (chat: IChat) => {
+export const newRoomIdApi = async (userId: number) => {
   try {
-    const response = await chatInstance().post(`/history/message-order`, chat);
+    const response = await chatInstance().get(`/newRoom/${userId}`);
 
     console.log("success");
     return response.data;
@@ -87,9 +63,21 @@ export const messageOrderHistoryApi = async (chat: IChat) => {
   }
 };
 
-export const chatDateHistoryApi = async (chat: IChat) => {
+export const getChatHistoryApi = async (chat: IChat) => {
   try {
-    const response = await chatInstance().post(`/history/chat-date`, chat);
+    const response = await chatInstance().post("/history/message-order", chat);
+
+    console.log("success");
+    return response.data;
+  } catch (error) {
+    console.log(error);
+    return error;
+  }
+};
+
+export const getChatHistoryByChatDateApi = async (chat: IChat) => {
+  try {
+    const response = await chatInstance().post("/history/chat-date", chat);
 
     console.log("success");
     return response.data;

@@ -1,32 +1,36 @@
 "use client";
 
+import { downloadfiles } from "@/components/_service/lawyer/lawyer.service";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { useDispatch } from "react-redux";
 
 const NorificationAddPage = () => {
   const router = useRouter();
+  const dispatch = useDispatch();
 
-  const [selectedFile, setSelectedFile] = useState<File[]>([]);
+  const [selectedFile, setSelectedFile] = useState<File[]>([] as File[]);
   const [fileId, setFileId] = useState<string[]>([]);
   const [filename, setFilename] = useState<string[]>([]);
 
   const handleFileChange = (event: any) => {
-    console.log("event");
-    console.log(event.target.files);
     setSelectedFile([...event.target.files]);
   };
 
   const upload = async () => {
     const formData = new FormData();
-    console.log(selectedFile);
 
-    if (selectedFile.length === 0) return;
+    if (selectedFile.length === 0) {
+      alert("파일을 선택해주세요.");
+      return 0;
+    }
 
-    selectedFile.forEach((file: any) => {
-      console.log(file);
+    Array.from(selectedFile).forEach((file: File) => {
       formData.append("file", file);
     });
+
+    console.log(formData.get("file"));
 
     try {
       const response = await axios.post(
@@ -38,10 +42,15 @@ const NorificationAddPage = () => {
           },
         }
       );
-      setFileId(response.data.map((item: { id: string }) => item.id));
-      setFilename(
-        response.data.map((item: { filename: string }) => item.filename)
-      );
+      if (response.status === 200) {
+        alert("파일 업로드 성공");
+        console.log(response);
+
+        setFileId(response.data.map((item: { id: string }) => item.id));
+        setFilename(
+          response.data.map((item: { filename: string }) => item.filename)
+        );
+      }
     } catch (error) {
       console.error("파일 업로드 오류:", error);
     }
@@ -51,12 +60,7 @@ const NorificationAddPage = () => {
     if (fileId.length === 0) return;
 
     try {
-      const response = await axios.get(
-        `http://localhost:8081/files/download/${fileId[index]}`,
-        {
-          responseType: "blob",
-        }
-      );
+      const response = await dispatch(downloadfiles(fileId[index]));
 
       const contentDisposition = response.headers["content-disposition"];
       let fileName = filename[index]; // 기본 파일 이름 설정
@@ -74,6 +78,7 @@ const NorificationAddPage = () => {
       const link = document.createElement("a");
       link.href = url;
       link.setAttribute("download", fileName); // 다운로드할 파일 이름 설정
+
       document.body.appendChild(link);
       link.click();
       link.remove();
@@ -101,18 +106,18 @@ const NorificationAddPage = () => {
             onClick={upload}
             className="mt-4 bg-black text-white w-[45vw] h-[44px] rounded-xl"
           />
-          <br />
+
           {fileId?.map((id, index) => (
             <div key={id}>
               <span className="mt-4">{filename[index]}</span>
-              <input
-                type="submit"
-                value="다운로드"
-                onClick={(index: any) => handleDownload(index)}
-              />
+              <button
+                onClick={() => handleDownload(index)}
+                className="mt-4 bg-black text-white w-[45vw] h-[44px] rounded-xl"
+              >
+                다운로드
+              </button>
             </div>
           ))}
-          <br />
         </div>
       </div>
     </>
