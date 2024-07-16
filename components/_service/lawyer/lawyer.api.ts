@@ -72,9 +72,33 @@ export const getAllLawyerApi = async () => {
   }
 };
 
-export const getLawyerByIdApi = async (id: number) => {
+export const getLawyerByIdApi = async (id: string) => {
   try {
     const response = await lawyerInstance().get(`/${id}`);
+
+    console.log("success");
+    return response.data;
+  } catch (error) {
+    console.log(error);
+    return error;
+  }
+};
+
+export const getLawyerByUsernameApi = async (username: string) => {
+  try {
+    const response = await lawyerInstance().get(`/username/${username}`);
+
+    console.log("success");
+    return response.data;
+  } catch (error) {
+    console.log(error);
+    return error;
+  }
+};
+
+export const getLawyerDetailByUsernameApi = async (username: string) => {
+  try {
+    const response = await lawyerInstance().get(`/detail/username/${username}`);
 
     console.log("success");
     return response.data;

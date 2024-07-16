@@ -34,6 +34,7 @@ const Header = ({ isDropdownOpen, setIsDropdownOpen }: any) => {
         if (res.payload.message === "SUCCESS") {
           setIsLoggedIn(false);
           destroyCookie({}, "accessToken");
+          destroyCookie({}, "username");
         }
         return res;
       })
@@ -42,13 +43,16 @@ const Header = ({ isDropdownOpen, setIsDropdownOpen }: any) => {
         console.log(error);
       })
       .then(() => {
-        router.push("/");
+        window.location.reload();
       });
   };
 
   useEffect(() => {
     checkAuthentication();
   }, [isLoggedIn]);
+
+  if (window.location.pathname === "/lawyer-info") return null;
+  if (window.location.pathname === "/login") return null;
 
   return (
     <>

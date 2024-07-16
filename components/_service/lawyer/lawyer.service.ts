@@ -1,17 +1,19 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import {
   downloadfilesApi,
+  getLawyerByIdApi,
+  getLawyerByUsernameApi,
+  getLawyerDetailByUsernameApi,
   lawyerJoinApi,
   lawyerLoginApi,
   lawyerLogoutApi,
   lawyerSaveDetailApi,
-  uploadfilesApi,
 } from "./lawyer.api";
 import { ILawyer, ILawyerDetail } from "@/components/_model/lawyer/lawyer";
 import axios from "axios";
 
 export const lawyerLogin: any = createAsyncThunk(
-  "lawyer/getCaseLawList",
+  "lawyer/lawyerLogin",
   async (lawyer: ILawyer) => {
     const data: any = await lawyerLoginApi(lawyer);
     return data;
@@ -19,7 +21,7 @@ export const lawyerLogin: any = createAsyncThunk(
 );
 
 export const lawyerLogout: any = createAsyncThunk(
-  "lawyer/getCaseLawList",
+  "lawyer/lawyerLogout",
   async () => {
     const data: any = await lawyerLogoutApi();
     return data;
@@ -27,7 +29,7 @@ export const lawyerLogout: any = createAsyncThunk(
 );
 
 export const lawyerJoin: any = createAsyncThunk(
-  "lawyer/getCaseLawList",
+  "lawyer/lawyerJoin",
   async (lawyer: ILawyer) => {
     const data: any = await lawyerJoinApi(lawyer);
     return data;
@@ -35,9 +37,33 @@ export const lawyerJoin: any = createAsyncThunk(
 );
 
 export const lawyerSaveDetail: any = createAsyncThunk(
-  "lawyer/getCaseLawList",
+  "lawyer/lawyerSaveDetail",
   async (lawyer: ILawyerDetail) => {
     const data: any = await lawyerSaveDetailApi(lawyer);
+    return data;
+  }
+);
+
+export const getLawyerById: any = createAsyncThunk(
+  "lawyer/getLawyerById",
+  async (id: string) => {
+    const data: any = await getLawyerByIdApi(id);
+    return data;
+  }
+);
+
+export const getLawyerByUsername: any = createAsyncThunk(
+  "lawyer/getLawyerByUsername",
+  async (username: string) => {
+    const data: any = await getLawyerByUsernameApi(username);
+    return data;
+  }
+);
+
+export const getLawyerDetailByUsername: any = createAsyncThunk(
+  "lawyer/getLawyerDetailByUsername",
+  async (username: string) => {
+    const data: any = await getLawyerDetailByUsernameApi(username);
     return data;
   }
 );

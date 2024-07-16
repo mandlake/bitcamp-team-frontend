@@ -18,11 +18,8 @@ const LawLawCurrentPage = () => {
   };
 
   const handleSubmit = async () => {
-    console.log(message);
-    console.log("submit");
     await dispatch(saveChat(message)).then((res: any) => {
-      console.log(res);
-      setMessage({ ...message, answer: res });
+      setMessage({ ...message, answer: res.payload.answer });
       setSend(true);
     });
   };

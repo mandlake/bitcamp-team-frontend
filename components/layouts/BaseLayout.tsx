@@ -14,6 +14,10 @@ const BaseLayout = ({
     notification: false,
     account: false,
   });
+
+  if (window.location.pathname === "/lawyer-info") {
+    isDropdownOpen.menu = false;
+  }
   return (
     <>
       <Header

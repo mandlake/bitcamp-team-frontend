@@ -1,123 +1,134 @@
 "use client";
 
+import { getLawyerByUsername } from "@/components/_service/lawyer/lawyer.service";
 import "animate.css";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { parseCookies } from "nookies";
 import { useEffect, useState } from "react";
-
-const MenuBeforeLogin = [
-  {
-    key: 1,
-    title: "Login",
-    sub: "로그인",
-    children: [
-      {
-        key: 1.1,
-        title: "User Login",
-        path: "/login/user",
-        sub: "일반 회원",
-      },
-      {
-        key: 1.2,
-        title: "Lawyer Login",
-        path: "/login/lawyer",
-        sub: "변호사 회원",
-      },
-    ],
-  },
-  {
-    key: 2,
-    title: "Boards",
-    sub: "게시판",
-    children: [
-      {
-        key: 2.1,
-        title: "News Board",
-        path: "/news",
-        sub: "뉴스",
-      },
-      {
-        key: 2.2,
-        title: "Lawyers Board",
-        path: "/lawyers",
-        sub: "변호사",
-      },
-      {
-        key: 2.3,
-        title: "판례 게시판",
-        path: "/judicial-precedent",
-        sub: "판례",
-      },
-      {
-        key: 2.4,
-        title: "법률 상담 Q&A",
-        path: "/qna",
-        sub: "Q&A",
-      },
-      {
-        key: 2.5,
-        title: "변호사 법률 칼럼",
-        path: "/column",
-        sub: "칼럼",
-      },
-    ],
-  },
-];
-
-const MenuAfterLogin = [
-  {
-    key: 1,
-    title: "My Page",
-    sub: "마이 페이지",
-    children: [
-      {
-        key: 1.1,
-        title: "User Info",
-        sub: "회원 정보",
-      },
-    ],
-  },
-  {
-    key: 2,
-    title: "Boards",
-    sub: "게시판",
-    children: [
-      {
-        key: 2.1,
-        title: "News Board",
-        path: "/news",
-        sub: "뉴스",
-      },
-      {
-        key: 2.2,
-        title: "Lawyers Board",
-        path: "/lawyers",
-        sub: "변호사",
-      },
-      {
-        key: 2.3,
-        title: "판례 게시판",
-        path: "/judicial-precedent",
-        sub: "판례",
-      },
-      {
-        key: 2.4,
-        title: "법률 상담 Q&A",
-        path: "/qna",
-        sub: "Q&A",
-      },
-      {
-        key: 2.5,
-        title: "변호사 법률 칼럼",
-        path: "/column",
-        sub: "칼럼",
-      },
-    ],
-  },
-];
+import { useDispatch } from "react-redux";
 
 const MenuPage = (props: any) => {
+  const dispatch = useDispatch();
+
+  const [token, setToken] = useState("");
+  const [username, setUsername] = useState("");
+
+  const MenuBeforeLogin = [
+    {
+      key: 1,
+      title: "Login",
+      sub: "로그인",
+      children: [
+        {
+          key: 1.1,
+          title: "User Login",
+          path: "/login/user",
+          sub: "일반 회원",
+        },
+        {
+          key: 1.2,
+          title: "Lawyer Login",
+          path: "/login/lawyer",
+          sub: "변호사 회원",
+        },
+      ],
+    },
+    {
+      key: 2,
+      title: "Boards",
+      sub: "게시판",
+      children: [
+        {
+          key: 2.1,
+          title: "News Board",
+          path: "/news",
+          sub: "뉴스",
+        },
+        {
+          key: 2.2,
+          title: "Lawyers Board",
+          path: "/lawyers",
+          sub: "변호사",
+        },
+        {
+          key: 2.3,
+          title: "판례 게시판",
+          path: "/judicial-precedent",
+          sub: "판례",
+        },
+        {
+          key: 2.4,
+          title: "법률 상담 Q&A",
+          path: "/qna",
+          sub: "Q&A",
+        },
+        {
+          key: 2.5,
+          title: "변호사 법률 칼럼",
+          path: "/column",
+          sub: "칼럼",
+        },
+      ],
+    },
+  ];
+
+  const MenuAfterLogin = [
+    {
+      key: 1,
+      title: "My Page",
+      sub: "마이 페이지",
+      children: [
+        {
+          key: 1.1,
+          title: "User Info",
+          path:
+            token && token.split(",")[0] === "user"
+              ? `/user-info`
+              : `/lawyer-info`,
+          sub: "회원 정보",
+        },
+      ],
+    },
+    {
+      key: 2,
+      title: "Boards",
+      sub: "게시판",
+      children: [
+        {
+          key: 2.1,
+          title: "News Board",
+          path: "/news",
+          sub: "뉴스",
+        },
+        {
+          key: 2.2,
+          title: "Lawyers Board",
+          path: "/lawyers",
+          sub: "변호사",
+        },
+        {
+          key: 2.3,
+          title: "판례 게시판",
+          path: "/judicial-precedent",
+          sub: "판례",
+        },
+        {
+          key: 2.4,
+          title: "법률 상담 Q&A",
+          path: "/qna",
+          sub: "Q&A",
+        },
+        {
+          key: 2.5,
+          title: "변호사 법률 칼럼",
+          path: "/column",
+          sub: "칼럼",
+        },
+      ],
+    },
+  ];
+
   const [animate, setAnimate] = useState(
     "animate__animated animate__fadeInLeft"
   );
@@ -128,11 +139,26 @@ const MenuPage = (props: any) => {
   const checkAuthentication: any = async () => {
     const accessToken = parseCookies().accessToken;
     setIsLoggedIn(!!accessToken);
+    console.log(parseCookies().username);
+    setUsername(parseCookies().username);
+    setToken(accessToken);
     return accessToken;
+  };
+
+  const getLawyer = async () => {
+    await dispatch(getLawyerByUsername(username)).then((res: any) => {
+      console.log(res);
+    });
   };
 
   useEffect(() => {
     checkAuthentication();
+    if (token.split(",")[0] === "user") {
+      setUsername(parseCookies().username);
+    } else if (token.split(",")[0] === "lawyers") {
+      setUsername(parseCookies().username);
+      getLawyer();
+    }
   }, [isLoggedIn]);
 
   useEffect(() => {
@@ -160,7 +186,7 @@ const MenuPage = (props: any) => {
                         <div
                           key={child.key}
                           onClick={() => {
-                            router.push(child.path);
+                            window.location.replace(child.path);
                           }}
                           className="flex flex-row justify-between items-baseline w-[240px] px-[5px] text-[14px] group"
                         >
@@ -192,7 +218,7 @@ const MenuPage = (props: any) => {
                         <div
                           key={child.key}
                           onClick={() => {
-                            router.push(child.path);
+                            window.location.replace(child.path);
                           }}
                           className="flex flex-row justify-between items-baseline w-[240px] px-[5px] text-[14px] group"
                         >

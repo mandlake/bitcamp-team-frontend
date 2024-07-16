@@ -85,7 +85,7 @@ function Join() {
                 id="email"
                 name="email"
                 placeholder="Email"
-                value={formData.name}
+                value={formData.email}
                 onChange={(e: any) =>
                   setFormData({ ...formData, email: e.target.value })
                 }
@@ -144,18 +144,18 @@ function Join() {
               />
             </label>
             <label
-              htmlFor="username"
+              htmlFor="account"
               className="flex flex-row items-center justify-between w-[33vw]"
             >
               <p className="text-[22px] font-medium">가맹점 번호</p>
               <input
                 type="text"
-                id="mid"
-                name="mid"
-                placeholder="가맹점 번호"
-                value={formData.username}
+                id="account"
+                name="account"
+                placeholder="계좌 번호"
+                value={formData.account}
                 onChange={(e: any) =>
-                  setFormData({ ...formData, mid: e.target.value })
+                  setFormData({ ...formData, account: e.target.value })
                 }
                 className="w-[22vw] h-[5vh] border border-[var(--color-Harbor-first)] px-[1.111vw] mb-[1.111vh] bg-white"
               />
