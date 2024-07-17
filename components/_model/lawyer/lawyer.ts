@@ -34,4 +34,5 @@ export interface ILawyerDetail {
   premium?: boolean;
   createdDate?: string;
   modifiedDate?: string;
+  time?: string;
 }

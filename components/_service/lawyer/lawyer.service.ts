@@ -8,6 +8,7 @@ import {
   lawyerLoginApi,
   lawyerLogoutApi,
   lawyerSaveDetailApi,
+  updateLawyerApi,
 } from "./lawyer.api";
 import { ILawyer, ILawyerDetail } from "@/components/_model/lawyer/lawyer";
 import axios from "axios";
@@ -40,6 +41,14 @@ export const lawyerSaveDetail: any = createAsyncThunk(
   "lawyer/lawyerSaveDetail",
   async (lawyer: ILawyerDetail) => {
     const data: any = await lawyerSaveDetailApi(lawyer);
+    return data;
+  }
+);
+
+export const updateLawyer: any = createAsyncThunk(
+  "lawyer/updateLawyer",
+  async (lawyer: ILawyer) => {
+    const data: any = await updateLawyerApi(lawyer);
     return data;
   }
 );

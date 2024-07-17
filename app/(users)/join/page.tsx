@@ -147,7 +147,7 @@ function Join() {
               htmlFor="account"
               className="flex flex-row items-center justify-between w-[33vw]"
             >
-              <p className="text-[22px] font-medium">가맹점 번호</p>
+              <p className="text-[22px] font-medium">계좌 번호</p>
               <input
                 type="text"
                 id="account"
