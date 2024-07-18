@@ -11,8 +11,8 @@ const UserLogin = () => {
   const dispatch = useDispatch();
 
   const handleGoogleLogin = () => {
-    const googleLoginUrl = process.env.GOOGLE_LOGIN_URL || "";
-    window.location.href = googleLoginUrl;
+    const googleLoginUrl = process.env.GOOGLE_LOGIN_URL; // 여기에 해당 URL을 입력 <- env 안됨. 수정 필요
+    window.location.href = ""; // 여기에 해당 URL을 입력
   };
   // Google Login 라이브러리 사용
   const googleLogin = useGoogleLogin({
@@ -86,6 +86,7 @@ const UserLogin = () => {
           <button
             className="w-[22vw] h-[5vh] mt-[2vh] bg-white border font-bold flex justify-center items-center gap-[1.111vh] border-[var(--color-Harbor-first)]"
             type="button"
+            onClick={handleGoogleLogin}
           >
             <Image
               alt="google-logo"
