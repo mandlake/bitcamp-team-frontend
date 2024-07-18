@@ -10,11 +10,9 @@ const UserLogin = () => {
   const router = useRouter();
   const dispatch = useDispatch();
 
-  const googleClinetId = process.env.GOOGLE_CLIENT_ID;
-
   const handleGoogleLogin = () => {
-    const googleAuthUrl = `https://accounts.google.com/o/oauth2/v2/auth/oauthchooseaccount?response_type=code&client_id=17282809016-72du999nqaefcf2gak9thafq259nbed9.apps.googleusercontent.com&scope=profile%20email&state=W9ABsub1S_WjiOZ-CGRPHBbVmxb_vIvEmaApxMMGC90%3D&redirect_uri=http%3A%2F%2Flocalhost%3A8000%2Flogin%2Foauth2%2Fcode%2Fgoogle&service=lso&o2v=2&ddm=0&flowName=GeneralOAuthFlow`;
-    window.location.href = googleAuthUrl;
+    const googleLoginUrl = process.env.GOOGLE_LOGIN_URL || "";
+    window.location.href = googleLoginUrl;
   };
   // Google Login 라이브러리 사용
   const googleLogin = useGoogleLogin({
