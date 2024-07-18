@@ -10,6 +10,12 @@ const UserLogin = () => {
   const router = useRouter();
   const dispatch = useDispatch();
 
+  const googleClinetId = process.env.GOOGLE_CLIENT_ID;
+
+  const handleGoogleLogin = () => {
+    const googleAuthUrl = `https://accounts.google.com/o/oauth2/v2/auth/oauthchooseaccount?response_type=code&client_id=17282809016-72du999nqaefcf2gak9thafq259nbed9.apps.googleusercontent.com&scope=profile%20email&state=W9ABsub1S_WjiOZ-CGRPHBbVmxb_vIvEmaApxMMGC90%3D&redirect_uri=http%3A%2F%2Flocalhost%3A8000%2Flogin%2Foauth2%2Fcode%2Fgoogle&service=lso&o2v=2&ddm=0&flowName=GeneralOAuthFlow`;
+    window.location.href = googleAuthUrl;
+  };
   // Google Login 라이브러리 사용
   const googleLogin = useGoogleLogin({
     clientId: "[YOUR_GOOGLE_CLIENT_ID]", // Google Developers Console에서 발급받은 클라이언트 ID 입력
@@ -81,7 +87,7 @@ const UserLogin = () => {
           </p>
           <button
             className="w-[22vw] h-[5vh] mt-[2vh] bg-white border font-bold flex justify-center items-center gap-[1.111vh] border-[var(--color-Harbor-first)]"
-            type="button"
+            onClick={handleGoogleLogin}
           >
             <Image
               alt="google-logo"
@@ -91,10 +97,7 @@ const UserLogin = () => {
             />
             Login with Google
           </button>
-          <button
-            className="w-[22vw] h-[5vh] mt-[2vh] bg-white border font-bold flex justify-center items-center gap-[1.111vh] border-[var(--color-Harbor-first)]"
-            type="button"
-          >
+          <button className="w-[22vw] h-[5vh] mt-[2vh] bg-white border font-bold flex justify-center items-center gap-[1.111vh] border-[var(--color-Harbor-first)]">
             <Image
               alt="naver-logo"
               src="https://blog.kakaocdn.net/dn/ceC8Gj/btrTPjfh2k0/fAUpKl8TGAxk7OkCjZPGBK/img.png"
