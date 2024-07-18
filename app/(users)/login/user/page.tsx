@@ -10,13 +10,10 @@ const UserLogin = () => {
   const router = useRouter();
   const dispatch = useDispatch();
 
-<<<<<<< HEAD
   const handleGoogleLogin = () => {
     const googleLoginUrl = process.env.GOOGLE_LOGIN_URL || "";
     window.location.href = googleLoginUrl;
   };
-=======
->>>>>>> 060ecc4ba683890949ac1953649b25a3e49eeab1
   // Google Login 라이브러리 사용
   const googleLogin = useGoogleLogin({
     clientId: "[YOUR_GOOGLE_CLIENT_ID]", // Google Developers Console에서 발급받은 클라이언트 ID 입력
