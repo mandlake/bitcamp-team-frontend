@@ -10,10 +10,13 @@ const UserLogin = () => {
   const router = useRouter();
   const dispatch = useDispatch();
 
+<<<<<<< HEAD
   const handleGoogleLogin = () => {
     const googleLoginUrl = process.env.GOOGLE_LOGIN_URL || "";
     window.location.href = googleLoginUrl;
   };
+=======
+>>>>>>> 060ecc4ba683890949ac1953649b25a3e49eeab1
   // Google Login 라이브러리 사용
   const googleLogin = useGoogleLogin({
     clientId: "[YOUR_GOOGLE_CLIENT_ID]", // Google Developers Console에서 발급받은 클라이언트 ID 입력
@@ -85,7 +88,7 @@ const UserLogin = () => {
           </p>
           <button
             className="w-[22vw] h-[5vh] mt-[2vh] bg-white border font-bold flex justify-center items-center gap-[1.111vh] border-[var(--color-Harbor-first)]"
-            onClick={handleGoogleLogin}
+            type="button"
           >
             <Image
               alt="google-logo"
@@ -95,7 +98,10 @@ const UserLogin = () => {
             />
             Login with Google
           </button>
-          <button className="w-[22vw] h-[5vh] mt-[2vh] bg-white border font-bold flex justify-center items-center gap-[1.111vh] border-[var(--color-Harbor-first)]">
+          <button
+            className="w-[22vw] h-[5vh] mt-[2vh] bg-white border font-bold flex justify-center items-center gap-[1.111vh] border-[var(--color-Harbor-first)]"
+            type="button"
+          >
             <Image
               alt="naver-logo"
               src="https://blog.kakaocdn.net/dn/ceC8Gj/btrTPjfh2k0/fAUpKl8TGAxk7OkCjZPGBK/img.png"
