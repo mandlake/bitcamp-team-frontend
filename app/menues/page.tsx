@@ -242,7 +242,7 @@ const MenuPage = (props: any) => {
           </div>
           <div
             onClick={() => {
-              router.push("/");
+              window.location.replace("/");
             }}
           >
             LAWMATE LOGO

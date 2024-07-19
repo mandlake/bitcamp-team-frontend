@@ -9,7 +9,7 @@ const BaseLayout = ({
   children: React.ReactNode;
 }>) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState({
-    menu: true,
+    menu: window.location.pathname === "/" ? false : true,
     message: false,
     notification: false,
     account: false,
@@ -18,6 +18,7 @@ const BaseLayout = ({
   if (window.location.pathname === "/lawyer-info") {
     isDropdownOpen.menu = false;
   }
+
   return (
     <>
       <Header

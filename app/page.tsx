@@ -1,17 +1,17 @@
 "use client";
 
-import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import "animate.css";
 import Image from "next/image";
-import { parseCookies } from "nookies";
 import { useForm } from "react-hook-form";
 import { saveChat } from "@/components/_service/chat/chat.service";
 import { useDispatch } from "react-redux";
 import { IChat } from "@/components/_model/chat/chat";
+import { ExplainLawmatePage } from "./(main)/explain.page";
+import { LongLeftArrow, LongRightArrow } from "@/components/common/next.icons";
+import { RecommendedLawyerPage } from "./(main)/recommendLawyer.page";
 
 export default function Home(props: any) {
-  const router = useRouter();
   const dispatch = useDispatch();
   const [message, setMessage] = useState({
     question: "",
@@ -24,6 +24,7 @@ export default function Home(props: any) {
     register,
     handleSubmit,
     watch,
+    resetField,
     formState: { errors },
   } = useForm<IChat>();
 
@@ -36,105 +37,84 @@ export default function Home(props: any) {
           console.log(res);
           setMessage({ ...message, answer: res.payload.answer });
           setChatted(true);
+          scrollToBottom();
         })
         .then(() => {
           setChat([...chat, message]);
           console.log(chat);
+          scrollToBottom();
         });
     } catch (error) {
       console.log(error);
+    } finally {
+      resetField("question");
     }
   };
 
-  useEffect(() => {}, []);
+  const chatContainerRef = useRef<HTMLDivElement>(null); // Ref for the chat container
+
+  const scrollToBottom = () => {
+    if (chatContainerRef.current) {
+      // Scroll to the bottom of the chat container
+      chatContainerRef.current.scrollTo({
+        top:
+          chatContainerRef.current.scrollHeight +
+          chatContainerRef.current.clientHeight,
+        behavior: "smooth",
+      });
+    }
+  };
+
   return (
     <>
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className={`flex flex-col w-full h-screen justify-center items-center relative bg-[var(--color-Harbor-firth)]`}
+        className={`flex flex-col w-full h-screen justify-center items-center relative gap-7 bg-[var(--color-Harbor-firth)]`}
       >
         {chatted ? (
-          <div className="flex flex-col h-5/6 justify-center">
+          <div
+            className="w-[1400px] flex flex-col h-4/5 overflow-auto gap-5 rounded-md p-5"
+            ref={chatContainerRef}
+          >
             {chat?.map((item, index) => (
-              <div key={index}>
-                <div className=" text-[40px]">{item.question}</div>
-                <div className=" text-[40px]">{item.answer}</div>
+              <div key={index} className="gap-5">
+                <div className="text-[40px] rounded-3xl odd:text-right">
+                  {item.question}
+                </div>
+                <div className="text-[40px] rounded-3xl">{item.answer}</div>
               </div>
             ))}
           </div>
-        ) : next === 1 ? (
+        ) : next === 0 ? (
           <div className="flex flex-col h-5/6 justify-center">
-            <div className="h-[300px] border-[var(--color-Harbor-sec)] border-y-2 text-[var(--color-Harbor-first)] w-[60vw] py-5 flex flex-row gap-[2vw]">
-              <section className="flex flex-col items-baseline border-r">
-                <h2 className=" text-[18px] mx-8 mb-2 font-semibold w-[25vw]">
-                  Lawmate의 주요 특징
-                </h2>
-                <ul className="text-[15px] flex flex-col gap-2">
-                  <li>
-                    <div className=" font-semibold">
-                      인공지능 기술 기반 맞춤형 법률 서비스
-                    </div>
-                    <div>
-                      개인의 상황과 문제에 맞는 최적의 해결책을 제시합니다.
-                    </div>
-                  </li>
-                  <li>
-                    <div className=" font-semibold">
-                      엄선된 전문 변호사 네트워크
-                    </div>
-                    <div>풍부한 경험과 전문성을 갖춘 변호사와 빠르게 연결</div>
-                  </li>
-                  <li>
-                    <div className=" font-semibold">합리적인 비용</div>
-                    <div>
-                      투명한 비용 체계로 예상치 못한 부담 없이 이용 가능
-                    </div>
-                  </li>
-                  <li>
-                    <div className=" font-semibold">안전하고 보안</div>
-                    <div>
-                      엄격한 정보 보호 정책으로 개인정보 안전을 최우선으로
-                    </div>
-                  </li>
-                </ul>
-              </section>
-
-              <section className="flex flex-col items-baseline">
-                <h2 className=" text-[18px] mx-8 mb-2 font-semibold w-[25vw]">
-                  Lawmate를 사용하면 무엇을 얻을 수 있을까요?
-                </h2>
-                <ul className=" text-[var(--color-Harbor-sec)]">
-                  <li>- 시간과 비용 절약</li>
-                  <li>- 보다 정확하고 효율적인 법률 서비스 제공</li>
-                  <li>- 법률 문제 해결에 대한 스트레스 감소</li>
-                </ul>
-              </section>
-            </div>
-            <div className="flex flex-row items-center justify-center mt-9">
-              <Image
-                src="https://img.icons8.com/?size=100&id=99996&format=png&color=000000"
-                alt="send"
-                width={23}
-                height={23}
-                className="object-cover"
+            <p className=" text-[40px]">How Can I Help You Today ?</p>
+            <div className="flex flex-col items-center mt-9 animate-bounce-left">
+              <LongRightArrow
                 onClick={() => {
-                  setNext(0);
+                  setNext(1);
                 }}
               />
             </div>
           </div>
         ) : (
-          <div className="flex flex-col h-5/6 justify-center">
-            <p className=" text-[40px]">How Can I Help You Today ?</p>
-            <div className="flex flex-col items-center mt-9 animate-bounce-left">
-              <Image
-                src="https://img.icons8.com/?size=100&id=15816&format=png&color=000000"
-                alt="send"
-                width={23}
-                height={23}
-                className="object-cover"
+          <div className="flex flex-row h-5/6 justify-center items-center">
+            <div className={`flex flex-row items-center justify-center mr-9`}>
+              <LongLeftArrow
                 onClick={() => {
-                  setNext(1);
+                  setNext(next - 1);
+                }}
+              />
+            </div>
+            {next === 1 && <ExplainLawmatePage />}
+            {next === 2 && <RecommendedLawyerPage />}
+            <div
+              className={`flex flex-row items-center justify-center ml-9 ${
+                next === 2 ? "invisible" : "visible"
+              }`}
+            >
+              <LongRightArrow
+                onClick={() => {
+                  setNext(next + 1);
                 }}
               />
             </div>
@@ -154,14 +134,20 @@ export default function Home(props: any) {
             type="text"
             className="bg-[var(--color-Harbor-first)] w-[1000px] h-[40px] text-[var(--color-Harbor-firth)] px-8 py-3 rounded-e-2xl outline-none"
             {...register("question")}
+            autoFocus
             onKeyDown={(e: any) => {
               if (e.key === "Enter") {
                 handleSubmit(onSubmit)();
+                scrollToBottom();
               }
             }}
           />
           <button
             type="submit"
+            onClick={() => {
+              handleSubmit(onSubmit)();
+              scrollToBottom();
+            }}
             className="absolute top-1 right-1 w-[30px] h-[30px] flex items-center bg-[var(--color-Harbor-sec)] justify-center text-center rounded-2xl"
           >
             <Image

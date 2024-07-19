@@ -10,10 +10,6 @@ const UserLogin = () => {
   const router = useRouter();
   const dispatch = useDispatch();
 
-  const handleGoogleLogin = () => {
-    const googleLoginUrl = process.env.GOOGLE_LOGIN_URL; // 여기에 해당 URL을 입력 <- env 안됨. 수정 필요
-    window.location.href = ""; // 여기에 해당 URL을 입력
-  };
   // Google Login 라이브러리 사용
   const googleLogin = useGoogleLogin({
     clientId: "[YOUR_GOOGLE_CLIENT_ID]", // Google Developers Console에서 발급받은 클라이언트 ID 입력
@@ -83,10 +79,10 @@ const UserLogin = () => {
             <br />
             간편하게 로그인하세요.
           </p>
-          <button
+          <Link
             className="w-[22vw] h-[5vh] mt-[2vh] bg-white border font-bold flex justify-center items-center gap-[1.111vh] border-[var(--color-Harbor-first)]"
             type="button"
-            onClick={handleGoogleLogin}
+            href="http://localhost:8000/oauth2/authorization/google"
           >
             <Image
               alt="google-logo"
@@ -95,7 +91,7 @@ const UserLogin = () => {
               height={18}
             />
             Login with Google
-          </button>
+          </Link>
           <button
             className="w-[22vw] h-[5vh] mt-[2vh] bg-white border font-bold flex justify-center items-center gap-[1.111vh] border-[var(--color-Harbor-first)]"
             type="button"

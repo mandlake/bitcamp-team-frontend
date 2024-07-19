@@ -1,13 +1,13 @@
 "use client";
 
-import { useState } from "react";
+import { ILawyerDetail } from "@/components/_model/lawyer/lawyer";
+import { lawyerSaveDetail } from "@/components/_service/lawyer/lawyer.service";
+import { NextPage } from "next";
 import { useRouter } from "next/navigation";
-import { useDispatch } from "react-redux";
-import { ILawyer } from "@/components/_model/lawyer/lawyer";
-import { lawyerJoin } from "@/components/_service/lawyer/lawyer.service";
 import { useForm } from "react-hook-form";
+import { useDispatch } from "react-redux";
 
-function Join() {
+const JoinLawyerNextPage: NextPage = (props: any) => {
   const router = useRouter();
   const dispatch = useDispatch();
   const {
@@ -15,15 +15,22 @@ function Join() {
     handleSubmit,
     watch,
     formState: { errors },
-  } = useForm<ILawyer>();
+  } = useForm<ILawyerDetail>();
 
-  const onSubmit = async (data: ILawyer) => {
+  const onSubmit = async (data: ILawyerDetail) => {
+    data.id = props.params.id;
+
     console.log("입력된 값 : " + JSON.stringify(data));
 
     try {
-      await dispatch(lawyerJoin(data)).then((res: any) => {
-        router.push(`/join/${res.payload.id}`);
-      });
+      await dispatch(lawyerSaveDetail(data))
+        .then((res: any) => {
+          alert("success to join us");
+          console.log(res);
+        })
+        .then(() => {
+          router.push("/login/lawyer");
+        });
     } catch (error) {
       console.log(error);
     }
@@ -44,80 +51,80 @@ function Join() {
           </p>
           <div>
             <label
-              htmlFor="username"
+              htmlFor="belong"
               className="flex flex-row items-center justify-between w-[33vw]"
             >
-              <p className="text-[22px] font-medium">아이디</p>
+              <p className="text-[22px] font-medium">소속</p>
               <input
                 type="text"
-                id="username"
-                placeholder="Username"
-                {...register("username")}
+                className="w-[22vw] h-[5vh] border border-[var(--color-Harbor-first)] px-[1.111vw] mb-[1.111vh] bg-white"
+                id="belong"
+                placeholder="Belong"
+                {...register("belong")}
+              />
+            </label>
+            <label
+              htmlFor="address"
+              className="flex flex-row items-center justify-between w-[33vw]"
+            >
+              <p className="text-[22px] font-medium">소속 주소</p>
+              <input
+                type="address"
+                id="address"
+                placeholder="Address"
+                {...register("address")}
                 className="w-[22vw] h-[5vh] border border-[var(--color-Harbor-first)] px-[1.111vw] mb-[1.111vh] bg-white"
               />
             </label>
             <label
-              htmlFor="password"
+              htmlFor="belongPhone"
               className="flex flex-row items-center justify-between w-[33vw]"
             >
-              <p className="text-[22px] font-medium">비밀번호</p>
+              <p className="text-[22px] font-medium">소속 전화번호</p>
               <input
-                type="password"
-                id="password"
-                placeholder="Password"
-                {...register("password")}
+                type="text"
+                id="belongPhone"
+                placeholder="BelongPhone"
+                {...register("belongPhone")}
                 className="w-[22vw] h-[5vh] border border-[var(--color-Harbor-first)] px-[1.111vw] mb-[1.111vh] bg-white"
               />
             </label>
             <label
-              htmlFor="email"
+              htmlFor="law"
               className="flex flex-row items-center justify-between w-[33vw]"
             >
-              <p className="text-[22px] font-medium">이메일</p>
+              <p className="text-[22px] font-medium">분야</p>
               <input
                 type="text"
-                id="email"
-                placeholder="Email"
-                {...register("email")}
+                id="law"
+                placeholder="Law"
+                {...register("law")}
                 className="w-[22vw] h-[5vh] border border-[var(--color-Harbor-first)] px-[1.111vw] mb-[1.111vh] bg-white"
               />
             </label>
             <label
-              htmlFor="name"
+              htmlFor="phoneCost"
               className="flex flex-row items-center justify-between w-[33vw]"
             >
-              <p className="text-[22px] font-medium">이름</p>
+              <p className="text-[22px] font-medium">전화상담비용</p>
               <input
                 type="text"
-                id="name"
-                placeholder="Name"
-                {...register("name")}
+                id="phoneCost"
+                placeholder="PhoneCost"
+                {...register("phoneCost")}
                 className="w-[22vw] h-[5vh] border border-[var(--color-Harbor-first)] px-[1.111vw] mb-[1.111vh] bg-white"
               />
             </label>
             <label
-              htmlFor="phone"
+              htmlFor="videoCost"
               className="flex flex-row items-center justify-between w-[33vw]"
             >
-              <p className="text-[22px] font-medium">전화번호</p>
+              <p className="text-[22px] font-medium">영상상담비용</p>
               <input
                 type="text"
-                id="phone"
-                placeholder="PhoneNumber"
-                {...register("phone")}
-                className="w-[22vw] h-[5vh] border border-[var(--color-Harbor-first)] px-[1.111vw] mb-[1.111vh] bg-white"
-              />
-            </label>
-            <label
-              htmlFor="birth"
-              className="flex flex-row items-center justify-between w-[33vw]"
-            >
-              <p className="text-[22px] font-medium">생년월일</p>
-              <input
-                type="text"
-                id="birth"
-                placeholder="Birth(YYMMDD)"
-                {...register("birth")}
+                id="videoCost"
+                placeholder="VideoCost"
+                {...register("videoCost")}
                 className="w-[22vw] h-[5vh] border border-[var(--color-Harbor-first)] px-[1.111vw] mb-[1.111vh] bg-white"
               />
             </label>
@@ -125,50 +132,26 @@ function Join() {
               htmlFor="account"
               className="flex flex-row items-center justify-between w-[33vw]"
             >
-              <p className="text-[22px] font-medium">계좌 번호</p>
+              <p className="text-[22px] font-medium">상담가능시간</p>
               <input
                 type="text"
-                id="account"
-                placeholder="계좌 번호"
-                {...register("account")}
+                id="time"
+                placeholder="상담가능시간"
+                {...register("time")}
                 className="w-[22vw] h-[5vh] border border-[var(--color-Harbor-first)] px-[1.111vw] mb-[1.111vh] bg-white"
               />
             </label>
-            <label
-              htmlFor="lawyerNo"
-              className="flex flex-row items-center justify-between w-[33vw]"
+            <button
+              type="submit"
+              className="w-[33vw] h-[5vh] bg-white border border-[var(--color-Harbor-first)] hover:bg-[var(--color-Harbor-first)] hover:text-white  font-bold"
             >
-              <p className="text-[22px] font-medium">자격 번호</p>
-              <input
-                type="text"
-                id="lawyerNo"
-                placeholder="LawyerNo"
-                {...register("lawyerNo")}
-                className="w-[22vw] h-[5vh] border border-[var(--color-Harbor-first)] px-[1.111vw] mb-[1.111vh] bg-white"
-              />
-            </label>
-            <button className="w-[33vw] h-[5vh] bg-white border border-[var(--color-Harbor-first)] hover:bg-[var(--color-Harbor-first)] hover:text-white  font-bold">
-              Continue
+              Login
             </button>
-          </div>
-          <div className="w-[22vw] flex flex-col p-[1.111vh]">
-            <p
-              onClick={() => router.push(`/login/lawyer`)}
-              className="text-gray-700 text-sm"
-            >
-              Already Joined?
-            </p>
-            <p
-              onClick={() => router.push(`/login/user`)}
-              className="text-gray-700 text-sm"
-            >
-              Are you a general user?
-            </p>
           </div>
         </div>
       </form>
     </>
   );
-}
+};
 
-export default Join;
+export default JoinLawyerNextPage;
