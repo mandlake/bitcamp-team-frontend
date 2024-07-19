@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import "animate.css";
 import Image from "next/image";
 import { useForm } from "react-hook-form";
@@ -23,7 +23,6 @@ export default function Home(props: any) {
   const {
     register,
     handleSubmit,
-    watch,
     resetField,
     formState: { errors },
   } = useForm<IChat>();

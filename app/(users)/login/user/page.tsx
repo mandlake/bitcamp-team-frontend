@@ -4,49 +4,11 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useDispatch } from "react-redux";
-import { useGoogleLogin } from "react-google-login"; // Google Login 라이브러리 추가
+import { mainURL } from "@/components/common/url";
 
 const UserLogin = () => {
   const router = useRouter();
   const dispatch = useDispatch();
-
-  // Google Login 라이브러리 사용
-  const googleLogin = useGoogleLogin({
-    clientId: "[YOUR_GOOGLE_CLIENT_ID]", // Google Developers Console에서 발급받은 클라이언트 ID 입력
-    onSuccess: (googleUser: any) => {
-      // Google 로그인 성공 시 처리
-      const accessToken = googleUser.getAuthResponse().access_token;
-      const idToken = googleUser.getAuthResponse().id_token;
-      console.log("Google 로그인 성공", accessToken, idToken);
-
-      // 백엔드 API로 액세스 토큰 전송 및 로그인 처리
-      fetch("/api/login/google", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          accessToken,
-          idToken,
-        }),
-      })
-        .then((response) => response.json())
-        .then((data) => {
-          if (data.success) {
-            // 로그인 성공 처리 (예: 메인 페이지로 이동)
-            router.push("/");
-          } else {
-            console.error("로그인 실패:", data.message);
-          }
-        })
-        .catch((error) => {
-          console.error("로그인 오류:", error);
-        });
-    },
-    onFailure: (error) => {
-      console.error("Google 로그인 실패:", error);
-    },
-  });
 
   return (
     <>
@@ -82,7 +44,7 @@ const UserLogin = () => {
           <Link
             className="w-[22vw] h-[5vh] mt-[2vh] bg-white border font-bold flex justify-center items-center gap-[1.111vh] border-[var(--color-Harbor-first)]"
             type="button"
-            href="http://localhost:8000/oauth2/authorization/google"
+            href={mainURL + `/oauth2/authorization/google`}
           >
             <Image
               alt="google-logo"
