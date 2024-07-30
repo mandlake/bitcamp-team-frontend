@@ -202,3 +202,29 @@ export const downloadfilesApi = async (id: string) => {
     return error;
   }
 };
+
+export const getLawyersByLawApi = async (law: string) => {
+  try {
+    const response = await lawyerInstance().get(`/law`, { params: { law } });
+
+    console.log("success");
+    return response.data;
+  } catch (error) {
+    console.log(error);
+    return error;
+  }
+};
+
+export const searchLawyerApi = async (search: string) => {
+  try {
+    const response = await lawyerInstance().get(`/search`, {
+      params: { search },
+    });
+
+    console.log("success");
+    return response.data;
+  } catch (error) {
+    console.log(error);
+    return error;
+  }
+};

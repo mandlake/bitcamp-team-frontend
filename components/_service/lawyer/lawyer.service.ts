@@ -4,10 +4,12 @@ import {
   getLawyerByIdApi,
   getLawyerByUsernameApi,
   getLawyerDetailByUsernameApi,
+  getLawyersByLawApi,
   lawyerJoinApi,
   lawyerLoginApi,
   lawyerLogoutApi,
   lawyerSaveDetailApi,
+  searchLawyerApi,
   updateLawyerApi,
 } from "./lawyer.api";
 import { ILawyer, ILawyerDetail } from "@/components/_model/lawyer/lawyer";
@@ -97,6 +99,22 @@ export const downloadfiles: any = createAsyncThunk(
   "lawyer/downloadfiles",
   async (id: string) => {
     const data: any = await downloadfilesApi(id);
+    return data;
+  }
+);
+
+export const getLawyersByLaw: any = createAsyncThunk(
+  "lawyer/getLawyersByLaw",
+  async (law: string) => {
+    const data: any = await getLawyersByLawApi(law);
+    return data;
+  }
+);
+
+export const searchLawyer: any = createAsyncThunk(
+  "lawyer/searchLawyer",
+  async (search: string) => {
+    const data: any = await searchLawyerApi(search);
     return data;
   }
 );

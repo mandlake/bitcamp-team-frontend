@@ -1,6 +1,5 @@
 "use client";
 
-import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useDispatch } from "react-redux";
 import { ILawyer } from "@/components/_model/lawyer/lawyer";
@@ -10,12 +9,7 @@ import { useForm } from "react-hook-form";
 function Join() {
   const router = useRouter();
   const dispatch = useDispatch();
-  const {
-    register,
-    handleSubmit,
-    watch,
-    formState: { errors },
-  } = useForm<ILawyer>();
+  const { register, handleSubmit } = useForm<ILawyer>();
 
   const onSubmit = async (data: ILawyer) => {
     console.log("입력된 값 : " + JSON.stringify(data));
