@@ -13,3 +13,15 @@ export const userLogoutApi = async () => {
     return error;
   }
 };
+
+export const getUserByIdApi = async (id: number) => {
+  try {
+    const response = await userInstance().get(`/${id}`);
+
+    console.log(response.data);
+    return response.data;
+  } catch (error) {
+    console.log(error);
+    return error;
+  }
+};

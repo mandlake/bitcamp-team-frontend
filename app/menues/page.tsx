@@ -149,6 +149,7 @@ const MenuPage = (props: any) => {
       return; // or handle the case where there's no token
     }
     setIsLoggedIn(!!accessToken);
+    console.log(accessToken);
     try {
       setDecodedToken(jwtDecode(accessToken));
       if (decodedToken.roles !== undefined) {

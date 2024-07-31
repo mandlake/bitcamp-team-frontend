@@ -46,7 +46,7 @@ export const saveIssueAPI = async (issue: ISse) => {
 
 export const deleteIssueAPI = async (id: number) => {
   try {
-    await userInstance().delete(`/issues/{id}`, {
+    await userInstance().delete(`/issues/${id}`, {
       params: { id },
     });
   } catch (error) {
@@ -56,7 +56,7 @@ export const deleteIssueAPI = async (id: number) => {
 
 export const modifyIssueAPI = async (id: number) => {
   try {
-    await userInstance().put(`/issues/{id}`, {
+    await userInstance().put(`/issues/${id}`, {
       params: { id },
     });
   } catch (error) {
