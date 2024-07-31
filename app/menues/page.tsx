@@ -2,6 +2,7 @@
 
 import { getLawyerByUsername } from "@/components/_service/lawyer/lawyer.service";
 import "animate.css";
+import { jwtDecode } from "jwt-decode";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { parseCookies } from "nookies";
@@ -11,8 +12,9 @@ import { useDispatch } from "react-redux";
 const MenuPage = (props: any) => {
   const dispatch = useDispatch();
 
-  const [token, setToken] = useState("");
-  const [username, setUsername] = useState("");
+  const accessToken: string = parseCookies().accessToken;
+  const [decodedToken, setDecodedToken] = useState({} as any);
+  const [role, setRole] = useState("");
 
   const MenuBeforeLogin = [
     {
@@ -83,7 +85,7 @@ const MenuPage = (props: any) => {
           key: 1.1,
           title: "User Info",
           path:
-            token && token.split(",")[0] === "user"
+            accessToken !== undefined && role === "ROLE_USER"
               ? `/user-info`
               : `/lawyer-info`,
           sub: "회원 정보",
@@ -136,28 +138,24 @@ const MenuPage = (props: any) => {
   const router = useRouter();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-  const checkAuthentication: any = async () => {
-    const accessToken = parseCookies().accessToken;
-    setIsLoggedIn(!!accessToken);
-    console.log(parseCookies().username);
-    setUsername(parseCookies().username);
-    setToken(accessToken);
-    return accessToken;
-  };
-
   const getLawyer = async () => {
-    await dispatch(getLawyerByUsername(username)).then((res: any) => {
-      console.log(res);
-    });
+    // await dispatch(getLawyerByUsername(username)).then((res: any) => {
+    //   console.log(res);
+    // });
   };
 
   useEffect(() => {
-    checkAuthentication();
-    if (token.split(",")[0] === "user") {
-      setUsername(parseCookies().username);
-    } else if (token.split(",")[0] === "lawyers") {
-      setUsername(parseCookies().username);
-      getLawyer();
+    if (!accessToken) {
+      return; // or handle the case where there's no token
+    }
+    setIsLoggedIn(!!accessToken);
+    try {
+      setDecodedToken(jwtDecode(accessToken));
+      if (decodedToken.roles !== undefined) {
+        setRole(decodedToken?.roles[0]);
+      }
+    } catch (error) {
+      console.log(error);
     }
   }, [isLoggedIn]);
 

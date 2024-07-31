@@ -3,7 +3,7 @@
 import { lawyerLogin } from "@/components/_service/lawyer/lawyer.service";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { parseCookies, setCookie } from "nookies";
+import { setCookie } from "nookies";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 
@@ -22,14 +22,6 @@ const LawyerLogin = () => {
           console.log(res);
           if (res.payload.message === "SUCCESS") {
             alert("로그인 성공");
-            setCookie({}, "accessToken", "lawyers," + res.payload.accessToken, {
-              httpOnly: false,
-              path: "/",
-            });
-            setCookie({}, "username", formData.username, {
-              httpOnly: false,
-              path: "/",
-            });
             window.location.replace("/");
           } else {
             alert("로그인 실패");

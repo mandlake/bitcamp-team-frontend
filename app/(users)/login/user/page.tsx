@@ -44,7 +44,7 @@ const UserLogin = () => {
           <Link
             className="w-[22vw] h-[5vh] mt-[2vh] bg-white border font-bold flex justify-center items-center gap-[1.111vh] border-[var(--color-Harbor-first)]"
             type="button"
-            href={mainURL + `/oauth2/authorization/google`}
+            href={`${mainURL}/oauth2/authorization/google`}
           >
             <Image
               alt="google-logo"

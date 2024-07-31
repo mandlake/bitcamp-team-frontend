@@ -8,17 +8,16 @@ import MenuPage from "@/app/menues/page";
 import Image from "next/image";
 import { destroyCookie, parseCookies } from "nookies";
 import { lawyerLogout } from "../_service/lawyer/lawyer.service";
+import { jwtDecode } from "jwt-decode";
+import { userLogout } from "../_service/user/user.service";
 
 const Header = ({ isDropdownOpen, setIsDropdownOpen }: any) => {
   const dispatch = useDispatch();
   const router = useRouter();
+  const accessToken: string = parseCookies().accessToken;
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-
-  const checkAuthentication: any = async () => {
-    const accessToken = parseCookies().accessToken;
-    setIsLoggedIn(!!accessToken);
-    return accessToken;
-  };
+  const [decodedToken, setDecodedToken] = useState({} as any);
+  const [role, setRole] = useState("");
 
   const handleMenu = () => {
     setIsDropdownOpen({
@@ -28,27 +27,56 @@ const Header = ({ isDropdownOpen, setIsDropdownOpen }: any) => {
   };
 
   const handleLogOut = () => {
-    dispatch(lawyerLogout(checkAuthentication.value))
-      .then((res: any) => {
-        console.log(res);
-        if (res.payload.message === "SUCCESS") {
+    if (role === "ROLE_LAWYER") {
+      dispatch(lawyerLogout(accessToken))
+        .then((res: any) => {
+          console.log(res);
+          if (res.payload.message === "SUCCESS") {
+            setIsLoggedIn(false);
+            destroyCookie({}, "accessToken");
+            destroyCookie({}, "username");
+          }
+          return res;
+        })
+        .catch((error: any) => {
+          console.log("로그아웃 실행에서 에러가 발생함 : ");
+          console.log(error);
+        })
+        .then(() => {
+          window.location.reload();
+        });
+    } else if (role === "ROLE_USER") {
+      dispatch(userLogout())
+        .then((res: any) => {
+          console.log(res);
           setIsLoggedIn(false);
           destroyCookie({}, "accessToken");
           destroyCookie({}, "username");
-        }
-        return res;
-      })
-      .catch((error: any) => {
-        console.log("로그아웃 실행에서 에러가 발생함 : ");
-        console.log(error);
-      })
-      .then(() => {
-        window.location.reload();
-      });
+          return res;
+        })
+        .catch((error: any) => {
+          console.log("로그아웃 실행에서 에러가 발생함 : ");
+          console.log(error);
+        })
+        .then(() => {
+          window.location.reload();
+        });
+    }
   };
 
   useEffect(() => {
-    checkAuthentication();
+    if (!accessToken) {
+      return; // or handle the case where there's no token
+    }
+    setIsLoggedIn(!!accessToken);
+    try {
+      setDecodedToken(jwtDecode(accessToken));
+      if (decodedToken.roles !== undefined) {
+        setRole(decodedToken?.roles[0]);
+      }
+    } catch (error) {
+      console.log(error);
+    }
   }, [isLoggedIn]);
 
   if (window.location.pathname === "/lawyer-info") return null;
