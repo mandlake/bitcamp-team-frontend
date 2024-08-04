@@ -26,6 +26,7 @@ const JoinLawyerNextPage: NextPage = (props: any) => {
     getValues,
     formState: { errors },
   } = useForm<ILawyerDetail>();
+
   const options = [
     { value: "형사법", label: "형사법" },
     { value: "공법", label: "공법" },

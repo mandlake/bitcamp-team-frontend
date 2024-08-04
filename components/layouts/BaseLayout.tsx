@@ -19,6 +19,10 @@ const BaseLayout = ({
     isDropdownOpen.menu = false;
   }
 
+  if (window.location.pathname === "/user-info") {
+    isDropdownOpen.menu = false;
+  }
+
   return (
     <>
       <Header

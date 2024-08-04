@@ -2,11 +2,15 @@ export interface IUser {
   id: number;
   email?: string;
   name?: string;
-  picture?: string;
-  role?: string;
+  password?: string;
+  profile?: string;
+  role?: {};
   phone?: string;
   age?: string;
-  sex?: string;
-  token?: string;
-  point?: number;
+  gender?: string;
+  regDate?: string;
+  modDate?: string;
+  point?: string;
+  roles?: {};
+  registration?: string;
 }

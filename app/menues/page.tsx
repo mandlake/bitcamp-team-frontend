@@ -85,7 +85,8 @@ const MenuPage = (props: any) => {
           key: 1.1,
           title: "User Info",
           path:
-            accessToken !== undefined && role === "ROLE_USER"
+            accessToken !== undefined &&
+            (role === "ROLE_NEWUSER" || role === "ROLE_NEWUSER")
               ? `/user-info`
               : `/lawyer-info`,
           sub: "회원 정보",
@@ -152,6 +153,7 @@ const MenuPage = (props: any) => {
     console.log(accessToken);
     try {
       setDecodedToken(jwtDecode(accessToken));
+      console.log(decodedToken);
       if (decodedToken.roles !== undefined) {
         setRole(decodedToken?.roles[0]);
       }

@@ -12,70 +12,55 @@ import { parseCookies } from "nookies";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 
+declare global {
+  interface Window {
+    daum?: any; // 지도 모듈
+    IMP?: any; // 결제 모듈
+  }
+}
+
 const LawyerSingleInfoPage = () => {
   const dispatch = useDispatch();
   const router = useRouter();
-  const [lawyer, setLawyer] = useState({
-    id: 0,
-    username: "",
-    email: "",
-    password: "",
-    name: "",
-    phone: "",
-    birth: "",
-    lawyerNo: "",
-    account: "",
-    auth: false,
-    createdDate: "",
-    modifiedDate: "",
-    posts: {},
-    files: {},
-    replies: {},
-    reservations: {},
-    notices: {},
-    detail: {},
-  } as ILawyer);
-  const [lawyerDetail, setLawyerDetail] = useState({
-    id: "",
-    belong: "",
-    address: "",
-    addressDetail: "",
-    belongPhone: "",
-    law: "",
-    visitCost: "",
-    phoneCost: "",
-    videoCost: "",
-    university: "",
-    major: "",
-    premium: false,
-    createdDate: "",
-    modifiedDate: "",
-    time: "",
-  } as ILawyerDetail);
+
+  const [lawyer, setLawyer] = useState({} as ILawyer);
+
+  const [lawyerDetail, setLawyerDetail] = useState({} as ILawyerDetail);
   const [showCalendar, setShowCalendar] = useState(false);
 
   const getLawyer = async () => {
-    await dispatch(getLawyerByUsername(parseCookies().username)).then(
-      (res: any) => {
-        console.log(res);
-        setLawyer(res.payload);
-      }
-    );
+    // await dispatch(getLawyerByUsername(parseCookies().username)).then(
+    //   (res: any) => {
+    //     console.log(res);
+    //     setLawyer(res.payload);
+    //   }
+    // );
   };
 
   const getLawyerDetail = async () => {
-    await dispatch(getLawyerDetailByUsername(parseCookies().username)).then(
-      (res: any) => {
-        console.log(res);
-        setLawyerDetail(res.payload);
-      }
-    );
+    // await dispatch(getLawyerDetailByUsername(parseCookies().username)).then(
+    //   (res: any) => {
+    //     console.log(res);
+    //     setLawyerDetail(res.payload);
+    //   }
+    // );
   };
 
-  const handleSubmit = async () => {
-    await dispatch(updateLawyer(lawyer)).then((res: any) => {
-      console.log(res);
-    });
+  useEffect(() => {
+    const script = document.createElement("script");
+    script.src =
+      "//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js";
+    script.async = true;
+    document.head.appendChild(script);
+  }, []);
+
+  const openAddressSearch = () => {
+    new window.daum.Postcode({
+      oncomplete: function (data: any) {
+        console.log(data);
+        setLawyerDetail({ ...lawyerDetail, address: data.address });
+      },
+    }).open();
   };
 
   useEffect(() => {
@@ -161,7 +146,17 @@ const LawyerSingleInfoPage = () => {
             <div className="flex flex-row w-[650px] items-center px-2">
               <p className="w-[100px]">전화번호</p>
               <div className="flex flex-row w-[550px] justify-between items-center">
-                <p>{lawyer.phone}</p>
+                <input
+                  type="phone"
+                  id="phone"
+                  name="phone"
+                  placeholder="Phone"
+                  value={lawyer.phone}
+                  onChange={(e: any) =>
+                    setLawyer({ ...lawyer, phone: e.target.value })
+                  }
+                  className="w-[22vw] h-[3vh] text-[14px] bg-white"
+                />
                 <input type="submit" value="수정" className="px-2" />
               </div>
             </div>
@@ -169,7 +164,17 @@ const LawyerSingleInfoPage = () => {
             <div className="flex flex-row w-[650px] items-center px-2">
               <p className="w-[100px]">Email</p>
               <div className="flex flex-row w-[550px] justify-between items-center">
-                <p>{lawyer.email}</p>
+                <input
+                  type="text"
+                  id="email"
+                  name="email"
+                  placeholder="Email"
+                  value={lawyer.email}
+                  onChange={(e: any) =>
+                    setLawyer({ ...lawyer, email: e.target.value })
+                  }
+                  className="w-[22vw] h-[3vh] text-[14px] bg-white"
+                />
                 <input type="submit" value="수정" className="px-2" />
               </div>
             </div>
@@ -179,7 +184,17 @@ const LawyerSingleInfoPage = () => {
             <div className="flex flex-row w-[650px] items-center px-2 pt-5">
               <p className="w-[100px]">Birth</p>
               <div className="flex flex-row w-[550px] justify-between items-center">
-                <p>{lawyer.birth}</p>
+                <input
+                  type="date"
+                  id="birth"
+                  name="birth"
+                  placeholder="Birth"
+                  value={lawyer.birth}
+                  onChange={(e: any) =>
+                    setLawyer({ ...lawyer, birth: e.target.value })
+                  }
+                  className="w-[22vw] h-[3vh] text-[14px] bg-white"
+                />
                 <input type="submit" value="수정" className="px-2" />
               </div>
             </div>
@@ -187,7 +202,17 @@ const LawyerSingleInfoPage = () => {
             <div className="flex flex-row w-[650px] items-center px-2">
               <p className="w-[100px]">계좌</p>
               <div className="flex flex-row w-[550px] justify-between items-center">
-                <p>{lawyer.account}</p>
+                <input
+                  type="text"
+                  id="account"
+                  name="account"
+                  placeholder="Account"
+                  value={lawyer.account}
+                  onChange={(e: any) =>
+                    setLawyer({ ...lawyer, account: e.target.value })
+                  }
+                  className="w-[22vw] h-[3vh] text-[14px] bg-white"
+                />
                 <input type="submit" value="수정" className="px-2" />
               </div>
             </div>
@@ -195,7 +220,17 @@ const LawyerSingleInfoPage = () => {
             <div className="flex flex-row w-[650px] items-center px-2">
               <p className="w-[100px]">변호사 번호</p>
               <div className="flex flex-row w-[550px] justify-between items-center">
-                <p>{lawyer.lawyerNo}</p>
+                <input
+                  type="text"
+                  id="lawyerNo"
+                  name="lawyerNo"
+                  placeholder="LawyerNo"
+                  value={lawyer.lawyerNo}
+                  onChange={(e: any) =>
+                    setLawyer({ ...lawyer, lawyerNo: e.target.value })
+                  }
+                  className="w-[22vw] h-[3vh] text-[14px] bg-white"
+                />
                 <input type="submit" value="수정" className="px-2" />
               </div>
             </div>
@@ -203,7 +238,20 @@ const LawyerSingleInfoPage = () => {
             <div className="flex flex-row w-[650px] items-center px-2">
               <p className="w-[100px]">대학</p>
               <div className="flex flex-row w-[550px] justify-between items-center">
-                <p>{lawyerDetail?.university}</p>
+                <input
+                  type="text"
+                  id="university"
+                  name="university"
+                  placeholder="University"
+                  value={lawyerDetail.university}
+                  onChange={(e: any) =>
+                    setLawyerDetail({
+                      ...lawyerDetail,
+                      university: e.target.value,
+                    })
+                  }
+                  className="w-[22vw] h-[3vh] text-[14px] bg-white"
+                />
                 <input type="submit" value="수정" className="px-2" />
               </div>
             </div>
@@ -211,7 +259,20 @@ const LawyerSingleInfoPage = () => {
             <div className="flex flex-row w-[650px] items-center px-2">
               <p className="w-[100px]">학과</p>
               <div className="flex flex-row w-[550px] justify-between items-center">
-                <p>{lawyerDetail?.major}</p>
+                <input
+                  type="text"
+                  id="major"
+                  name="major"
+                  placeholder="major"
+                  value={lawyerDetail.major}
+                  onChange={(e: any) =>
+                    setLawyerDetail({
+                      ...lawyerDetail,
+                      major: e.target.value,
+                    })
+                  }
+                  className="w-[22vw] h-[3vh] text-[14px] bg-white"
+                />
                 <input type="submit" value="수정" className="px-2" />
               </div>
             </div>
@@ -221,7 +282,20 @@ const LawyerSingleInfoPage = () => {
             <div className="flex flex-row w-[650px] items-center px-2 pt-5">
               <p className="w-[100px]">소속</p>
               <div className="flex flex-row w-[550px] justify-between items-center">
-                <p>{lawyerDetail?.belong}</p>
+                <input
+                  type="text"
+                  id="belong"
+                  name="belong"
+                  placeholder="belong"
+                  value={lawyerDetail.belong}
+                  onChange={(e: any) =>
+                    setLawyerDetail({
+                      ...lawyerDetail,
+                      belong: e.target.value,
+                    })
+                  }
+                  className="w-[22vw] h-[3vh] text-[14px] bg-white"
+                />
                 <input type="submit" value="수정" className="px-2" />
               </div>
             </div>
@@ -229,22 +303,66 @@ const LawyerSingleInfoPage = () => {
             <div className="flex flex-row w-[650px] items-center px-2">
               <p className="w-[100px]">주소</p>
               <div className="flex flex-row w-[550px] justify-between items-center">
-                <p>{lawyerDetail?.address}</p>
-                <input type="submit" value="수정" className="px-2" />
+                <input
+                  type="address"
+                  id="address"
+                  name="address"
+                  placeholder="address"
+                  value={lawyerDetail.address}
+                  onChange={(e: any) =>
+                    setLawyerDetail({
+                      ...lawyerDetail,
+                      address: e.target.value,
+                    })
+                  }
+                  className="w-[22vw] h-[3vh] text-[14px] bg-white"
+                />
+                <input
+                  type="submit"
+                  value="수정"
+                  className="px-2"
+                  onClick={openAddressSearch}
+                />
               </div>
             </div>
             <div className="w-[650px] h-[1px] bg-[var(--color-Harbor-firth)] my-2"></div>
             <div className="flex flex-row w-[650px] items-center px-2">
               <div className="flex flex-row w-[650px] justify-between items-center">
-                <p>{lawyerDetail?.addressDetail}</p>
+                <input
+                  type="addressDetail"
+                  id="addressDetail"
+                  name="addressDetail"
+                  placeholder="세부주소"
+                  value={lawyerDetail.addressDetail}
+                  onChange={(e: any) =>
+                    setLawyerDetail({
+                      ...lawyerDetail,
+                      addressDetail: e.target.value,
+                    })
+                  }
+                  className="w-[35vw] h-[3vh] text-[14px] bg-white"
+                />
                 <input type="submit" value="수정" className="px-2" />
               </div>
             </div>
             <div className="w-[650px] h-[1px] bg-[var(--color-Harbor-firth)] my-2"></div>
             <div className="flex flex-row w-[650px] items-center px-2">
               <p className="w-[100px]">전화번호</p>
-              <div className="flex flex-row w-[550px] justify-between items-center">
-                <p>{lawyerDetail?.belongPhone}</p>
+              <div className="flex flex-row w-[650px] justify-between items-center">
+                <input
+                  type="phone"
+                  id="belongPhone"
+                  name="belongPhone"
+                  placeholder="belongPhone"
+                  value={lawyerDetail.belongPhone}
+                  onChange={(e: any) =>
+                    setLawyerDetail({
+                      ...lawyerDetail,
+                      belongPhone: e.target.value,
+                    })
+                  }
+                  className="w-[22vw] h-[3vh] text-[14px] bg-white"
+                />
                 <input type="submit" value="수정" className="px-2" />
               </div>
             </div>
@@ -254,7 +372,20 @@ const LawyerSingleInfoPage = () => {
             <div className="flex flex-row w-[650px] items-center px-2 pt-5">
               <p className="w-[100px]">분야</p>
               <div className="flex flex-row w-[550px] justify-between items-center">
-                <p>{lawyerDetail?.law}</p>
+                <input
+                  type="law"
+                  id="law"
+                  name="law"
+                  placeholder="law"
+                  value={lawyerDetail.law}
+                  onChange={(e: any) =>
+                    setLawyerDetail({
+                      ...lawyerDetail,
+                      law: e.target.value,
+                    })
+                  }
+                  className="w-[22vw] pl-2 h-[3vh] text-[14px] bg-white"
+                />
                 <input type="submit" value="수정" className="px-2" />
               </div>
             </div>
@@ -262,7 +393,20 @@ const LawyerSingleInfoPage = () => {
             <div className="flex flex-row w-[650px] items-center px-2">
               <p className="w-[100px]">방문상담비용</p>
               <div className="flex flex-row w-[550px] justify-between items-center">
-                <p>{lawyerDetail?.visitCost}</p>
+                <input
+                  type="visitCost"
+                  id="visitCost"
+                  name="visitCost"
+                  placeholder="visitCost"
+                  value={lawyerDetail.visitCost}
+                  onChange={(e: any) =>
+                    setLawyerDetail({
+                      ...lawyerDetail,
+                      visitCost: e.target.value,
+                    })
+                  }
+                  className="w-[22vw] pl-2 h-[3vh] text-[14px] bg-white"
+                />
                 <input type="submit" value="수정" className="px-2" />
               </div>
             </div>
@@ -270,7 +414,20 @@ const LawyerSingleInfoPage = () => {
             <div className="flex flex-row w-[650px] items-center px-2">
               <p className="w-[100px]">전화상담비용</p>
               <div className="flex flex-row w-[550px] justify-between items-center">
-                <p>{lawyerDetail?.phoneCost}</p>
+                <input
+                  type="phoneCost"
+                  id="phoneCost"
+                  name="phoneCost"
+                  placeholder="phoneCost"
+                  value={lawyerDetail.phoneCost}
+                  onChange={(e: any) =>
+                    setLawyerDetail({
+                      ...lawyerDetail,
+                      phoneCost: e.target.value,
+                    })
+                  }
+                  className="w-[22vw] pl-2 h-[3vh] text-[14px] bg-white"
+                />
                 <input type="submit" value="수정" className="px-2" />
               </div>
             </div>
@@ -278,7 +435,20 @@ const LawyerSingleInfoPage = () => {
             <div className="flex flex-row w-[650px] items-center px-2">
               <p className="w-[100px]">영상상담비용</p>
               <div className="flex flex-row w-[550px] justify-between items-center">
-                <p>{lawyerDetail?.videoCost}</p>
+                <input
+                  type="videoCost"
+                  id="videoCost"
+                  name="videoCost"
+                  placeholder="videoCost"
+                  value={lawyerDetail.videoCost}
+                  onChange={(e: any) =>
+                    setLawyerDetail({
+                      ...lawyerDetail,
+                      videoCost: e.target.value,
+                    })
+                  }
+                  className="w-[22vw] pl-2 h-[3vh] text-[14px] bg-white"
+                />
                 <input type="submit" value="수정" className="px-2" />
               </div>
             </div>
@@ -292,7 +462,20 @@ const LawyerSingleInfoPage = () => {
                   상담가능시간
                 </p>
                 <div className="flex flex-row w-[550px] justify-between items-center">
-                  <p>{lawyerDetail?.time}</p>
+                  <input
+                    type="time"
+                    id="time"
+                    name="time"
+                    placeholder="time"
+                    value={lawyerDetail.time}
+                    onChange={(e: any) =>
+                      setLawyerDetail({
+                        ...lawyerDetail,
+                        time: e.target.value,
+                      })
+                    }
+                    className="w-[22vw] pl-2 h-[3vh] text-[14px] bg-white"
+                  />
                   <input type="submit" value="수정" className="px-2" />
                 </div>
               </div>

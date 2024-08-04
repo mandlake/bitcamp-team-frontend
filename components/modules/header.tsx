@@ -45,6 +45,22 @@ const Header = ({ isDropdownOpen, setIsDropdownOpen }: any) => {
         .then(() => {
           window.location.reload();
         });
+    } else if (role === "ROLE_NEWUSER") {
+      dispatch(userLogout())
+        .then((res: any) => {
+          console.log(res);
+          setIsLoggedIn(false);
+          destroyCookie({}, "accessToken");
+          destroyCookie({}, "username");
+          return res;
+        })
+        .catch((error: any) => {
+          console.log("로그아웃 실행에서 에러가 발생함 : ");
+          console.log(error);
+        })
+        .then(() => {
+          window.location.reload();
+        });
     } else if (role === "ROLE_USER") {
       dispatch(userLogout())
         .then((res: any) => {
@@ -61,6 +77,8 @@ const Header = ({ isDropdownOpen, setIsDropdownOpen }: any) => {
         .then(() => {
           window.location.reload();
         });
+    } else {
+      console.log("error");
     }
   };
 
@@ -80,6 +98,7 @@ const Header = ({ isDropdownOpen, setIsDropdownOpen }: any) => {
   }, [isLoggedIn]);
 
   if (window.location.pathname === "/lawyer-info") return null;
+  if (window.location.pathname === "/user-info") return null;
   if (window.location.pathname === "/login") return null;
 
   return (

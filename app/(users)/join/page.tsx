@@ -16,7 +16,8 @@ function Join() {
 
     try {
       await dispatch(lawyerJoin(data)).then((res: any) => {
-        router.push(`/join/${res.payload.id}`);
+        console.log(res);
+        // router.push(`/join/${res.payload.id}`);
       });
     } catch (error) {
       console.log(error);
@@ -108,9 +109,9 @@ function Join() {
             >
               <p className="text-[22px] font-medium">생년월일</p>
               <input
-                type="text"
+                type="date"
                 id="birth"
-                placeholder="Birth(YYMMDD)"
+                placeholder="Birth"
                 {...register("birth")}
                 className="w-[22vw] h-[5vh] border border-[var(--color-Harbor-first)] px-[1.111vw] mb-[1.111vh] bg-white"
               />
