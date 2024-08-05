@@ -1,10 +1,12 @@
 import Link from "next/link";
-import React from "react";
-import { useForm } from "react-hook-form";
+import React, { useState } from "react";
+import { set, useForm } from "react-hook-form";
 import { userURL } from "../../common/url";
+import UserId from "@/components/hooks/userId";
 
 interface IssueFormProps {
   onSave: (issue: Issue) => void;
+  lawyerId: string;
 }
 
 interface Issue {
@@ -16,9 +18,11 @@ interface Issue {
   client?: {
     id?: number;
   };
+  lawyer?: string;
 }
 
-const IssueForm: React.FC<IssueFormProps> = ({ onSave }) => {
+const IssueForm: React.FC<IssueFormProps> = ({ onSave, lawyerId }) => {
+  const userId = parseInt(UserId() || "");
   const {
     register,
     handleSubmit,
@@ -27,9 +31,9 @@ const IssueForm: React.FC<IssueFormProps> = ({ onSave }) => {
   } = useForm<Issue>();
 
   const onSubmit = async (data: Issue) => {
-    const newIssue = { ...data, id: Date.now(), client: { id: 1 } };
+    const newIssue = { ...data, client: { id: userId } };
     try {
-      await fetch(`${userURL}/issues/save`, {
+      await fetch(`http://localhost:8000/users/issues/save`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -45,14 +49,19 @@ const IssueForm: React.FC<IssueFormProps> = ({ onSave }) => {
   };
 
   return (
-    <form
-      onSubmit={handleSubmit(onSubmit)}
-      className="flex flex-col gap-3 shadow-none"
-    >
+    <form onSubmit={handleSubmit(onSubmit)}>
+      <p>
+        사용자 {UserId()}가 변호사 {lawyerId || ""}에게 보내는 알림
+      </p>
+      <input
+        type="hidden"
+        value={lawyerId}
+        {...register("lawyer", { required: true })}
+      ></input>
       <input
         type="text"
         placeholder="Title"
-        className="h-[6vh] light:text-gray-700 border border-gray-300 rounded-2xl py-2 px-4 block w-full focus:outline-2 focus:outline-blue-500"
+        className="text-gray-700 border border-gray-300 rounded-2xl py-2 px-4 block w-full focus:outline-2 focus:outline-blue-500"
         {...register("title", { required: "Title is required" })}
       />
       {errors.title && <p className="text-red-500">{errors.title.message}</p>}
@@ -60,7 +69,7 @@ const IssueForm: React.FC<IssueFormProps> = ({ onSave }) => {
       <input
         type="text"
         placeholder="Law"
-        className="h-[6vh] light:text-gray-700 border border-gray-300 rounded-2xl py-2 px-4 block w-full focus:outline-2 focus:outline-blue-500"
+        className="text-gray-700 border border-gray-300 rounded-2xl py-2 px-4 block w-full focus:outline-2 focus:outline-blue-500"
         {...register("law", { required: "Law is required" })}
       />
       {errors.law && <p className="text-red-500">{errors.law.message}</p>}
@@ -68,7 +77,7 @@ const IssueForm: React.FC<IssueFormProps> = ({ onSave }) => {
       <input
         type="text"
         placeholder="Attachment"
-        className="h-[6vh] light:text-gray-700 border border-gray-300 rounded-2xl py-2 px-4 block w-full focus:outline-2 focus:outline-blue-500"
+        className="text-gray-700 border border-gray-300 rounded-2xl py-2 px-4 block w-full focus:outline-2 focus:outline-blue-500"
         {...register("attachment", { required: "Attachment is required" })}
       />
       {errors.attachment && (
@@ -77,18 +86,14 @@ const IssueForm: React.FC<IssueFormProps> = ({ onSave }) => {
 
       <textarea
         placeholder="Describe everything about this issue here."
-        className="h-[20vh] light:text-gray-700 border border-gray-300 rounded-2xl py-2 px-4 block w-full focus:outline-2 focus:outline-blue-500 bg-transparent"
+        className="text-gray-700 border border-gray-300 rounded-2xl py-2 px-4 block w-full focus:outline-2 focus:outline-blue-500 bg-transparent"
         {...register("content", { required: "Content is required" })}
       />
       {errors.content && (
         <p className="text-red-500">{errors.content.message}</p>
       )}
-
-      <button
-        type="submit"
-        className="m-10 btn overflow-hidden relative p-3 px-8 uppercase"
-      >
-        Submit
+      <button type="submit" className="justify-center">
+        전송
       </button>
     </form>
   );

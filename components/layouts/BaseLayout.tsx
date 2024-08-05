@@ -23,6 +23,10 @@ const BaseLayout = ({
     isDropdownOpen.menu = false;
   }
 
+  if (window.location.pathname.includes("/lawyers/")) {
+    isDropdownOpen.menu = false;
+  }
+
   return (
     <>
       <Header

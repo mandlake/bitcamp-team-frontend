@@ -100,6 +100,7 @@ const Header = ({ isDropdownOpen, setIsDropdownOpen }: any) => {
   if (window.location.pathname === "/lawyer-info") return null;
   if (window.location.pathname === "/user-info") return null;
   if (window.location.pathname === "/login") return null;
+  if (window.location.pathname.startsWith("/lawyers/")) return null;
 
   return (
     <>

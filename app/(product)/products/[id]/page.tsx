@@ -4,17 +4,24 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { parseCookies } from "nookies";
-import { jwtDecode } from "jwt-decode";
 import { useForm } from "react-hook-form";
-import { getUserById } from "@/components/_service/user/user.service";
 import { getProductById } from "@/components/_service/product/product-slice";
 import { IUser } from "@/components/_model/user/user";
 import { IProduct } from "@/components/_model/product/product";
-import { userURL } from "@/components/common/url";
 import { IPayment } from "@/components/_model/payment/payment";
 import { savePayment } from "@/components/_service/payment/payment-service";
+import UserId from "@/components/hooks/userId";
+import { getUserById } from "@/components/_service/user/user.service";
+import { userURL } from "@/components/common/url";
 
-export default function Product() {
+declare global {
+  interface Window {
+    IMP?: any;
+  }
+}
+
+export default function Product(props: any) {
+  const { lawyerId } = props;
   const dispatch = useDispatch();
   const [products, setProducts] = useState<any[]>([]);
   const [selectedProductId, setSelectedProductId] = useState<number | null>(
@@ -30,34 +37,7 @@ export default function Product() {
   const product: IProduct = useSelector(getProductById);
   const token = parseCookies().accessToken;
   const [transactions, setTransactions] = useState<any[]>([]);
-
-  useEffect(() => {
-    if (token) {
-      try {
-        const decoded: any = jwtDecode(token);
-        console.log("User id in Payment: " + decoded.id);
-        dispatch(getUserById(decoded.id));
-      } catch (error) {
-        console.error("Invalid token:", error);
-      }
-    } else {
-      console.error("Token is missing");
-    }
-
-    if (user.id) {
-      fetch(`${userURL}/${user.id}`, {
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
-        .then((response) => response.json())
-        .then((data) => {
-          console.log("MY-INFO: data: " + JSON.stringify(data));
-        })
-        .catch((error) => console.log("error: ", error));
-    }
-  }, [dispatch, user?.id]);
+  const userId = parseInt(UserId() || "");
 
   useEffect(() => {
     const loadProducts = async () => {
@@ -103,7 +83,6 @@ export default function Product() {
           pg: "html5_inicis",
           pay_method: "card",
           orderUid: new Date().getTime().toString(),
-          name: product?.item_name,
           amount: price,
         },
         async (rsp: any) => {
@@ -115,20 +94,19 @@ export default function Product() {
             // 서버로 결제 데이터 전송
             const paymentData: IPayment = {
               payment_uid: rsp.imp_uid,
+              status: "PENDING",
               buyer: {
-                id: user.id,
+                id: userId as number,
               },
               product: {
                 id: selectedProductId as number,
               },
-              // lawyer: {
-              //   id: lawyer.id,
-              // },
+              amount: productPrice,
             };
 
             dispatch(savePayment(paymentData));
             const { data } = await axios.post(
-              `${userURL}/payment/verifyIamport/${rsp.imp_uid}`,
+              `${userURL}/user/payments/verifyIamport/${rsp.imp_uid}`,
               rsp,
               {
                 headers: {
@@ -176,7 +154,7 @@ export default function Product() {
           const totalPrice = totalPriceElement
             ? totalPriceElement.innerText
             : "";
-          fetch(`${userURL}/payment/status`, {
+          fetch(`${userURL}/user/payments/status`, {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
@@ -195,46 +173,6 @@ export default function Product() {
     };
   }, []);
 
-  const handlePointUsage = async () => {
-    if (price > 0) {
-      if (Number(user.point) >= price) {
-        const newPoint = Number(user.point) - price;
-
-        try {
-          const response = await axios.put(
-            `${userURL}/modifyPoint`,
-            {
-              ...user,
-              point: newPoint.toString(),
-            },
-            {
-              headers: {
-                Authorization: `Bearer ${token}`,
-              },
-            }
-          );
-
-          if (response.status === 200) {
-            // 사용자 정보를 업데이트하기 위해 Redux에 dispatch
-            // dispatch(updateUserPoint(newPoint.toString()));
-
-            alert("결제가 완료되었습니다.");
-          } else {
-            console.error("Failed to update point on the server");
-            alert("결제가 실패했습니다. 다시 시도해주세요.");
-          }
-        } catch (error) {
-          console.error("Error occurred while updating point:", error);
-          alert("오류가 발생했습니다. 다시 시도해주세요.");
-        }
-      } else {
-        alert("잔액이 부족합니다. 결제를 진행할 수 없습니다.");
-      }
-    } else {
-      alert("상품을 선택해주세요.");
-    }
-  };
-
   const handleProductSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
     const selectedProductId = Number(event.target.value);
     const selectedProduct = products.find(
@@ -246,77 +184,53 @@ export default function Product() {
     }
   };
 
-  const productImage = (productId: number): string => {
-    const selectedProduct = products.find(
-      (product) => product.id === productId
-    );
-    return selectedProduct?.image || "/img/default.jpg";
-  };
+  const handlePointUsage = async () => {};
 
   return (
-    <>
-      <div className="overflow-y-auto">
-        <div className="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8">
-          <h2 className="sr-only">Products</h2>
-          <div className="mt-6 mb-8 pl-12 text-2xl">상품 페이지</div>
-          <div className="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8">
-            {products.length === 0 ? (
-              <p className="mt-10">상품이 존재하지 않습니다.</p>
-            ) : (
-              products.map((product) => (
-                <label
-                  key={product.id}
-                  className="group w-full min-h-72 aspect-h-1 aspect-w-1 overflow-hidden rounded-3xl bg-gray-200 xl:aspect-h-8 xl:aspect-w-7 shadow-2xl cursor-pointer
-                  hover:text-white hover:shadow-lg"
-                  style={{
-                    backgroundImage: `url(${productImage(product.id)})`,
-                    backgroundSize: "cover",
-                    backgroundRepeat: "no-repeat",
-                    backgroundPosition: "center",
-                  }}
-                >
-                  <input
-                    type="radio"
-                    name="product"
-                    value={product.id}
-                    onChange={handleProductSelect}
-                    className="absolute opacity-0 cursor-pointer"
-                  />
-                  <div className="h-full w-full flex flex-col justify-end p-4 bg-white bg-opacity-50 opacity-0 group-hover:opacity-100">
-                    <h3 className="mt-4 text-sm text-gray-700">
-                      {product.item_name}
-                    </h3>
-                    <p className="mt-1 text-lg font-medium text-gray-900">
-                      {product.price} 포인트
-                    </p>
-                  </div>
-                </label>
-              ))
-            )}
-          </div>
-
-          <div className="flex flex-col">
-            <div className="flex gap-5 justify-end">
-              <button
-                className="mt-40 hover:bg-blue-400 items-center justify-center flex"
-                onClick={() => requestPay(price)}
-              >
-                Pay
-              </button>
-              <button
-                className="mt-40 hover:bg-blue-400 items-center justify-center flex"
-                onClick={handlePointUsage}
-              >
-                Use point
-              </button>
-            </div>
-            <div className="mt-4 grid grid-cols-2 grid-rows-2">
-              <p className="text-[18px] mb-2 ">잔액 {user?.point} 포인트</p>
-            </div>
-            <svg className="h-20"> </svg>
-          </div>
-        </div>
+    <div>
+      <div className="flex justify-start gap-5">
+        {products.length === 0 ? (
+          <p className="mt-10 ">상품이 존재하지 않습니다.</p>
+        ) : (
+          products.map((product) => (
+            <label
+              key={product.id}
+              className="border border-gray-300 rounded-2xl py-2 px-4 w-full"
+              style={{
+                backgroundSize: "cover",
+                backgroundRepeat: "no-repeat",
+                backgroundPosition: "center",
+              }}
+            >
+              <input
+                type="radio"
+                name="product"
+                value={product.id}
+                onChange={handleProductSelect}
+                className="h-3 w-3 cursor-pointer"
+              />
+              <br />
+              {product.item_name} <br />
+              {product.price} 포인트
+            </label>
+          ))
+        )}
       </div>
-    </>
+      <br />
+      <div className="grid grid-cols-2 gap-3 w-full">
+        <button
+          className="border border-gray-300 rounded-2xl py-2 px-4"
+          onClick={() => requestPay(price)}
+        >
+          결제
+        </button>
+        <button
+          className="border border-gray-300 rounded-2xl py-2 px-4"
+          onClick={handlePointUsage}
+        >
+          포인트 결제
+        </button>
+      </div>
+    </div>
   );
 }

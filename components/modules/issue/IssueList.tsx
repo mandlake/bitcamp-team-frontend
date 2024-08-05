@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { ISse } from "../../_model/issue/issue";
 import { userURL } from "../../common/url";
+import axios from "axios";
 
-const IssueList: React.FC = () => {
+const IssueList = (props: any) => {
+  const lawyerId = props.lawyerId;
   const [issues, setIssues] = useState<ISse[]>([]);
 
   useEffect(() => {
@@ -10,6 +12,7 @@ const IssueList: React.FC = () => {
 
     eventSource.onmessage = (event) => {
       const newIssue = JSON.parse(event.data);
+
       setIssues((prevIssues) => [newIssue, ...prevIssues]);
     };
 
@@ -25,17 +28,18 @@ const IssueList: React.FC = () => {
 
   return (
     <div className="mt-10 flex flex-col items-center">
-      <div id="events" className="mt-10">
-        <h2>Real-time Issues:</h2>
+      <div id="events" className="m-10">
+        <h2>알림</h2>
+        <h1>변호사 {lawyerId}의 알림창</h1>
         {issues.length === 0 ? (
-          <p>No real-time issues received yet.</p>
+          <p>No Notifications</p>
         ) : (
           issues.map((issue) => (
-            <div key={issue.id} className="bubble-text">
-              <h2 className="bubble get">{issue.title}</h2>
-              <p className="bubble get">{issue.content}</p>
-              <p className="bubble get">{issue.law}</p>
-              <p className="bubble get">{issue.attachment}</p>
+            <div key={issue.id}>
+              <h2>{issue.title}</h2>
+              <p>{issue.content}</p>
+              <p>{issue.law}</p>
+              <p>{issue.attachment}</p>
             </div>
           ))
         )}
