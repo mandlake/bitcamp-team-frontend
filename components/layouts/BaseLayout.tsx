@@ -9,23 +9,23 @@ const BaseLayout = ({
   children: React.ReactNode;
 }>) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState({
-    menu: window.location.pathname === "/" ? false : true,
+    menu: false,
     message: false,
     notification: false,
     account: false,
   });
 
-  if (window.location.pathname === "/lawyer-info") {
-    isDropdownOpen.menu = false;
-  }
+  // if (window.location.pathname === "/lawyer-info") {
+  //   isDropdownOpen.menu = false;
+  // }
 
-  if (window.location.pathname === "/user-info") {
-    isDropdownOpen.menu = false;
-  }
+  // if (window.location.pathname === "/user-info") {
+  //   isDropdownOpen.menu = false;
+  // }
 
-  if (window.location.pathname.includes("/lawyers/")) {
-    isDropdownOpen.menu = false;
-  }
+  // if (window.location.pathname.includes("/lawyers/")) {
+  //   isDropdownOpen.menu = false;
+  // }
 
   return (
     <>

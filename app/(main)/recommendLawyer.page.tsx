@@ -31,7 +31,7 @@ export const RecommendedLawyerPage = () => {
                 </div>
               </div>
             ))}
-            <div onClick={() => router.push("/lawyers")}>
+            <div onClick={() => window.location.replace("/lawyers")}>
               <Image
                 src="https://img.icons8.com/?size=100&id=45286&format=png&color=000000"
                 width={22}

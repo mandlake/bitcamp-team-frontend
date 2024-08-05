@@ -19,6 +19,200 @@ const Header = ({ isDropdownOpen, setIsDropdownOpen }: any) => {
   const [decodedToken, setDecodedToken] = useState({} as any);
   const [role, setRole] = useState("");
 
+  const MenuBeforeLogin = [
+    {
+      key: 1,
+      title: "Login",
+      sub: "로그인",
+      children: [
+        {
+          key: 1.1,
+          title: "User Login",
+          path: "/login/user",
+          sub: "일반 회원",
+        },
+        {
+          key: 1.2,
+          title: "Lawyer Login",
+          path: "/login/lawyer",
+          sub: "변호사 회원",
+        },
+      ],
+    },
+    {
+      key: 2,
+      title: "Boards",
+      sub: "게시판",
+      children: [
+        {
+          key: 2.1,
+          title: "News Board",
+          path: "/news",
+          sub: "뉴스",
+        },
+        {
+          key: 2.2,
+          title: "Lawyers Board",
+          path: "/lawyers",
+          sub: "변호사",
+        },
+        {
+          key: 2.3,
+          title: "판례 게시판",
+          path: "/judicial-precedent",
+          sub: "판례",
+        },
+        {
+          key: 2.4,
+          title: "법률 상담 Q&A",
+          path: "/qna",
+          sub: "Q&A",
+        },
+        {
+          key: 2.5,
+          title: "변호사 법률 칼럼",
+          path: "/column",
+          sub: "칼럼",
+        },
+      ],
+    },
+  ];
+
+  const MenuAfterLogin = [
+    {
+      key: 1,
+      title: "My Page",
+      sub: "마이 페이지",
+      children: [
+        {
+          key: 1.1,
+          title: "User Info",
+          path:
+            accessToken !== undefined &&
+            (role === "ROLE_NEWUSER" || role === "ROLE_NEWUSER")
+              ? `/user-info`
+              : `/lawyer-info`,
+          sub: "회원 정보",
+        },
+      ],
+    },
+    {
+      key: 2,
+      title: "Boards",
+      sub: "게시판",
+      children: [
+        {
+          key: 2.1,
+          title: "News Board",
+          path: "/news",
+          sub: "뉴스",
+        },
+        {
+          key: 2.2,
+          title: "Lawyers Board",
+          path: "/lawyers",
+          sub: "변호사",
+        },
+        {
+          key: 2.3,
+          title: "판례 게시판",
+          path: "/judicial-precedent",
+          sub: "판례",
+        },
+        {
+          key: 2.4,
+          title: "법률 상담 Q&A",
+          path: "/qna",
+          sub: "Q&A",
+        },
+        {
+          key: 2.5,
+          title: "변호사 법률 칼럼",
+          path: "/column",
+          sub: "칼럼",
+        },
+      ],
+    },
+  ];
+
+  const loginMenu = [
+    {
+      key: 1,
+      title: "User Login",
+      path: "/login/user",
+      sub: "일반 회원",
+    },
+    {
+      key: 2,
+      title: "Lawyer Login",
+      path: "/login/lawyer",
+      sub: "변호사 회원",
+    },
+  ];
+
+  const notificationMenu = [
+    {
+      key: 1,
+      title: "첫번째 알람 제목",
+      path: "/alert/1",
+      sub: "일반 회원",
+    },
+    {
+      key: 2,
+      title: "두번째 알람 제목",
+      path: "/alert/2",
+      sub: "변호사 회원",
+    },
+  ];
+
+  const messageMenu = [
+    {
+      key: 1,
+      title: "첫번째 메시지 제목",
+      path: "/message/1",
+      sub: "일반 회원",
+    },
+    {
+      key: 2,
+      title: "두번째 메시지 제목",
+      path: "/message/2",
+      sub: "변호사 회원",
+    },
+  ];
+
+  const boardMenu = [
+    {
+      key: 1,
+      title: "News Board",
+      path: "/news",
+      sub: "뉴스",
+    },
+    {
+      key: 2,
+      title: "Lawyers Board",
+      path: "/lawyers",
+      sub: "변호사",
+    },
+    {
+      key: 3,
+      title: "판례 게시판",
+      path: "/judicial-precedent",
+      sub: "판례",
+    },
+    {
+      key: 4,
+      title: "법률 상담 Q&A",
+      path: "/qna",
+      sub: "Q&A",
+    },
+    {
+      key: 5,
+      title: "변호사 법률 칼럼",
+      path: "/column",
+      sub: "칼럼",
+    },
+  ];
+
   const handleMenu = () => {
     setIsDropdownOpen({
       ...isDropdownOpen,
@@ -97,94 +291,182 @@ const Header = ({ isDropdownOpen, setIsDropdownOpen }: any) => {
     }
   }, [isLoggedIn]);
 
-  if (window.location.pathname === "/lawyer-info") return null;
-  if (window.location.pathname === "/user-info") return null;
-  if (window.location.pathname === "/login") return null;
+  // if (window.location.pathname === "/lawyer-info") return null;
+  // if (window.location.pathname === "/user-info") return null;
+  // if (window.location.pathname === "/login") return null;
   if (window.location.pathname.startsWith("/lawyers/")) return null;
 
   return (
     <>
       <nav
-        className={`items-center fixed top-0 h-[5vh] w-screen z-20 flex flex-row justify-between `}
+        className={`items-center fixed top-0 h-[5vh] w-screen z-20 flex flex-row justify-between ${
+          window.location.pathname === "/" ? "" : "bg-white border-b"
+        }`}
       >
-        <div className={`flex flex-row items-center `}>
-          <div className={`${rounded} relative`}>
-            {isDropdownOpen.menu ? (
-              <>
+        {window.location.pathname === "/" ? (
+          <>
+            <div className={`flex flex-row items-center `}>
+              <div className={`${rounded} relative`}>
                 <Image
-                  src="https://img.icons8.com/?size=100&id=9433&format=png&color=000000"
+                  src={
+                    isDropdownOpen.menu
+                      ? "https://img.icons8.com/?size=100&id=9433&format=png&color=000000"
+                      : "https://img.icons8.com/?size=100&id=8113&format=png&color=000000"
+                  }
                   width={20}
                   height={20}
                   alt="arrow-right"
                   className="z-20"
                   onClick={() => handleMenu()}
                 />
-                <MenuPage menu={isDropdownOpen.menu}></MenuPage>
-              </>
-            ) : (
-              <Image
-                src="https://img.icons8.com/?size=100&id=8113&format=png&color=000000"
-                width={20}
-                height={20}
-                alt="arrow-right"
-                className="z-20"
-                onClick={() => handleMenu()}
-              />
-            )}
-          </div>
+
+                {isDropdownOpen.menu ? (
+                  <MenuPage menu={isDropdownOpen.menu}></MenuPage>
+                ) : (
+                  <></>
+                )}
+              </div>
+            </div>
+          </>
+        ) : (
+          <>
+            <div className={`flex flex-row items-center `}>
+              <div className={`${rounded} relative`}>
+                <Image
+                  src="https://img.icons8.com/?size=100&id=83246&format=png&color=1A1A1A"
+                  width={20}
+                  height={20}
+                  alt="arrow-right"
+                  className="z-20"
+                  onClick={() => window.location.replace("/")}
+                />
+              </div>
+            </div>
+          </>
+        )}
+        <div className={`${isDropdownOpen.menu ? "flex" : "hidden"}`}></div>
+        <div className={`flex justify-center items-center gap-6`}>
+          {boardMenu.map((item: any) => {
+            return (
+              <div
+                key={item.key}
+                className="flex flex-row items-center gap-3"
+                onClick={() => window.location.replace(item.path)}
+              >
+                <h1>{item.title}</h1>
+              </div>
+            );
+          })}
         </div>
 
-        {isLoggedIn ? (
-          <div className="flex justify-between items-center">
-            <div
-              className={`${rounded} ${
-                isDropdownOpen.message ? "invisible" : "visible"
-              }`}
-            >
+        <div className="flex justify-between items-center">
+          <div className={`${rounded} flex flex-col relative`}>
+            <div className={`${rounded}`}>
               <Image
                 src="https://img.icons8.com/?size=100&id=8kHOhdrNngb3&format=png&color=000000"
                 width={20}
                 height={20}
                 alt="arrow-right"
                 className="z-20"
+                onClick={() =>
+                  setIsDropdownOpen({
+                    ...isDropdownOpen,
+                    account: false,
+                    notification: false,
+                    message: !isDropdownOpen.message,
+                  })
+                }
               />
             </div>
             <div
-              className={`${rounded} ${
-                isDropdownOpen.notification ? "invisible" : "visible"
+              className={`flex pt-14 w-40 flex-col absolute top-0 right-0 ${
+                isDropdownOpen.message ? "visible" : "invisible"
               }`}
             >
+              {messageMenu.map((item: any) => (
+                <button
+                  key={item.key}
+                  onClick={() => window.location.replace(item.path)}
+                  className="border bg-white"
+                >
+                  {item.title}
+                </button>
+              ))}
+            </div>
+          </div>
+          <div className={`${rounded} flex flex-col relative`}>
+            <div className={`${rounded}`}>
               <Image
                 src="https://img.icons8.com/?size=100&id=ZW2vgTIQ1bkh&format=png&color=000000"
                 width={20}
                 height={20}
                 alt="arrow-right"
                 className="z-20"
+                onClick={() =>
+                  setIsDropdownOpen({
+                    ...isDropdownOpen,
+                    account: false,
+                    notification: !isDropdownOpen.notification,
+                    message: false,
+                  })
+                }
               />
             </div>
             <div
-              className={`${rounded} ${
-                isDropdownOpen.account ? "invisible" : "visible"
-              } flex flex-col`}
+              className={`flex pt-14 w-40 flex-col absolute top-0 right-0 ${
+                isDropdownOpen.notification ? "visible" : "invisible"
+              }`}
             >
+              {notificationMenu.map((item: any) => (
+                <button
+                  key={item.key}
+                  onClick={() => window.location.replace(item.path)}
+                  className="border bg-white"
+                >
+                  {item.title}
+                </button>
+              ))}
+            </div>
+          </div>
+          <div className={`${rounded} flex flex-col relative`}>
+            <div className={`${rounded}`}>
               <Image
-                src="https://img.icons8.com/?size=100&id=ckaioC1qqwCu&format=png&color=000000"
+                src={
+                  isLoggedIn
+                    ? "https://img.icons8.com/?size=100&id=ckaioC1qqwCu&format=png&color=000000"
+                    : "https://img.icons8.com/?size=100&id=26211&format=png&color=1A1A1A"
+                }
                 width={20}
                 height={20}
                 alt="arrow-right"
                 className="z-20"
-                onClick={() => handleLogOut()}
+                onClick={() =>
+                  setIsDropdownOpen({
+                    ...isDropdownOpen,
+                    account: !isDropdownOpen.account,
+                    notification: false,
+                    message: false,
+                  })
+                }
               />
-              {isDropdownOpen.account && (
-                <div className="flex flex-col fixed top-0 right-0">
-                  <button onClick={() => handleLogOut()}>logout</button>
-                </div>
-              )}
+            </div>
+            <div
+              className={`flex pt-14 w-40 flex-col absolute top-0 right-0  ${
+                isDropdownOpen.account ? "visible" : "invisible"
+              }`}
+            >
+              {loginMenu.map((item: any) => (
+                <button
+                  key={item.key}
+                  onClick={() => window.location.replace(item.path)}
+                  className="border bg-white"
+                >
+                  {item.title}
+                </button>
+              ))}
             </div>
           </div>
-        ) : (
-          <div></div>
-        )}
+        </div>
       </nav>
     </>
   );
