@@ -25,7 +25,7 @@ const SubmitIssuePage = (props: any) => {
     <>
       <div className="flex flex-col justify-center items-center border gap-4 p-5">
         <h1 className="text-2xl text-center font-bold">Submit an Issue</h1>
-        <IssueForm onSave={handleSaveIssue} lawyerId={lawyerId} />
+        <IssueForm onSave={handleSaveIssue} lawyerId={lawyerId} {...props} />
       </div>
     </>
   );

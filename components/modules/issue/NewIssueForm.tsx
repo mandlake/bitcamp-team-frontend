@@ -21,7 +21,8 @@ interface Issue {
   lawyer?: string;
 }
 
-const IssueForm: React.FC<IssueFormProps> = ({ onSave, lawyerId }) => {
+const IssueForm: React.FC<IssueFormProps> = (props: any) => {
+  const onSave = props.onSave;
   const userId = parseInt(UserId() || "");
   const {
     register,
@@ -33,7 +34,7 @@ const IssueForm: React.FC<IssueFormProps> = ({ onSave, lawyerId }) => {
   const onSubmit = async (data: Issue) => {
     const newIssue = { ...data, client: { id: userId } };
     try {
-      await fetch(`http://localhost:8000/users/issues/save`, {
+      await fetch(`${userURL}/issues/save`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -54,16 +55,19 @@ const IssueForm: React.FC<IssueFormProps> = ({ onSave, lawyerId }) => {
       className="flex flex-col items-center gap-3"
     >
       <p>
-        사용자 {UserId()}가 변호사 {lawyerId || ""}에게 보내는 알림
+        사용자 {UserId()}가 변호사 {props.lawyerId || ""}에게 보내는 알림
       </p>
       <input
         type="hidden"
-        value={lawyerId}
+        value={props.lawyerId}
         {...register("lawyer", { required: true })}
       ></input>
       <input
         type="text"
         placeholder="Title"
+        value={`사용자 ${UserId()}가 변호사 ${
+          props.lawyerId || ""
+        }에게 보내는 알림`}
         className="text-gray-700 border border-gray-300 rounded-2xl py-2 px-4 block w-full focus:outline-2 focus:outline-blue-500"
         {...register("title", { required: "Title is required" })}
       />
@@ -80,6 +84,7 @@ const IssueForm: React.FC<IssueFormProps> = ({ onSave, lawyerId }) => {
       <input
         type="text"
         placeholder="Attachment"
+        value={`${props.date} ${props.time}에 ${props.consultingType}을 요청합니다.`}
         className="text-gray-700 border border-gray-300 rounded-2xl py-2 px-4 block w-full focus:outline-2 focus:outline-blue-500"
         {...register("attachment", { required: "Attachment is required" })}
       />

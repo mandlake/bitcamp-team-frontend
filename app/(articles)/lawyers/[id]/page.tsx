@@ -1,7 +1,6 @@
 "use client";
 
 import SubmitIssuePage from "@/app/(issue)/submit-issue/page";
-import Product from "@/app/(product)/products/[id]/page";
 import { IPayment } from "@/components/_model/payment/payment";
 import { savePayment } from "@/components/_service/payment/payment-service";
 import { userURL } from "@/components/common/url";
@@ -21,8 +20,11 @@ declare global {
 
 const LawyerByIdPage = (props: any) => {
   const dispatch = useDispatch();
-  const [amount, setAmount] = useState<number>(0);
   const router = useRouter();
+  const [amount, setAmount] = useState<number>(0);
+  const [consultingType, setconsultingType] = useState<string>("");
+  const [date, setDate] = useState<string>("");
+  const [time, setTime] = useState<string>("");
   const lawyerId = props.params.id;
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedOpen, setSelectedOpen] = useState({
@@ -30,12 +32,46 @@ const LawyerByIdPage = (props: any) => {
     date: false,
     time: false,
   });
-  const [selectedConsultationType, setSelectedConsultationType] = useState({
-    point: false,
-    consultation: false,
-    alert: false,
-  });
   const [consultation, setConsultation] = useState(false);
+
+  const consultationType = [
+    {
+      type: "15분 전화 상담",
+      price: 1500,
+    },
+    {
+      type: "20분 영상 상담",
+      price: 2000,
+    },
+    {
+      type: "30분 방문 상담",
+      price: 3000,
+    },
+  ];
+
+  const dateType = [
+    {
+      type: "2022-10-10",
+    },
+    {
+      type: "2022-10-11",
+    },
+    {
+      type: "2022-10-12",
+    },
+  ];
+
+  const timeType = [
+    {
+      type: "10:00",
+    },
+    {
+      type: "11:00",
+    },
+    {
+      type: "12:00",
+    },
+  ];
 
   const userId = parseInt(UserId() || "");
 
@@ -131,7 +167,7 @@ const LawyerByIdPage = (props: any) => {
           const totalPrice = totalPriceElement
             ? totalPriceElement.innerText
             : "";
-          fetch(`${userURL}user/payments/status`, {
+          fetch(`${userURL}/payments/status`, {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
@@ -257,15 +293,22 @@ const LawyerByIdPage = (props: any) => {
                   {selectedOpen.consultationType && (
                     <>
                       <div className="flex flex-row p-2 text-sm gap-2">
-                        <button className="p-3 rounded-lg border">
-                          15분 전화 상담
-                        </button>
-                        <button className="p-3 rounded-lg border">
-                          20분 영상 상담
-                        </button>
-                        <button className="p-3 rounded-lg border">
-                          30분 방문 상담
-                        </button>
+                        {consultationType.map((type) => (
+                          <input
+                            key={type.type}
+                            type="button"
+                            className={`${
+                              amount === type.price
+                                ? "bg-[var(--color-Harbor-sec)] text-white"
+                                : ""
+                            } p-3 rounded-lg border`}
+                            onClick={() => {
+                              setAmount(type.price);
+                              setconsultingType(type.type);
+                            }}
+                            value={type.type}
+                          />
+                        ))}
                       </div>
                     </>
                   )}
@@ -294,15 +337,21 @@ const LawyerByIdPage = (props: any) => {
                   {selectedOpen.date && (
                     <>
                       <div className="flex flex-row p-2 text-sm gap-2">
-                        <button className="p-3 rounded-lg border">
-                          15분 전화 상담
-                        </button>
-                        <button className="p-3 rounded-lg border">
-                          20분 영상 상담
-                        </button>
-                        <button className="p-3 rounded-lg border">
-                          30분 방문 상담
-                        </button>
+                        {dateType.map((type) => (
+                          <input
+                            key={type.type}
+                            type="button"
+                            className={`${
+                              date === type.type
+                                ? "bg-[var(--color-Harbor-sec)] text-white"
+                                : ""
+                            } p-3 rounded-lg border`}
+                            onClick={() => {
+                              setDate(type.type);
+                            }}
+                            value={type.type}
+                          />
+                        ))}
                       </div>
                     </>
                   )}
@@ -331,15 +380,21 @@ const LawyerByIdPage = (props: any) => {
                   {selectedOpen.time && (
                     <>
                       <div className="flex flex-row p-2 text-sm gap-2">
-                        <button className="p-3 rounded-lg border">
-                          15분 전화 상담
-                        </button>
-                        <button className="p-3 rounded-lg border">
-                          20분 영상 상담
-                        </button>
-                        <button className="p-3 rounded-lg border">
-                          30분 방문 상담
-                        </button>
+                        {timeType.map((type) => (
+                          <input
+                            key={type.type}
+                            type="button"
+                            className={`${
+                              time === type.type
+                                ? "bg-[var(--color-Harbor-sec)] text-white"
+                                : ""
+                            } p-3 rounded-lg border`}
+                            onClick={() => {
+                              setTime(type.type);
+                            }}
+                            value={type.type}
+                          />
+                        ))}
                       </div>
                     </>
                   )}
@@ -348,21 +403,14 @@ const LawyerByIdPage = (props: any) => {
             )}
             {isModalOpen && consultation && (
               <>
-                <h1
-                  onClick={() =>
-                    setSelectedConsultationType({
-                      ...selectedConsultationType,
-                      consultation: !selectedConsultationType.consultation,
-                    })
-                  }
-                >
-                  상담 결제
-                </h1>
-                {selectedConsultationType.consultation && (
-                  <Product lawyerId={lawyerId} />
-                )}
                 <div className="flex flex-col items-baseline gap-2">
-                  <SubmitIssuePage lawyerId={lawyerId} />
+                  <SubmitIssuePage
+                    lawyerId={lawyerId}
+                    amount={amount}
+                    consultingType={consultingType}
+                    date={date}
+                    time={time}
+                  />
                 </div>
               </>
             )}
