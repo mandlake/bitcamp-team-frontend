@@ -41,31 +41,41 @@ const UserLogin = () => {
             <br />
             간편하게 로그인하세요.
           </p>
-          <Link
-            className="w-[22vw] h-[5vh] mt-[2vh] bg-white border font-bold flex justify-center items-center gap-[1.111vh] border-[var(--color-Harbor-first)]"
-            type="button"
-            href={`${mainURL}/oauth2/authorization/google`}
-          >
-            <Image
-              alt="google-logo"
-              src="https://img.icons8.com/?size=100&id=V5cGWnc9R4xj&format=png&color=000000"
-              width={18}
-              height={18}
-            />
-            Login with Google
-          </Link>
-          <button
-            className="w-[22vw] h-[5vh] mt-[2vh] bg-white border font-bold flex justify-center items-center gap-[1.111vh] border-[var(--color-Harbor-first)]"
-            type="button"
-          >
-            <Image
-              alt="naver-logo"
-              src="https://blog.kakaocdn.net/dn/ceC8Gj/btrTPjfh2k0/fAUpKl8TGAxk7OkCjZPGBK/img.png"
-              width={18}
-              height={18}
-            />
-            Login with Naver
-          </button>
+          <div>
+            <Link
+              className="w-[22vw] h-[5vh] mt-[2vh] bg-white border font-bold flex justify-center items-center gap-[1.111vh] border-[var(--color-Harbor-first)]"
+              type="button"
+              href={`${mainURL}/oauth2/authorization/google`}
+            >
+              <Image
+                alt="google-logo"
+                src="https://img.icons8.com/?size=100&id=V5cGWnc9R4xj&format=png&color=000000"
+                width={18}
+                height={18}
+              />
+              Login with Google
+            </Link>
+            <button
+              className="w-[22vw] h-[5vh] mt-[2vh] bg-white border font-bold flex justify-center items-center gap-[1.111vh] border-[var(--color-Harbor-first)]"
+              type="button"
+            >
+              <Image
+                alt="naver-logo"
+                src="https://blog.kakaocdn.net/dn/ceC8Gj/btrTPjfh2k0/fAUpKl8TGAxk7OkCjZPGBK/img.png"
+                width={18}
+                height={18}
+              />
+              Login with Naver
+            </button>
+          </div>
+          <div className="w-[22vw] flex flex-col p-[1.111vh]">
+            <p
+              onClick={() => window.location.replace("/")}
+              className="text-gray-700 text-sm"
+            >
+              Go Back to Main Page
+            </p>
+          </div>
         </div>
       </div>
     </>

@@ -107,10 +107,10 @@ const LawyerLogin = () => {
           </div>
           <div className="w-[22vw] flex flex-col p-[1.111vh]">
             <p
-              onClick={() => router.push(`/find-username`)}
+              onClick={() => window.location.replace("/")}
               className="text-gray-700 text-sm"
             >
-              Forgot your username?
+              Go Back to Main Page
             </p>
             <p
               onClick={() => router.push(`/find-password`)}

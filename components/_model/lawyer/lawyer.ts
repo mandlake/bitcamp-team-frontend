@@ -1,6 +1,5 @@
 export interface ILawyer {
   id: number;
-  username?: string;
   email?: string;
   password?: string;
   name?: string;
@@ -8,6 +7,7 @@ export interface ILawyer {
   birth?: string;
   lawyerNo?: string;
   account?: string;
+  mid?: string;
   auth?: boolean;
   createdDate?: string;
   modifiedDate?: string;

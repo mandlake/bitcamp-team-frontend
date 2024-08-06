@@ -8,7 +8,7 @@ function ForgotPassword() {
   const router = useRouter();
   const dispatch = useDispatch();
   const [formData, setFormData] = useState({
-    username: "",
+    email: "",
     password: "",
   });
   const handleForgotPassword = async () => {
@@ -26,32 +26,44 @@ function ForgotPassword() {
   };
   return (
     <>
-      <div className="w-screen h-screen flex align-middle justify-center items-center">
-        <div className="font-roboto w-[25vw] h-[50vh] border border-gray-700 flex flex-col justify-between items-center gap-[1.111vh] bg-gray-200 p-[1.111vh]">
-          <h1>Forgot Password</h1>
+      <div className="flex flex-col w-screen h-screen items-center justify-center">
+        <div
+          id="find-password"
+          className="font-roboto w-[25vw] border border-gray-700 flex flex-col gap-3 items-baseline bg-[var(--color-Harbor-firth)] p-7"
+        >
+          <p className=" text-[28px] font-medium align-middle">
+            비밀번호를 <br />
+            잃어버리셨나요?
+          </p>
           <div>
-            <div className="flex flex-col">
-              <p>Enter Your username</p>
+            <label htmlFor="email">
               <input
                 type="text"
+                id="email"
+                name="email"
+                placeholder="Email"
+                value={formData.email}
                 onChange={(e: any) =>
-                  setFormData({ ...formData, username: e.target.value })
+                  setFormData({ ...formData, email: e.target.value })
                 }
+                className="w-[22vw] h-[5vh] border border-[var(--color-Harbor-first)] px-[1.111vw] mb-[1.111vh] bg-white"
               />
-            </div>
-            <div className="flex flex-col">
-              <p>Enter Your New Password</p>
-              <input
-                type="password"
-                onChange={(e: any) =>
-                  setFormData({ ...formData, password: e.target.value })
-                }
-              />
-            </div>
+            </label>
+            <button
+              onClick={() => handleForgotPassword()}
+              className="w-[22vw] h-[5vh] bg-white border border-[var(--color-Harbor-first)] hover:bg-[var(--color-Harbor-first)] hover:text-white  font-bold"
+            >
+              Find Password
+            </button>
           </div>
-          <button onClick={() => handleForgotPassword()} className="">
-            Submit
-          </button>
+          <div className="w-[22vw] flex flex-col p-[1.111vh]">
+            <p
+              onClick={() => router.push(`/login/lawyer`)}
+              className="text-gray-700 text-sm"
+            >
+              I know my password. Let me login.
+            </p>
+          </div>
         </div>
       </div>
     </>

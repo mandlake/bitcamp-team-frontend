@@ -46,6 +46,7 @@ const JoinLawyerNextPage: NextPage = (props: any) => {
     console.log("입력된 값 : " + JSON.stringify(data));
 
     try {
+      console.log(data);
       await dispatch(lawyerSaveDetail(data))
         .then((res: any) => {
           alert("success to join us");
@@ -65,6 +66,7 @@ const JoinLawyerNextPage: NextPage = (props: any) => {
       "//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js";
     script.async = true;
     document.head.appendChild(script);
+    setValue("premium", false);
   }, []);
 
   const openAddressSearch = () => {
@@ -131,7 +133,7 @@ const JoinLawyerNextPage: NextPage = (props: any) => {
               htmlFor="addressDetail"
               className="flex flex-row items-center justify-between w-[33vw]"
             >
-              <p className="text-[22px] font-medium">소속 세부 주소</p>
+              <p className="text-[22px] font-medium">소속 상세 주소</p>
               <input
                 type="addressDetail"
                 id="addressDetail"
@@ -144,7 +146,7 @@ const JoinLawyerNextPage: NextPage = (props: any) => {
               htmlFor="belongPhone"
               className="flex flex-row items-center justify-between w-[33vw]"
             >
-              <p className="text-[22px] font-medium">소속 전화 번호</p>
+              <p className="text-[22px] font-medium">소속 전화번호</p>
               <input
                 type="text"
                 id="belongPhone"
@@ -174,6 +176,20 @@ const JoinLawyerNextPage: NextPage = (props: any) => {
               </select>
             </label>
             <label
+              htmlFor="visitCost"
+              className="flex flex-row items-center justify-between w-[33vw]"
+            >
+              <p className="text-[22px] font-medium">방문상담비용</p>
+              <input
+                type="text"
+                id="visitCost"
+                placeholder="VisitCost"
+                defaultValue={"3000"}
+                {...register("visitCost")}
+                className="w-[22vw] h-[5vh] border border-[var(--color-Harbor-first)] px-[1.111vw] mb-[1.111vh] bg-white"
+              />
+            </label>
+            <label
               htmlFor="phoneCost"
               className="flex flex-row items-center justify-between w-[33vw]"
             >
@@ -182,6 +198,7 @@ const JoinLawyerNextPage: NextPage = (props: any) => {
                 type="text"
                 id="phoneCost"
                 placeholder="PhoneCost"
+                defaultValue={"1500"}
                 {...register("phoneCost")}
                 className="w-[22vw] h-[5vh] border border-[var(--color-Harbor-first)] px-[1.111vw] mb-[1.111vh] bg-white"
               />
@@ -195,7 +212,34 @@ const JoinLawyerNextPage: NextPage = (props: any) => {
                 type="text"
                 id="videoCost"
                 placeholder="VideoCost"
+                defaultValue={"2000"}
                 {...register("videoCost")}
+                className="w-[22vw] h-[5vh] border border-[var(--color-Harbor-first)] px-[1.111vw] mb-[1.111vh] bg-white"
+              />
+            </label>
+            <label
+              htmlFor="university"
+              className="flex flex-row items-center justify-between w-[33vw]"
+            >
+              <p className="text-[22px] font-medium">대학</p>
+              <input
+                type="text"
+                id="university"
+                placeholder="University"
+                {...register("university")}
+                className="w-[22vw] h-[5vh] border border-[var(--color-Harbor-first)] px-[1.111vw] mb-[1.111vh] bg-white"
+              />
+            </label>
+            <label
+              htmlFor="major"
+              className="flex flex-row items-center justify-between w-[33vw]"
+            >
+              <p className="text-[22px] font-medium">학과</p>
+              <input
+                type="text"
+                id="major"
+                placeholder="Major"
+                {...register("major")}
                 className="w-[22vw] h-[5vh] border border-[var(--color-Harbor-first)] px-[1.111vw] mb-[1.111vh] bg-white"
               />
             </label>

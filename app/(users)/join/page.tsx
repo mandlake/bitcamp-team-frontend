@@ -39,15 +39,15 @@ function Join() {
           </p>
           <div>
             <label
-              htmlFor="username"
+              htmlFor="email"
               className="flex flex-row items-center justify-between w-[33vw]"
             >
-              <p className="text-[22px] font-medium">아이디</p>
+              <p className="text-[22px] font-medium">이메일</p>
               <input
                 type="text"
-                id="username"
-                placeholder="Username"
-                {...register("username")}
+                id="email"
+                placeholder="Email"
+                {...register("email")}
                 className="w-[22vw] h-[5vh] border border-[var(--color-Harbor-first)] px-[1.111vw] mb-[1.111vh] bg-white"
               />
             </label>
@@ -61,19 +61,6 @@ function Join() {
                 id="password"
                 placeholder="Password"
                 {...register("password")}
-                className="w-[22vw] h-[5vh] border border-[var(--color-Harbor-first)] px-[1.111vw] mb-[1.111vh] bg-white"
-              />
-            </label>
-            <label
-              htmlFor="email"
-              className="flex flex-row items-center justify-between w-[33vw]"
-            >
-              <p className="text-[22px] font-medium">이메일</p>
-              <input
-                type="text"
-                id="email"
-                placeholder="Email"
-                {...register("email")}
                 className="w-[22vw] h-[5vh] border border-[var(--color-Harbor-first)] px-[1.111vw] mb-[1.111vh] bg-white"
               />
             </label>
@@ -117,15 +104,28 @@ function Join() {
               />
             </label>
             <label
-              htmlFor="account"
+              htmlFor="lawyerNo"
               className="flex flex-row items-center justify-between w-[33vw]"
             >
-              <p className="text-[22px] font-medium">계좌 번호</p>
+              <p className="text-[22px] font-medium">자격 번호</p>
               <input
                 type="text"
-                id="account"
-                placeholder="계좌 번호"
-                {...register("account")}
+                id="lawyerNo"
+                placeholder="LawyerNo"
+                {...register("lawyerNo")}
+                className="w-[22vw] h-[5vh] border border-[var(--color-Harbor-first)] px-[1.111vw] mb-[1.111vh] bg-white"
+              />
+            </label>
+            <label
+              htmlFor="lawyerNo"
+              className="flex flex-row items-center justify-between w-[33vw]"
+            >
+              <p className="text-[22px] font-medium">가맹점 번호</p>
+              <input
+                type="text"
+                id="mid"
+                placeholder="가맹점 번호"
+                {...register("mid")}
                 className="w-[22vw] h-[5vh] border border-[var(--color-Harbor-first)] px-[1.111vw] mb-[1.111vh] bg-white"
               />
             </label>
