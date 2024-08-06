@@ -5,11 +5,10 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 
-const inquiryPage = () => {
+const InquiryPage = () => {
   const router = useRouter();
   const dispatch = useDispatch();
 
-  const [selectedFile, setSelectedFile] = useState<File[]>([]);
   const [selectBoard, setSelectBoard] = useState({
     title: "",
     content: "",
@@ -17,36 +16,32 @@ const inquiryPage = () => {
   });
 
   const submit = async () => {
-    const formData = new FormData();
-
-    formData.append("boardDto", JSON.stringify(selectBoard));
-
-    if (selectedFile.length == 0) {
-      alert("파일을 선택해주세요.");
-      return 0;
-    }
-
-    Array.from(selectedFile).forEach((file: File) => {
-      formData.append("files", file);
-    });
-
-    try {
-      const response = await axios.post(
-        "http://localhost:8082/board/save",
-        formData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        }
-      );
-      if (response.status === 200) {
-        alert("파일이 성공적으로 등록되었습니다.");
-        router.push("/notification");
-      }
-    } catch (error) {
-      console.log(error);
-    }
+    // const formData = new FormData();
+    // formData.append("boardDto", JSON.stringify(selectBoard));
+    // if (selectedFile.length == 0) {
+    //   alert("파일을 선택해주세요.");
+    //   return 0;
+    // }
+    // Array.from(selectedFile).forEach((file: File) => {
+    //   formData.append("files", file);
+    // });
+    // try {
+    //   const response = await axios.post(
+    //     "http://localhost:8082/board/save",
+    //     formData,
+    //     {
+    //       headers: {
+    //         "Content-Type": "multipart/form-data",
+    //       },
+    //     }
+    //   );
+    //   if (response.status === 200) {
+    //     alert("파일이 성공적으로 등록되었습니다.");
+    //     router.push("/notification");
+    //   }
+    // } catch (error) {
+    //   console.log(error);
+    // }
   };
   return (
     <>
@@ -72,7 +67,7 @@ const inquiryPage = () => {
               })
             }
           ></textarea>
-          <input
+          {/* <input
             type="file"
             className="mt-4"
             onChange={(event: any) => {
@@ -80,7 +75,7 @@ const inquiryPage = () => {
               setSelectedFile(Array.from(files));
             }}
             multiple
-          />
+          /> */}
           <input
             type="submit"
             value="제출하기"
@@ -93,4 +88,4 @@ const inquiryPage = () => {
   );
 };
 
-export default inquiryPage;
+export default InquiryPage;
