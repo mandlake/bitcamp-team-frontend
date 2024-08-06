@@ -93,9 +93,6 @@ const LawyerSingleInfoPage = () => {
               style={{ width: 180, height: 180 }}
               className="text-[var(--color-Harbor-first)]"
             />
-            <h1 className=" font-semibold text-[26px] text-[var(--color-Harbor-first)]">
-              {lawyer.username}
-            </h1>
             <p className=" text-[var(--color-Harbor-first)]/60 text-[22px]">
               {lawyer.email}
             </p>
