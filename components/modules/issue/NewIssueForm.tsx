@@ -49,7 +49,10 @@ const IssueForm: React.FC<IssueFormProps> = ({ onSave, lawyerId }) => {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
+    <form
+      onSubmit={handleSubmit(onSubmit)}
+      className="flex flex-col items-center gap-3"
+    >
       <p>
         사용자 {UserId()}가 변호사 {lawyerId || ""}에게 보내는 알림
       </p>
@@ -92,7 +95,10 @@ const IssueForm: React.FC<IssueFormProps> = ({ onSave, lawyerId }) => {
       {errors.content && (
         <p className="text-red-500">{errors.content.message}</p>
       )}
-      <button type="submit" className="justify-center">
+      <button
+        type="submit"
+        className="w-[22vw] h-[5vh] bg-white border border-[var(--color-Harbor-first)] hover:bg-[var(--color-Harbor-first)] hover:text-white  font-bold"
+      >
         전송
       </button>
     </form>

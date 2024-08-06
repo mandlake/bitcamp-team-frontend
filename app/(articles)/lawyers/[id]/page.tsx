@@ -1,16 +1,28 @@
 "use client";
 
-import IssuePage from "@/app/(issue)/issue/[id]/page";
-import Payment from "@/app/(payment)/payment/[id]/page";
+import SubmitIssuePage from "@/app/(issue)/submit-issue/page";
 import Product from "@/app/(product)/products/[id]/page";
+import { IPayment } from "@/components/_model/payment/payment";
+import { savePayment } from "@/components/_service/payment/payment-service";
+import { userURL } from "@/components/common/url";
 import UserId from "@/components/hooks/userId";
+import axios from "axios";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { parseCookies } from "nookies";
+import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+
+declare global {
+  interface Window {
+    IMP?: any;
+  }
+}
 
 const LawyerByIdPage = (props: any) => {
+  const dispatch = useDispatch();
+  const [amount, setAmount] = useState<number>(0);
   const router = useRouter();
-  const userId = UserId();
   const lawyerId = props.params.id;
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedOpen, setSelectedOpen] = useState({
@@ -23,51 +35,136 @@ const LawyerByIdPage = (props: any) => {
     consultation: false,
     alert: false,
   });
+  const [consultation, setConsultation] = useState(false);
+
+  const userId = parseInt(UserId() || "");
+
+  const requestPay = async (amount: number) => {
+    const confirmMessage = `결제할 금액은 ${amount}원 입니다. 계속 진행하시겠습니까?`;
+    const isConfirmed = window.confirm(confirmMessage);
+    window.IMP.init("imp78717406");
+    if (!window.IMP) {
+      console.error("IMP is not loaded");
+      return;
+    }
+
+    if (isConfirmed) {
+      window.IMP.init("imp78717406");
+      if (!window.IMP) {
+        console.error("IMP is not loaded");
+        return;
+      }
+
+      window.IMP.request_pay(
+        {
+          pg: "html5_inicis",
+          pay_method: "card",
+          orderUid: new Date().getTime().toString(),
+          name: "포인트",
+          amount: amount,
+        },
+        async (rsp: any) => {
+          if (rsp.success) {
+            console.log(rsp.imp_uid);
+            const token = parseCookies().accessToken;
+            confirm("결제가 완료되었습니다.");
+
+            // 서버로 결제 데이터 전송
+            const paymentData: IPayment = {
+              payment_uid: rsp.imp_uid,
+              amount: amount,
+              status: "OK",
+              buyer: {
+                id: userId,
+              },
+            };
+
+            dispatch(savePayment(paymentData));
+            const { data } = await axios.post(
+              `${userURL}/user/payments/verifyIamport/${rsp.imp_uid}`,
+              rsp,
+              {
+                headers: {
+                  Authorization: `Bearer ${token}`,
+                },
+              }
+            );
+          } else {
+            console.log("Payment failed", rsp.error_msg);
+            confirm("결제가 실패하였습니다.");
+          }
+        }
+      );
+    } else {
+      // 사용자가 확인하지 않은 경우 처리
+      console.log("결제가 취소되었습니다.");
+    }
+  };
+
+  useEffect(() => {
+    const jquery = document.createElement("script");
+    jquery.src = "http://code.jquery.com/jquery-1.12.4.min.js";
+    const iamport = document.createElement("script");
+    iamport.src = "http://cdn.iamport.kr/js/iamport.payment-1.1.7.js";
+    document.head.appendChild(jquery);
+    document.head.appendChild(iamport);
+    return () => {
+      document.head.removeChild(jquery);
+      document.head.removeChild(iamport);
+    };
+  }, []);
+
+  useEffect(() => {
+    const loadScript = (src: any, callback: any) => {
+      const script = document.createElement("script");
+      script.type = "text/javascript";
+      script.src = src;
+      script.onload = callback;
+      document.head.appendChild(script);
+    };
+    loadScript("https://code.jquery.com/jquery-1.12.4.min.js", () => {
+      loadScript("https://cdn.iamport.kr/js/iamport.payment-1.2.0.js", () => {
+        const IMP = window.IMP;
+        document.addEventListener("DOMContentLoaded", () => {
+          const payment_uid = "O" + new Date().getTime();
+          const totalPriceElement = document.getElementById("totalPrice");
+          const totalPrice = totalPriceElement
+            ? totalPriceElement.innerText
+            : "";
+          fetch(`${userURL}user/payments/status`, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              payment_uid: payment_uid,
+              amount: totalPrice,
+            }),
+          });
+        });
+      });
+    });
+
+    return () => {
+      const scripts = document.querySelectorAll('script[src^="https://"]');
+      scripts.forEach((script) => script.remove());
+    };
+  }, []);
 
   const consultingButton = (
     <>
-      <button className="bg-[var(--color-Harbor-first)] text-[var(--color-Harbor-firth)] h-[5vh] w-[22vw]">
-        결제하기
+      <button
+        className="bg-[var(--color-Harbor-first)] text-[var(--color-Harbor-firth)] h-[5vh] w-[22vw]"
+        onClick={() => {
+          setConsultation(true);
+          if (consultation) {
+            // 상담 결제하기
+            requestPay(amount);
+          }
+        }}
+      >
+        상담 결제하기
       </button>
-      <div className="flex flex-col gap-3">
-        {userId ? <p>User {userId}</p> : <p>Loading...</p>}
-        <h1
-          onClick={() =>
-            setSelectedConsultationType({
-              ...selectedConsultationType,
-              point: !selectedConsultationType.point,
-            })
-          }
-        >
-          포인트 충전
-        </h1>
-        {selectedConsultationType.point && <Payment lawyerId={lawyerId} />}
-        <h1
-          onClick={() =>
-            setSelectedConsultationType({
-              ...selectedConsultationType,
-              consultation: !selectedConsultationType.consultation,
-            })
-          }
-        >
-          상담 결제
-        </h1>
-        {selectedConsultationType.consultation && (
-          <Product lawyerId={lawyerId} />
-        )}
-        <h1
-          onClick={() =>
-            setSelectedConsultationType({
-              ...selectedConsultationType,
-              alert: !selectedConsultationType.alert,
-            })
-          }
-        >
-          사건 알림
-        </h1>
-        {selectedConsultationType.alert && <IssuePage lawyerId={lawyerId} />}
-        <br />
-      </div>
     </>
   );
 
@@ -132,7 +229,7 @@ const LawyerByIdPage = (props: any) => {
             사진
           </div>
           <div className="rounded-xl shadow-2xl fixed bottom-5 p-5 flex flex-col items-center gap-3 bg-white z-40">
-            {isModalOpen ? (
+            {isModalOpen && !consultation && (
               <>
                 <div className="flex flex-col justify-center">
                   <div
@@ -248,29 +345,60 @@ const LawyerByIdPage = (props: any) => {
                   )}
                 </div>
               </>
-            ) : (
+            )}
+            {isModalOpen && consultation && (
+              <>
+                <h1
+                  onClick={() =>
+                    setSelectedConsultationType({
+                      ...selectedConsultationType,
+                      consultation: !selectedConsultationType.consultation,
+                    })
+                  }
+                >
+                  상담 결제
+                </h1>
+                {selectedConsultationType.consultation && (
+                  <Product lawyerId={lawyerId} />
+                )}
+                <div className="flex flex-col items-baseline gap-2">
+                  <SubmitIssuePage lawyerId={lawyerId} />
+                </div>
+              </>
+            )}
+            {!isModalOpen && !consultation && (
               <div className="flex flex-row justify-center">
                 <div className="flex flex-col gap-2 items-center p-3 px-5 border-r">
                   <p>15분 전화 상담</p>
-                  <p>10000원</p>
+                  <p>1500원</p>
                 </div>
                 <div className="flex flex-col gap-2 items-center p-3 px-5 border-r">
                   <p>20분 영상 상담</p>
-                  <p>20000원</p>
+                  <p>2000원</p>
                 </div>
                 <div className="flex flex-col gap-2 items-center p-3 px-5">
                   <p>30분 방문 상담</p>
-                  <p>30000원</p>
+                  <p>3000원</p>
                 </div>
               </div>
             )}
+            {consultation && (
+              <button
+                className="bg-[var(--color-Harbor-first)] text-[var(--color-Harbor-firth)] h-[5vh] w-[22vw] mx-2"
+                onClick={() => setConsultation(false)}
+              >
+                이전으로 돌아가기
+              </button>
+            )}
             {isModalOpen && consultingButton}
-            <button
-              className="bg-[var(--color-Harbor-first)] text-[var(--color-Harbor-firth)] h-[5vh] w-[22vw] mx-2"
-              onClick={() => setIsModalOpen(!isModalOpen)}
-            >
-              {isModalOpen ? "이전으로 돌아가기" : "상담 예약하기"}
-            </button>
+            {!consultation && (
+              <button
+                className="bg-[var(--color-Harbor-first)] text-[var(--color-Harbor-firth)] h-[5vh] w-[22vw] mx-2"
+                onClick={() => setIsModalOpen(!isModalOpen)}
+              >
+                {isModalOpen ? "이전으로 돌아가기" : "상담 예약하기"}
+              </button>
+            )}
             {!isModalOpen && lawyerPageButton}
           </div>
         </div>
