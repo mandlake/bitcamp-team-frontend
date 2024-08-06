@@ -34,7 +34,6 @@ export default function Product(props: any) {
     formState: { errors },
   } = useForm<IUser>();
   const user: IUser = useSelector(getUserById);
-  const product: IProduct = useSelector(getProductById);
   const token = parseCookies().accessToken;
   const [transactions, setTransactions] = useState<any[]>([]);
   const userId = parseInt(UserId() || "");

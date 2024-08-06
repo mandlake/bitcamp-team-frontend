@@ -360,8 +360,19 @@ const Header = ({ isDropdownOpen, setIsDropdownOpen }: any) => {
             );
           })}
         </div>
-
         <div className="flex justify-between items-center">
+          <div className={`${rounded} flex flex-col relative`}>
+            <div className={`${rounded}`}>
+              <Image
+                src="https://img.icons8.com/?size=100&id=646&format=png&color=000000"
+                width={20}
+                height={20}
+                alt="inquiry"
+                className="z-20"
+                onClick={() => router.push("/inquiry")}
+              />
+            </div>
+          </div>
           <div className={`${rounded} flex flex-col relative`}>
             <div className={`${rounded}`}>
               <Image
@@ -376,6 +387,7 @@ const Header = ({ isDropdownOpen, setIsDropdownOpen }: any) => {
                     account: false,
                     notification: false,
                     message: !isDropdownOpen.message,
+                    inquiry: false,
                   })
                 }
               />
@@ -410,6 +422,7 @@ const Header = ({ isDropdownOpen, setIsDropdownOpen }: any) => {
                     account: false,
                     notification: !isDropdownOpen.notification,
                     message: false,
+                    inquiry: false,
                   })
                 }
               />
@@ -448,6 +461,7 @@ const Header = ({ isDropdownOpen, setIsDropdownOpen }: any) => {
                     account: !isDropdownOpen.account,
                     notification: false,
                     message: false,
+                    inquiry: false,
                   })
                 }
               />

@@ -10,6 +10,7 @@ const BaseLayout = ({
 }>) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState({
     menu: false,
+    inquiry: false,
     message: false,
     notification: false,
     account: false,
