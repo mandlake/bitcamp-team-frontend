@@ -43,7 +43,7 @@ const MenuPage = (props: any) => {
   return (
     <>
       <div
-        className={`${animate} border-r-2 border-[var(--color-Harbor-sec)] z-0 bg-[var(--color-Harbor-firth)] fixed top-0 left-0 font-bold text-[var(--color-Harbor-first)] w-[20vw] h-screen text-[22px] flex flex-row py-20 px-10`}
+        className={`${animate} border-r border-[var(--color-Harbor-sec)] z-0 bg-[var(--color-Harbor-firth)] fixed top-0 left-0 font-bold text-[var(--color-Harbor-first)] w-[20vw] h-screen text-[22px] flex flex-row py-20 px-10`}
       >
         <div className="flex flex-col items-center justify-between">
           <div className="flex flex-col items-center gap-5">

@@ -14,6 +14,7 @@ const InquiryPage = () => {
     title: "",
     content: "",
     writer: "작성자1",
+    email: "",
   });
 
   const submit = async () => {
