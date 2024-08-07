@@ -1,10 +1,13 @@
 "use server";
 
-import { ILawyer, ILawyerDetail } from "@/components/_model/lawyer/lawyer";
 import {
-  lawyerFileInstance,
-  lawyerInstance,
-} from "@/components/config/axios-config";
+  ILawyer,
+  ILawyerDetail,
+  ILawyerPost,
+  ILawyerReply,
+  ILawyerQuestion,
+} from "@/components/_model/lawyer/lawyer";
+import { lawyerInstance } from "@/components/config/axios-config";
 
 export const lawyerLoginApi = async (lawyer: ILawyer) => {
   try {
@@ -266,5 +269,171 @@ export const searchLawyerApi = async (search: string) => {
   } catch (error) {
     console.log(error);
     return error;
+  }
+};
+
+// 포스트 생성
+export const createPostApi = async (
+  lawyerId: string,
+  post: ILawyerPost,
+  files: File[]
+): Promise<any> => {
+  try {
+    const formData = new FormData();
+    formData.append("post", JSON.stringify(post));
+
+    files.forEach((file: File) => {
+      formData.append("files", file as any);
+    });
+
+    const response = await lawyerInstance().post(
+      `/posts/save/${lawyerId}`,
+      formData,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      }
+    );
+
+    console.log("Create post success");
+    return response.data;
+  } catch (error) {
+    console.error("Create post error:", error);
+    throw error;
+  }
+};
+
+// 변호사아이디로 작성 포스트 찾기
+export const getPostsByLawyerIdApi = async (
+  lawyerId: string
+): Promise<ILawyerPost[]> => {
+  try {
+    const response = await lawyerInstance().get(`/posts/${lawyerId}`);
+    console.log("Get posts success");
+    return response.data;
+  } catch (error) {
+    console.error("Get posts error:", error);
+    throw error;
+  }
+};
+
+// 포스트 수정
+export const updatePostApi = async (
+  postId: string,
+  updatedPost: ILawyerPost,
+  files: File[]
+): Promise<ILawyerPost> => {
+  try {
+    const formData = new FormData();
+    formData.append("post", JSON.stringify(updatedPost));
+
+    files.forEach((file: File) => {
+      formData.append("files", file as any);
+    });
+
+    const response = await lawyerInstance().patch(
+      `/posts/${postId}`,
+      formData,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      }
+    );
+
+    console.log("Update post success");
+    return response.data;
+  } catch (error) {
+    console.error("Update post error:", error);
+    throw error;
+  }
+};
+
+// 포스트 삭제
+export const deletePostApi = async (id: string): Promise<void> => {
+  try {
+    await lawyerInstance().delete(`/posts/${id}`);
+    console.log("Delete post success");
+  } catch (error) {
+    console.error("Delete post error:", error);
+    throw error;
+  }
+};
+
+// 포스트 내 파일 다운로드
+export const downloadPostFileApi = async (url: string): Promise<Blob> => {
+  try {
+    const response = await lawyerInstance().get(`/posts/download`, {
+      params: { url },
+      responseType: "blob",
+    });
+
+    console.log("Download file success");
+    return response.data;
+  } catch (error) {
+    console.error("Download file error:", error);
+    throw error;
+  }
+};
+
+// 답변 생성
+export const createReplyApi = async (
+  lawyerId: string,
+  articleId: string,
+  reply: Omit<ILawyerReply, "articleId">
+): Promise<ILawyer> => {
+  try {
+    const response = await lawyerInstance().post(`/replies/save/${lawyerId}`, {
+      ...reply,
+      articleId: articleId,
+    });
+
+    console.log("Create reply success");
+    return response.data;
+  } catch (error) {
+    console.error("Create reply error:", error);
+    throw error;
+  }
+};
+
+// 변호사아이디로 작성한 댓글 찾기
+export const getRepliesByLawyerIdApi = async (
+  lawyerId: string
+): Promise<ILawyerReply[]> => {
+  try {
+    const response = await lawyerInstance().get(`/replies/${lawyerId}`);
+    console.log("Get replies success");
+    return response.data;
+  } catch (error) {
+    console.error("Get replies error:", error);
+    throw error;
+  }
+};
+
+// 댓글 수정
+export const updateReplyApi = async (
+  id: string,
+  reply: ILawyerReply
+): Promise<ILawyerReply> => {
+  try {
+    const response = await lawyerInstance().patch(`/replies/${id}`, reply);
+
+    console.log("Update reply success");
+    return response.data;
+  } catch (error) {
+    console.error("Update reply error:", error);
+    throw error;
+  }
+};
+
+// 댓글 삭제
+export const deleteReplyApi = async (id: string): Promise<void> => {
+  try {
+    await lawyerInstance().delete(`/replies/${id}`);
+    console.log("Delete reply success");
+  } catch (error) {
+    console.error("Delete reply error:", error);
+    throw error;
   }
 };

@@ -1,6 +1,6 @@
 "use client";
 
-import { downloadfiles } from "@/components/_service/lawyer/lawyer.service";
+import { downloadFiles } from "@/components/_service/lawyer/lawyer.service";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -60,7 +60,7 @@ const NorificationAddPage = () => {
     if (fileId.length === 0) return;
 
     try {
-      const response = await dispatch(downloadfiles(fileId[index]));
+      const response = await dispatch(downloadFiles(fileId[index]));
 
       const contentDisposition = response.headers["content-disposition"];
       let fileName = filename[index]; // 기본 파일 이름 설정

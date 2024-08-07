@@ -1,3 +1,5 @@
+import { IUser } from "../user/user";
+
 export interface ILawyer {
   id: number;
   email?: string;
@@ -47,4 +49,32 @@ export interface ILawyerFile {
   postId: string;
   createdDate: string;
   modifiedDate: string;
+}
+// 포스트 Axios
+export interface ILawyerPost {
+  id: string;
+  title: string;
+  content: string;
+  category: string;
+  lawyerId: string;
+  createdDate: string;
+  modifiedDate: string;
+  fileUrls: string[];
+}
+// 댓글 Axios
+export interface ILawyerReply {
+  id: string;
+  content: string;
+  articleId: string;
+  lawyerId: string;
+  createdDate: string;
+  modifiedDate: string;
+}
+
+export interface ILawyerQuestion {
+  id: string;
+  law: string;
+  title: string;
+  content: string;
+  writer: IUser;
 }

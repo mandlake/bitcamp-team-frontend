@@ -22,11 +22,20 @@ const QnaBoardPage = () => {
   } = useForm<any>();
   return (
     <>
-      <div
-        className={`flex flex-col justify-center items-center relative font-chosunlo`}
-      >
+      <div className={`flex flex-col justify-center items-center relative`}>
         <div className="flex flex-col items-center py-24">
-          <h1 className=" text-5xl font-semibold">법률 상담 Q&A</h1>
+          <div className="flex flex-row items-center justify-between w-full p-5">
+            <div></div>
+            <h1 className=" text-5xl font-semibold font-chosunlo">
+              법률 상담 Q&A
+            </h1>
+            <div
+              className="text-lg font-semibold"
+              onClick={() => router.push("/qna/add")}
+            >
+              글쓰기
+            </div>
+          </div>
           <div className="flex flex-wrap items-center justify-center w-[60vw] box-border gap-7 pt-7">
             <div className="flex flex-row items-baseline justify-center w-[60vw] gap-5 px-5 py-2 font-roboto">
               <select

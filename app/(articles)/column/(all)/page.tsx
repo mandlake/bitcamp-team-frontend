@@ -36,11 +36,20 @@ const LawyerColumnPage = () => {
 
   return (
     <>
-      <div
-        className={`flex flex-col justify-center items-center relative font-chosunlo`}
-      >
+      <div className={`flex flex-col justify-center items-center relative`}>
         <div className="flex flex-col items-center gap-9 py-24">
-          <h1 className=" text-5xl font-semibold">변호사 법률 칼럼</h1>
+          <div className="flex flex-row items-center justify-between w-full p-5">
+            <div></div>
+            <h1 className=" text-5xl font-semibold font-chosunlo">
+              변호사 법률 칼럼
+            </h1>
+            <div
+              className="text-lg font-semibold"
+              onClick={() => router.push("/column/add")}
+            >
+              글쓰기
+            </div>
+          </div>
           <div className="w-[60vw] flex flex-col items-center gap-5 font-roboto">
             <div className="flex flex-row items-baseline justify-center w-[60vw] gap-5 px-5">
               <select
