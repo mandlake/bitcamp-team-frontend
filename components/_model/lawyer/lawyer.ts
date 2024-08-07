@@ -36,3 +36,15 @@ export interface ILawyerDetail {
   modifiedDate?: string;
   time?: string;
 }
+
+// 파일 Axios
+export interface ILawyerFile {
+  id: string;
+  filename: string;
+  contentType: string;
+  url: string;
+  lawyerId: string;
+  postId: string;
+  createdDate: string;
+  modifiedDate: string;
+}
