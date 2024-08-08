@@ -1,11 +1,15 @@
 "use client";
 
+import { getAllLawyer } from "@/components/_service/lawyer/lawyer.service";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
+import { useDispatch } from "react-redux";
 
 const LawyersBoardPage = () => {
   const router = useRouter();
+  const dispatch = useDispatch();
   const {
     register,
     handleSubmit,
@@ -14,6 +18,8 @@ const LawyersBoardPage = () => {
     getValues,
     formState: { errors },
   } = useForm<any>();
+
+  const [lawyers, setLawyers] = useState([]);
 
   const options = [
     { value: "형사법", label: "형사법" },
@@ -27,6 +33,17 @@ const LawyersBoardPage = () => {
     { value: "경제법", label: "경제법" },
     { value: "환경법", label: "환경법" },
   ];
+
+  const getAllLawyers = async () => {
+    await dispatch(getAllLawyer()).then((res: any) => {
+      console.log(res);
+      setLawyers(res.payload);
+    });
+  };
+
+  useEffect(() => {
+    getAllLawyers();
+  }, []);
 
   return (
     <>
@@ -66,30 +83,31 @@ const LawyersBoardPage = () => {
               </div>
             </div>
             <div className="w-auto grid grid-cols-6 justify-start items-baseline gap-3">
-              {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17].map(
-                (item) => (
-                  <div
-                    key={item}
-                    className=" border border-[var(--color-Harbor-first)] rounded-md text-[var(--color-Harbor-first)] items-center flex flex-col p-4 font-chosunsg"
-                    onClick={() => window.location.replace(`/lawyers/${item}`)}
-                  >
-                    <Image
-                      src="https://mblogthumb-phinf.pstatic.net/MjAyMTA1MjlfNzYg/MDAxNjIyMjE1MjMwOTk5.TSOSi5EAsh3MX9bdN3W9ugQyjSBYV_I0jMkcLwN9Wkwg.6KIRElwl9bBEUu-Br1UmWMMb0Fuku_CIFNb64SttOHkg.JPEG.acttosun08/IMAGE%EF%BC%BF2020%EF%BC%BF09%EF%BC%BF18%EF%BC%BF06%EF%BC%BF09%EF%BC%BF35.jpg?type=w800"
-                      className="mb-3"
-                      width={150}
-                      height={150}
-                      alt="lawyer-image"
-                    />
-                    <div className="w-auto flex flex-col gap-2">
-                      <h1 className="text-lg font-semibold">진보라 변호사</h1>
-                      <div className="text-sm flex gap-2">
-                        <div>#성매매알선</div>
-                        <div>#장부단속</div>
-                      </div>
+              {lawyers.map((item: any) => (
+                <div
+                  key={item.id}
+                  className=" border border-[var(--color-Harbor-first)] rounded-md text-[var(--color-Harbor-first)] items-center flex flex-col p-4 font-chosunsg"
+                  onClick={() => window.location.replace(`/lawyers/${item.id}`)}
+                >
+                  <Image
+                    src="https://mblogthumb-phinf.pstatic.net/MjAyMTA1MjlfNzYg/MDAxNjIyMjE1MjMwOTk5.TSOSi5EAsh3MX9bdN3W9ugQyjSBYV_I0jMkcLwN9Wkwg.6KIRElwl9bBEUu-Br1UmWMMb0Fuku_CIFNb64SttOHkg.JPEG.acttosun08/IMAGE%EF%BC%BF2020%EF%BC%BF09%EF%BC%BF18%EF%BC%BF06%EF%BC%BF09%EF%BC%BF35.jpg?type=w800"
+                    className="mb-3"
+                    width={150}
+                    height={150}
+                    alt="lawyer-image"
+                  />
+                  <div className="w-auto flex flex-col gap-2">
+                    <h1 className="text-lg font-semibold">
+                      {item.name} 변호사
+                    </h1>
+                    <div className="text-sm flex gap-2">
+                      {item.detail?.law.map((law: any) => {
+                        <div>#{law.data}</div>;
+                      })}
                     </div>
                   </div>
-                )
-              )}
+                </div>
+              ))}
             </div>
           </div>
         </div>

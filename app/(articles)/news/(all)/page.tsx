@@ -2,9 +2,12 @@
 
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import { useDispatch } from "react-redux";
 
 const NewsBoardPage = () => {
   const router = useRouter();
+  const dispatch = useDispatch();
+  const getAllNews = async () => {};
   return (
     <>
       <div

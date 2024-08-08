@@ -18,7 +18,7 @@ export interface ILawyer {
   replies?: {};
   reservations?: {};
   notices?: {};
-  detail?: {};
+  detail?: ILawyerDetail;
 }
 
 export interface ILawyerDetail {

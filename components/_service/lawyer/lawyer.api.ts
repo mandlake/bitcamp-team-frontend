@@ -437,3 +437,79 @@ export const deleteReplyApi = async (id: string): Promise<void> => {
     throw error;
   }
 };
+
+export const resetPasswordApi = async (lawyerNo: string): Promise<void> => {
+  try {
+    await lawyerInstance().post("/resetPassword", {
+      params: { lawyerNo },
+    });
+    console.log("Reset password success");
+  } catch (error) {
+    console.error("Reset password error:", error);
+    throw error;
+  }
+};
+// 알림 스트림 구독
+export const subscribeToNotifications = (userId: string) => {
+  const eventSource = new EventSource(`/notifications/${userId}`);
+
+  eventSource.onmessage = (event) => {
+    console.log("New notification:", event.data);
+  };
+
+  eventSource.onerror = (err) => {
+    console.error("EventSource failed:", err);
+  };
+
+  return eventSource;
+};
+
+// 알림 수락
+export const acceptNotification = async (userId: string): Promise<void> => {
+  try {
+    await lawyerInstance().post("/notifications/accept", {
+      params: { userId },
+    });
+    console.log("Notification accepted");
+  } catch (error) {
+    console.error("Error accepting notification:", error);
+    throw error;
+  }
+};
+
+// 알림 거절
+export const rejectNotification = async (userId: string): Promise<void> => {
+  try {
+    await lawyerInstance().post("/notifications/reject", {
+      params: { userId },
+    });
+    console.log("Notification rejected");
+  } catch (error) {
+    console.error("Error rejecting notification:", error);
+    throw error;
+  }
+};
+
+// 사용자 Sink 제거
+export const removeUserSink = async (userId: string): Promise<void> => {
+  try {
+    await lawyerInstance().delete(`/notifications/${userId}`);
+    console.log("User sink removed");
+  } catch (error) {
+    console.error("Error removing user sink:", error);
+    throw error;
+  }
+};
+
+export const getLawyersByLaw = async (laws: string[]): Promise<void> => {
+  try {
+    const response = await lawyerInstance().get("/law", {
+      params: { law: laws },
+    });
+
+    console.log("Lawyers found:", response.data);
+  } catch (error) {
+    console.error("Error fetching lawyers:", error);
+    throw error;
+  }
+};
