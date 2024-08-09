@@ -117,7 +117,6 @@ const LawyerByIdPage = (props: any) => {
 
             // 서버로 결제 데이터 전송
             const paymentData: IPayment = {
-              payment_uid: rsp.imp_uid,
               amount: amount,
               status: "OK",
               buyer: {

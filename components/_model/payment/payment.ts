@@ -1,5 +1,4 @@
 export interface IPayment {
-  payment_uid?: number;
   id?: number;
   lawyer?: string;
   impUid?: string;
