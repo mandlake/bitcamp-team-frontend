@@ -1,73 +1,56 @@
 "use client";
 
+import { IUser } from "@/components/_model/user/user";
+import { saveQuestions } from "@/components/_service/qna/qna.service";
 import axios from "axios";
+import { jwtDecode } from "jwt-decode";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { parseCookies } from "nookies";
+import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 
 const QnaBoardAddPage = () => {
   const router = useRouter();
   const dispatch = useDispatch();
 
+  const accessToken = parseCookies().accessToken;
+  const [decodedToken, setDecodedToken] = useState({} as any);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
   const [selectBoard, setSelectBoard] = useState({
-    title: "",
-    content: "",
-    writer: "작성자1",
-    email: "",
-    tag: [] as any,
+    id: 1,
+    law: "형법",
+    title: "형사 사건",
+    content: "어떡하죠?",
+    writer: {
+      id: decodedToken.id || 1,
+    },
   });
 
-  const [inputValue, setInputValue] = useState("");
-
-  const handleInputChange = (event: any) => {
-    setInputValue(event.target.value);
-  };
-
-  const handleHashtagAdd = () => {
-    if (inputValue.trim() !== "") {
-      setSelectBoard({
-        ...selectBoard,
-        tag: [...selectBoard.tag, { value: inputValue }], // Create a new object with the value
-      });
-      setInputValue("");
+  useEffect(() => {
+    if (!accessToken) {
+      return; // or handle the case where there's no token
     }
-  };
+    setIsLoggedIn(!!accessToken);
+    console.log(accessToken);
+    try {
+      setDecodedToken(jwtDecode(accessToken));
+      if (decodedToken.roles !== undefined) {
+        console.log(decodedToken);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }, [isLoggedIn]);
 
-  const handleHashtagRemove = (index: any) => {
-    setSelectBoard({
-      ...selectBoard,
-      tag: selectBoard.tag.filter((_: any, i: any) => i !== index),
-    });
-  };
   const submit = async () => {
     console.log(selectBoard);
-    // const formData = new FormData();
-    // formData.append("boardDto", JSON.stringify(selectBoard));
-    // if (selectedFile.length == 0) {
-    //   alert("파일을 선택해주세요.");
-    //   return 0;
-    // }
-    // Array.from(selectedFile).forEach((file: File) => {
-    //   formData.append("files", file);
-    // });
-    // try {
-    //   const response = await axios.post(
-    //     "http://localhost:8082/board/save",
-    //     formData,
-    //     {
-    //       headers: {
-    //         "Content-Type": "multipart/form-data",
-    //       },
-    //     }
-    //   );
-    //   if (response.status === 200) {
-    //     alert("파일이 성공적으로 등록되었습니다.");
-    //     router.push("/notification");
-    //   }
-    // } catch (error) {
-    //   console.log(error);
-    // }
+    try {
+      await dispatch(saveQuestions());
+    } catch (error) {
+      console.log(error);
+    }
   };
   return (
     <>
@@ -90,36 +73,19 @@ const QnaBoardAddPage = () => {
               }
             />
           </div>
-          <div className="flex flex-row items-center justify-between mt-3 pb-2">
-            <p className="text-xl">태그</p>
+          <div className="flex flex-row items-center justify-between mt-3">
+            <p className="text-xl">형법</p>
             <input
               type="text"
-              value={inputValue}
-              onChange={handleInputChange}
-              placeholder="해시태그를 입력하세요"
-              className="w-10/12 p-2"
+              placeholder="형법을 입력하세요."
+              className="w-[42vw] border border-black rounded-xl h-[44px] px-4 focus:outline-none"
+              onChange={(event: any) =>
+                setSelectBoard({
+                  ...selectBoard,
+                  law: event.target.value,
+                })
+              }
             />
-            <button onClick={handleHashtagAdd}>추가</button>
-          </div>
-          <div className="flex flex-row items-center gap-5">
-            {selectBoard.tag.map((hashtag: any, index: any) => (
-              <span
-                key={index}
-                className="flex flex-row gap-3 items-center px-2 rounded-lg bg-[var(--color-Harbor-third)] text-[var(--color-Harbor-first)] border border-[var(--color-Harbor-first)]"
-              >
-                # {hashtag.value}
-                <Image
-                  src={
-                    "https://img.icons8.com/?size=100&id=OpfeY8fFZX2F&format=png&color=354649"
-                  }
-                  onClick={() => handleHashtagRemove(index)}
-                  alt={"x"}
-                  width={20}
-                  height={20}
-                  className="w-4 h-4"
-                />
-              </span>
-            ))}
           </div>
           <textarea
             placeholder="내용을 입력하세요."

@@ -1,7 +1,14 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { deleteUserAPI, existsEmailAPI, getUserByIdApi, locaJoinAPI, localLoginAPI, updateUserByIdApi, userLogoutApi } from "./user.api";
+import {
+  deleteUserAPI,
+  existsEmailAPI,
+  getUserByIdApi,
+  locaJoinAPI,
+  localLoginAPI,
+  updateUserByIdApi,
+  userLogoutApi,
+} from "./user.api";
 import { IUser } from "@/components/_model/user/user";
-import { userInstance } from "@/components/config/axios-config";
 
 export const userLogout: any = createAsyncThunk("user/userLogout", async () => {
   const data: any = await userLogoutApi();
@@ -34,7 +41,6 @@ export const localJoin: any = createAsyncThunk(
   async (user: IUser) => await locaJoinAPI(user)
 );
 
-
 export const findAllUsers: any = createAsyncThunk(
   "users/findAllUsers",
   async (page: number) => await findAllUsers(page)
@@ -48,7 +54,6 @@ export const findUserByEmail: any = createAsyncThunk(
     return data;
   }
 );
-
 
 export const existsEmail: any = createAsyncThunk(
   "users/existsEmail",

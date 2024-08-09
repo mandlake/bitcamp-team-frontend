@@ -2,7 +2,7 @@
 
 import {
   findQnaBoardById,
-  getRepliesByBoard,
+  findReplyByArticleId,
 } from "@/components/_service/qna/qna.service";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
@@ -20,7 +20,7 @@ const QnAByIdPage = (props: any) => {
         setQuestion(res.payload);
         setOptions(res.payload.law);
       });
-      await dispatch(getRepliesByBoard(props.params.id)).then((res: any) => {
+      await dispatch(findReplyByArticleId(props.params.id)).then((res: any) => {
         console.log(res);
       });
     } catch (error) {

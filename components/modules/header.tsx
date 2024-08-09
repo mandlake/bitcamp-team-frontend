@@ -14,124 +14,35 @@ import { userLogout } from "../_service/user/user.service";
 const Header = ({ isDropdownOpen, setIsDropdownOpen }: any) => {
   const dispatch = useDispatch();
   const router = useRouter();
-  const accessToken: string = parseCookies().accessToken;
+  // const accessToken: string = parseCookies().accessToken;
+  const refreshToken = parseCookies().refreshToken;
+  const accessToken = parseCookies().accessToken;
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [decodedToken, setDecodedToken] = useState({} as any);
   const [role, setRole] = useState("");
 
-  const MenuBeforeLogin = [
+  const afterLoginMenu = [
     {
       key: 1,
-      title: "Login",
-      sub: "로그인",
-      children: [
-        {
-          key: 1.1,
-          title: "User Login",
-          path: "/login/user",
-          sub: "일반 회원",
-        },
-        {
-          key: 1.2,
-          title: "Lawyer Login",
-          path: "/login/lawyer",
-          sub: "변호사 회원",
-        },
-      ],
+      title: "User Info",
+      path:
+        accessToken !== undefined &&
+        (role === "ROLE_NEWUSER" || role === "ROLE_NEWUSER")
+          ? `/user-info`
+          : `/lawyer-info`,
+      sub: "회원 정보",
     },
     {
       key: 2,
-      title: "Boards",
-      sub: "게시판",
-      children: [
-        {
-          key: 2.1,
-          title: "News Board",
-          path: "/news",
-          sub: "뉴스",
-        },
-        {
-          key: 2.2,
-          title: "Lawyers Board",
-          path: "/lawyers",
-          sub: "변호사",
-        },
-        {
-          key: 2.3,
-          title: "판례 게시판",
-          path: "/judicial-precedent",
-          sub: "판례",
-        },
-        {
-          key: 2.4,
-          title: "법률 상담 Q&A",
-          path: "/qna",
-          sub: "Q&A",
-        },
-        {
-          key: 2.5,
-          title: "변호사 법률 칼럼",
-          path: "/column",
-          sub: "칼럼",
-        },
-      ],
-    },
-  ];
-
-  const MenuAfterLogin = [
-    {
-      key: 1,
-      title: "My Page",
-      sub: "마이 페이지",
-      children: [
-        {
-          key: 1.1,
-          title: "User Info",
-          path:
-            accessToken !== undefined &&
-            (role === "ROLE_NEWUSER" || role === "ROLE_NEWUSER")
-              ? `/user-info`
-              : `/lawyer-info`,
-          sub: "회원 정보",
-        },
-      ],
+      title: "Logout",
+      path: "",
+      sub: "회원 정보",
     },
     {
-      key: 2,
-      title: "Boards",
-      sub: "게시판",
-      children: [
-        {
-          key: 2.1,
-          title: "News Board",
-          path: "/news",
-          sub: "뉴스",
-        },
-        {
-          key: 2.2,
-          title: "Lawyers Board",
-          path: "/lawyers",
-          sub: "변호사",
-        },
-        {
-          key: 2.3,
-          title: "판례 게시판",
-          path: "/judicial-precedent",
-          sub: "판례",
-        },
-        {
-          key: 2.4,
-          title: "법률 상담 Q&A",
-          path: "/qna",
-          sub: "Q&A",
-        },
-        {
-          key: 2.5,
-          title: "변호사 법률 칼럼",
-          path: "/column",
-          sub: "칼럼",
-        },
-      ],
+      key: 3,
+      title: "Withdraw",
+      path: "",
+      sub: "회원 탈퇴",
     },
   ];
 
@@ -228,7 +139,7 @@ const Header = ({ isDropdownOpen, setIsDropdownOpen }: any) => {
           if (res.payload.message === "SUCCESS") {
             setIsLoggedIn(false);
             destroyCookie({}, "accessToken");
-            destroyCookie({}, "username");
+            destroyCookie({}, "requestToken");
           }
           return res;
         })
@@ -245,7 +156,7 @@ const Header = ({ isDropdownOpen, setIsDropdownOpen }: any) => {
           console.log(res);
           setIsLoggedIn(false);
           destroyCookie({}, "accessToken");
-          destroyCookie({}, "username");
+          destroyCookie({}, "requestToken");
           return res;
         })
         .catch((error: any) => {
@@ -261,7 +172,7 @@ const Header = ({ isDropdownOpen, setIsDropdownOpen }: any) => {
           console.log(res);
           setIsLoggedIn(false);
           destroyCookie({}, "accessToken");
-          destroyCookie({}, "username");
+          destroyCookie({}, "requestToken");
           return res;
         })
         .catch((error: any) => {
@@ -473,15 +384,31 @@ const Header = ({ isDropdownOpen, setIsDropdownOpen }: any) => {
                 isDropdownOpen.account ? "visible" : "invisible"
               }`}
             >
-              {loginMenu.map((item: any) => (
-                <button
-                  key={item.key}
-                  onClick={() => window.location.replace(item.path)}
-                  className="border bg-white"
-                >
-                  {item.title}
-                </button>
-              ))}
+              {accessToken
+                ? afterLoginMenu.map((item: any) => (
+                    <button
+                      key={item.key}
+                      onClick={() => {
+                        if (item.key === 3) {
+                          handleLogOut();
+                        } else {
+                          window.location.replace(item.path);
+                        }
+                      }}
+                      className="border bg-white"
+                    >
+                      {item.title}
+                    </button>
+                  ))
+                : loginMenu.map((item: any) => (
+                    <button
+                      key={item.key}
+                      onClick={() => window.location.replace(item.path)}
+                      className="border bg-white"
+                    >
+                      {item.title}
+                    </button>
+                  ))}
             </div>
           </div>
         </div>

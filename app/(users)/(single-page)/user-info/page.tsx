@@ -20,10 +20,10 @@ const UserSingeInfoPage = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   const getUser = async () => {
-    // await dispatch(getUserById(decodedToken.id)).then((res: any) => {
-    //   console.log(res);
-    //   setUser(res.payload);
-    // });
+    await dispatch(getUserById(decodedToken.id)).then((res: any) => {
+      console.log(res);
+      setUser(res.payload);
+    });
   };
 
   useEffect(() => {
@@ -103,7 +103,7 @@ const UserSingeInfoPage = () => {
               </div>
             </div>
             <div className="w-[650px] h-[1px] bg-[var(--color-Harbor-firth)] my-2"></div>
-            {/* <div className="flex flex-row w-[650px] items-center px-2">
+            <div className="flex flex-row w-[650px] items-center px-2">
               <p className="w-[100px]">비밀번호</p>
               <div className="flex flex-row w-[550px] justify-between items-center">
                 <input
@@ -120,7 +120,7 @@ const UserSingeInfoPage = () => {
                 <input type="submit" value="수정" className="px-2" />
               </div>
             </div>
-            <div className="w-[650px] h-[1px] bg-[var(--color-Harbor-firth)] my-2"></div> */}
+            <div className="w-[650px] h-[1px] bg-[var(--color-Harbor-firth)] my-2"></div>
             <div className="flex flex-row w-[650px] items-center px-2">
               <p className="w-[100px]">전화번호</p>
               <div className="flex flex-row w-[550px] justify-between items-center">

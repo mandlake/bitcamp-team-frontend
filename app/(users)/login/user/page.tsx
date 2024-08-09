@@ -7,6 +7,7 @@ import { useDispatch } from "react-redux";
 import { mainURL } from "@/components/common/url";
 import { useState } from "react";
 import { localLogin } from "@/components/_service/user/user.service";
+import { setCookie } from "nookies";
 
 const UserLogin = () => {
   const router = useRouter();
@@ -21,12 +22,15 @@ const UserLogin = () => {
       await dispatch(localLogin(formData))
         .then((res: any) => {
           console.log(res);
-          if (res.payload === true) {
-            alert("로그인 성공");
-            window.location.replace("/");
-          } else {
-            alert("로그인 실패");
-          }
+
+          setCookie({}, "accessToken", res.payload.accessToken, {
+            httpOnly: false,
+            path: "/",
+          });
+          setCookie({}, "refreshToken", res.payload.refreshToken, {
+            httpOnly: false,
+            path: "/",
+          });
           return res;
         })
         .catch((error: any) => {

@@ -47,15 +47,15 @@ const LawyerByIdPage = (props: any) => {
   const consultationType = [
     {
       type: "15분 전화 상담",
-      price: 1500,
+      price: lawyerDetail.phoneCost,
     },
     {
       type: "20분 영상 상담",
-      price: 2000,
+      price: lawyerDetail.videoCost,
     },
     {
       type: "30분 방문 상담",
-      price: 3000,
+      price: lawyerDetail.visitCost,
     },
   ];
 
@@ -243,7 +243,7 @@ const LawyerByIdPage = (props: any) => {
           <div className="h-[240px] flex flex-row justify-between w-[723px] border-b">
             <div className="">
               <p className="font-bold text-lg">{lawyer.name} 변호사</p>
-              <div className="my-2">예약 준수율</div>
+              <div className="my-2">{lawyer.email}</div>
               <div className="py-5">
                 <p className="font-semibold">{lawyerDetail.belong}</p>
                 <p className="font-normal">
@@ -254,11 +254,15 @@ const LawyerByIdPage = (props: any) => {
                 <p className="font-semibold">사무실 전화</p>
                 <p>{lawyerDetail.belongPhone}</p>
               </div>
+              <div className="flex flex-row items-center gap-2">
+                <p className="font-semibold">본인 전화</p>
+                <p>{lawyer.phone}</p>
+              </div>
             </div>
             <div className="w-[360px] flex flex-col gap-2">
               <div className="flex flex-row gap-4">
-                <div>분야</div>
-                <div>
+                <div className="font-semibold">분야</div>
+                <div className="flex flex-row gap-2 font-normal">
                   {lawyerDetail.law?.map((law: any) => (
                     <div key={law} className="flex flex-row justify-between">
                       <p>{law}</p>
@@ -266,17 +270,15 @@ const LawyerByIdPage = (props: any) => {
                   ))}
                 </div>
               </div>
-              <div>
-                <p>경력</p>
+              <div className="flex flex-row gap-4">
+                <p className="font-semibold">자격</p>
+                <p>{lawyer.lawyerNo}</p>
               </div>
-              <div>
-                <p>자격</p>
-              </div>
-              <div>
-                <p>학력</p>
-              </div>
-              <div>
-                <p>가격</p>
+              <div className="flex flex-row gap-4">
+                <p className="font-semibold">학력</p>
+                <p>
+                  {lawyerDetail.university} {lawyerDetail.major}
+                </p>
               </div>
             </div>
           </div>
@@ -448,15 +450,15 @@ const LawyerByIdPage = (props: any) => {
               <div className="flex flex-row justify-center">
                 <div className="flex flex-col gap-2 items-center p-3 px-5 border-r">
                   <p>15분 전화 상담</p>
-                  <p>1500원</p>
+                  <p>{lawyerDetail.phoneCost} 원</p>
                 </div>
                 <div className="flex flex-col gap-2 items-center p-3 px-5 border-r">
                   <p>20분 영상 상담</p>
-                  <p>2000원</p>
+                  <p>{lawyerDetail.videoCost} 원</p>
                 </div>
                 <div className="flex flex-col gap-2 items-center p-3 px-5">
                   <p>30분 방문 상담</p>
-                  <p>3000원</p>
+                  <p>{lawyerDetail.visitCost} 원</p>
                 </div>
               </div>
             )}
