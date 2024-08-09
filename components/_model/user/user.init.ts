@@ -1,12 +1,13 @@
 export const IUserState = {
   id: 0,
   email: "",
+  password: "",
   name: "",
   picture: "",
   role: "",
   phone: "",
   age: "",
-  sex: "",
+  gender: "",
   token: "",
   point: 0,
 };

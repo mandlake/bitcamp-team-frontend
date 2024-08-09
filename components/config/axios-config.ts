@@ -1,12 +1,19 @@
 import axios, { AxiosInstance } from "axios";
 import { parseCookies } from "nookies";
 import {
+  mainURL,
   adminURL,
   chatURL,
   lawyerURL,
   manageURL,
   userURL,
 } from "../common/url";
+
+export const instance = () => {
+  const instance = axios.create({ baseURL: mainURL });
+  setInterceptor(instance);
+  return instance;
+};
 
 export const userInstance = () => {
   const instance = axios.create({ baseURL: userURL });
