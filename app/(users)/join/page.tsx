@@ -5,11 +5,12 @@ import { useDispatch } from "react-redux";
 import { ILawyer } from "@/components/_model/lawyer/lawyer";
 import { lawyerJoin } from "@/components/_service/lawyer/lawyer.service";
 import { useForm } from "react-hook-form";
+import { useEffect } from "react";
 
 function Join() {
   const router = useRouter();
   const dispatch = useDispatch();
-  const { register, handleSubmit } = useForm<ILawyer>();
+  const { register, handleSubmit, setValue } = useForm<ILawyer>();
 
   const onSubmit = async (data: ILawyer) => {
     console.log("입력된 값 : " + JSON.stringify(data));
@@ -17,12 +18,16 @@ function Join() {
     try {
       await dispatch(lawyerJoin(data)).then((res: any) => {
         console.log(res);
-        // router.push(`/join/${res.payload.id}`);
+        router.push(`/join/${res.payload.id}`);
       });
     } catch (error) {
       console.log(error);
     }
   };
+
+  useEffect(() => {
+    setValue("auth", false);
+  }, []);
 
   return (
     <>
@@ -142,7 +147,7 @@ function Join() {
                 className="w-[22vw] h-[5vh] border border-[var(--color-Harbor-first)] px-[1.111vw] mb-[1.111vh] bg-white"
               />
             </label>
-            <button className="w-[33vw] h-[5vh] bg-white border border-[var(--color-Harbor-first)] hover:bg-[var(--color-Harbor-first)] hover:text-white  font-bold">
+            <button className="w-[33vw] h-[5vh] bg-white border border-[var(--color-Harbor-first)] hover:bg-[var(--color-Harbor-first)] hover:text-white font-bold">
               Continue
             </button>
           </div>

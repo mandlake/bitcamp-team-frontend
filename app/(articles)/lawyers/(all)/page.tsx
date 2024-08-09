@@ -1,7 +1,11 @@
 "use client";
 
 import { ILawyer, ILawyerDetail } from "@/components/_model/lawyer/lawyer";
-import { getAllLawyer } from "@/components/_service/lawyer/lawyer.service";
+import {
+  getAllLawyer,
+  getLawyersByLaw,
+  searchLawyer,
+} from "@/components/_service/lawyer/lawyer.service";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -23,16 +27,10 @@ const LawyersBoardPage = () => {
   const [lawyers, setLawyers] = useState<ILawyer[]>([]);
 
   const options = [
-    { value: "형사법", label: "형사법" },
-    { value: "공법", label: "공법" },
-    { value: "국제법", label: "국제법" },
-    { value: "국제거래법", label: "국제거래법" },
-    { value: "노동법", label: "노동법" },
-    { value: "조세법", label: "조세법" },
-    { value: "지적재산권법", label: "지적재산권법" },
-    { value: "민사법", label: "민사법" },
-    { value: "경제법", label: "경제법" },
-    { value: "환경법", label: "환경법" },
+    { value: "담당법률", label: "담당법률" },
+    { value: "이름", label: "이름" },
+    { value: "주소", label: "주소" },
+    { value: "소속", label: "소속" },
   ];
 
   const getAllLawyers = async () => {
@@ -40,6 +38,41 @@ const LawyersBoardPage = () => {
       console.log(res);
       setLawyers(res.payload);
     });
+  };
+
+  const handleSearch = async () => {
+    await dispatch(searchLawyer(watch("search"))).then((res: any) => {
+      console.log(res);
+      setLawyers(res.payload);
+    });
+  };
+
+  const handleSearchByLaw = async () => {
+    let laws = [] as string[];
+    watch("search")
+      .split(", ")
+      .map((law: string) => {
+        console.log(law);
+        laws.push(law);
+      });
+    await dispatch(getLawyersByLaw(laws)).then((res: any) => {
+      console.log(res);
+      setLawyers(res.payload);
+    });
+  };
+
+  const handleFind = async () => {
+    if (watch("분야") === "담당법률") {
+      handleSearchByLaw();
+    } else if (
+      watch("분야") === "이름" ||
+      watch("분야") === "주소" ||
+      watch("분야") === "소속"
+    ) {
+      handleSearch();
+    } else {
+      alert("분야를 선택해주세요");
+    }
   };
 
   useEffect(() => {
@@ -61,9 +94,9 @@ const LawyersBoardPage = () => {
               <select
                 className="w-[5vw] h-[5vh] border border-[var(--color-Harbor-first)] px-[1.111vw] mb-[1.111vh] bg-white"
                 style={{ flexBasis: 0, flexGrow: 1 }}
-                value={watch("law")}
-                {...register("law")}
-                name="law"
+                value={watch("분야")}
+                {...register("분야")}
+                name="분야"
               >
                 <option>분야</option>
                 {options.map((option) => (
@@ -73,8 +106,12 @@ const LawyersBoardPage = () => {
                 ))}
               </select>
               <div className="w-[40vw] h-[5vh] flex border border-black flex-row justify-between ">
-                <input type="text" className="w-80 focus:outline-none" />
-                <button>
+                <input
+                  type="text"
+                  className="w-80 focus:outline-none"
+                  {...register("search")}
+                />
+                <button onClick={handleSearch}>
                   <Image
                     width={30}
                     height={20}
@@ -87,7 +124,7 @@ const LawyersBoardPage = () => {
               </div>
             </div>
             <div className="w-auto flex flex-wrap justify-start items-baseline gap-3">
-              {lawyers.map((item: any) => (
+              {lawyers?.map((item: any) => (
                 <div
                   key={item.id}
                   className=" border border-[var(--color-Harbor-first)] rounded-md text-[var(--color-Harbor-first)] items-center flex flex-col p-4 font-chosunsg"
@@ -100,11 +137,11 @@ const LawyersBoardPage = () => {
                     height={150}
                     alt="lawyer-image"
                   />
-                  <div className="w-auto flex flex-col gap-2">
+                  <div className="w-auto flex flex-col items-center gap-1">
                     <h1 className="text-lg font-semibold">
                       {item.name} 변호사
                     </h1>
-                    <div className="text-sm flex gap-2">
+                    <div className="text-sm">
                       {item.detail?.law.map((law: any, index: number) => (
                         <div key={index}>#{law}</div>
                       ))}

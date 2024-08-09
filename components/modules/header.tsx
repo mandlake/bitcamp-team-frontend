@@ -277,7 +277,9 @@ const Header = ({ isDropdownOpen, setIsDropdownOpen }: any) => {
   };
 
   useEffect(() => {
+    console.log(accessToken);
     if (!accessToken) {
+      console.log("accessToken이 없습니다.");
       return; // or handle the case where there's no token
     }
     setIsLoggedIn(!!accessToken);

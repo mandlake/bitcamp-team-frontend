@@ -1,8 +1,10 @@
 "use client";
 
+import { SearchCriteriaDto } from "@/components/_model/manage/manage";
 import {
   getAllCaseLaws,
   getCaseLawList,
+  searchCaseLaws,
 } from "@/components/_service/judicial-precedent/judicial.service";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
@@ -33,6 +35,14 @@ const JudicialPrecidentPage = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const notificationsPerPage = 10;
   const [totalPages, setTotalPages] = useState(0);
+
+  const handleSearch = async () => {
+    await dispatch(searchCaseLaws(watch("keyword"))).then((res: any) => {
+      console.log(res);
+      setJudicialPrecident(res.payload);
+      setTotalPages(0);
+    });
+  };
 
   const handleCaseLawList = async () => {
     if (isLoading) return;
@@ -78,8 +88,12 @@ const JudicialPrecidentPage = () => {
                 ))}
               </select>
               <div className="w-[40vw] h-[5vh] flex border border-black flex-row justify-between ">
-                <input type="text" className="w-80 focus:outline-none" />
-                <button>
+                <input
+                  type="text"
+                  className="w-80 focus:outline-none"
+                  {...register("keyword")}
+                />
+                <button onClick={handleSearch}>
                   <Image
                     width={30}
                     height={20}
@@ -92,7 +106,7 @@ const JudicialPrecidentPage = () => {
               </div>
             </div>
             <div className="flex flex-wrap items-center justify-center w-[60vw] box-border gap-6">
-              {judicialPrecident.map((item: any, index: number) => {
+              {judicialPrecident?.map((item: any, index: number) => {
                 return (
                   <div
                     ref={lastItemRef}
@@ -119,33 +133,39 @@ const JudicialPrecidentPage = () => {
             </div>
           </div>
           <div className="flex flex-row justify-center pt-10">
-            <button
-              onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
-              disabled={currentPage === 1}
-              className="px-4 py-2 mx-1 border border-gray-300 rounded"
-            >
-              이전
-            </button>
-            {Array.from({ length: totalPages }, (_, i) => (
-              <button
-                key={i + 1}
-                onClick={() => setCurrentPage(i + 1)}
-                className={`px-4 py-2 mx-1 border ${
-                  currentPage === i + 1 ? "border-black" : "border-gray-300"
-                } rounded`}
-              >
-                {i + 1}
-              </button>
-            ))}
-            <button
-              onClick={() =>
-                setCurrentPage((prev) => Math.min(prev + 1, totalPages))
-              }
-              disabled={currentPage === totalPages}
-              className="px-4 py-2 mx-1 border border-gray-300 rounded"
-            >
-              다음
-            </button>
+            {totalPages !== 0 && (
+              <>
+                <button
+                  onClick={() =>
+                    setCurrentPage((prev) => Math.max(prev - 1, 1))
+                  }
+                  disabled={currentPage === 1}
+                  className="px-4 py-2 mx-1 border border-gray-300 rounded"
+                >
+                  이전
+                </button>
+                {Array.from({ length: totalPages }, (_, i) => (
+                  <button
+                    key={i + 1}
+                    onClick={() => setCurrentPage(i + 1)}
+                    className={`px-4 py-2 mx-1 border ${
+                      currentPage === i + 1 ? "border-black" : "border-gray-300"
+                    } rounded`}
+                  >
+                    {i + 1}
+                  </button>
+                ))}
+                <button
+                  onClick={() =>
+                    setCurrentPage((prev) => Math.min(prev + 1, totalPages))
+                  }
+                  disabled={currentPage === totalPages}
+                  className="px-4 py-2 mx-1 border border-gray-300 rounded"
+                >
+                  다음
+                </button>
+              </>
+            )}
           </div>
         </div>
       </div>

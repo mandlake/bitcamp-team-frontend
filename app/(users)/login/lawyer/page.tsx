@@ -11,7 +11,7 @@ const LawyerLogin = () => {
   const router = useRouter();
   const dispatch = useDispatch();
   const [formData, setFormData] = useState({
-    username: "",
+    email: "",
     password: "",
   });
 
@@ -70,12 +70,12 @@ const LawyerLogin = () => {
             <label htmlFor="username">
               <input
                 type="text"
-                id="username"
-                name="username"
-                placeholder="Username"
-                value={formData.username}
+                id="email"
+                name="email"
+                placeholder="Email"
+                value={formData.email}
                 onChange={(e: any) =>
-                  setFormData({ ...formData, username: e.target.value })
+                  setFormData({ ...formData, email: e.target.value })
                 }
                 className="w-[22vw] h-[5vh] border border-[var(--color-Harbor-first)] px-[1.111vw] mb-[1.111vh] bg-white"
               />

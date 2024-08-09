@@ -17,6 +17,12 @@ function Join() {
     try {
       await dispatch(localJoin(data)).then((res: any) => {
         console.log(res);
+        if (res.payload.message === "SUCCESS") {
+          alert("회원가입 성공");
+          window.location.replace("/login/user");
+        } else {
+          alert("회원가입 실패");
+        }
       });
     } catch (error) {
       console.log(error);
@@ -33,9 +39,7 @@ function Join() {
           id="login"
           className="font-roboto w-[37vw] border border-gray-700 flex flex-col gap-3 items-baseline bg-[var(--color-Harbor-firth)] p-7"
         >
-          <p className=" text-[28px] font-medium align-middle">
-            회원가입
-          </p>
+          <p className=" text-[28px] font-medium align-middle">회원가입</p>
           <div>
             <label
               htmlFor="email"

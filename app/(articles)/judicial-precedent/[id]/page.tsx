@@ -50,10 +50,16 @@ const JudicialPrecedentByIdPage = (props: any) => {
           </div>
           <div>
             <div className="border-b pb-10">
-              <p className="font-light text-lg">{judicialPrecedent.summary}</p>
+              <p
+                className="font-light text-lg"
+                dangerouslySetInnerHTML={{ __html: judicialPrecedent.summary }}
+              ></p>
             </div>
             <div className="py-10">
-              <p className="font-light text-lg">{judicialPrecedent.detail}</p>
+              <p
+                className="font-light text-lg"
+                dangerouslySetInnerHTML={{ __html: judicialPrecedent.detail }}
+              ></p>
             </div>
           </div>
           <div className="flex flex-row gap-2 text-sm">

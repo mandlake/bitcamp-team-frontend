@@ -1,7 +1,14 @@
 "use client";
 
 import SubmitIssuePage from "@/app/(issue)/submit-issue/page";
+import CancelPayment from "@/app/(payment)/cancel/[id]/page";
+import Payment from "@/app/(payment)/payment/[id]/page";
+import Product from "@/app/(product)/products/[id]/page";
 import { IPayment } from "@/components/_model/payment/payment";
+import {
+  getLawyerById,
+  getLawyerDetailById,
+} from "@/components/_service/lawyer/lawyer.service";
 import { savePayment } from "@/components/_service/payment/payment-service";
 import { userURL } from "@/components/common/url";
 import UserId from "@/components/hooks/userId";
@@ -10,6 +17,7 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { parseCookies } from "nookies";
 import { useEffect, useState } from "react";
+import { set } from "react-hook-form";
 import { useDispatch } from "react-redux";
 
 declare global {
@@ -32,6 +40,8 @@ const LawyerByIdPage = (props: any) => {
     date: false,
     time: false,
   });
+  const [lawyerDetail, setLawyerDetail] = useState<any>({});
+  const [lawyer, setLawyer] = useState<any>({});
   const [consultation, setConsultation] = useState(false);
 
   const consultationType = [
@@ -137,7 +147,16 @@ const LawyerByIdPage = (props: any) => {
     }
   };
 
+  const findLawyerDetailById = async () => {
+    await dispatch(getLawyerById(lawyerId)).then((response: any) => {
+      console.log(response);
+      setLawyer(response.payload);
+      setLawyerDetail(response.payload.detail);
+    });
+  };
+
   useEffect(() => {
+    findLawyerDetailById();
     const jquery = document.createElement("script");
     jquery.src = "http://code.jquery.com/jquery-1.12.4.min.js";
     const iamport = document.createElement("script");
@@ -224,20 +243,29 @@ const LawyerByIdPage = (props: any) => {
           </h1>
           <div className="h-[240px] flex flex-row justify-between w-[723px] border-b">
             <div className="">
-              <p className="font-bold text-lg">{props.params.id} 변호사</p>
+              <p className="font-bold text-lg">{lawyer.name} 변호사</p>
               <div className="my-2">예약 준수율</div>
               <div className="py-5">
-                <p className="font-semibold">회사이름</p>
-                <p className="font-normal">회사 주소</p>
+                <p className="font-semibold">{lawyerDetail.belong}</p>
+                <p className="font-normal">
+                  {lawyerDetail.address} {lawyerDetail.addressDetail}
+                </p>
               </div>
               <div className="flex flex-row items-center gap-2">
                 <p className="font-semibold">사무실 전화</p>
-                <p>010-2345-6789</p>
+                <p>{lawyerDetail.belongPhone}</p>
               </div>
             </div>
             <div className="w-[360px] flex flex-col gap-2">
-              <div>
-                <p>분야</p>
+              <div className="flex flex-row gap-4">
+                <div>분야</div>
+                <div>
+                  {lawyerDetail.law?.map((law: any) => (
+                    <div key={law} className="flex flex-row justify-between">
+                      <p>{law}</p>
+                    </div>
+                  ))}
+                </div>
               </div>
               <div>
                 <p>경력</p>
@@ -253,12 +281,15 @@ const LawyerByIdPage = (props: any) => {
               </div>
             </div>
           </div>
+          <Payment lawyerId={lawyerId} />
+          <Product lawyerId={lawyerId} />
+          <CancelPayment lawyerId={lawyerId} />
         </div>
         <div className="w-[498px] absolute top-0 right-10 py-[16px]">
           <div className="h-[14vh] bg-[var(--color-Harbor-first)] text-[var(--color-Harbor-firth)] p-9 py-7 rounded-t-xl">
             <div className="flex flex-col gap-2">
-              <p className=" text-3xl font-bold">{props.params.id} 변호사</p>
-              <p className=" text-lg">{props.params.id} 회사</p>
+              <p className=" text-3xl font-bold">{lawyer.name} 변호사</p>
+              <p className=" text-lg">{lawyerDetail.belong} 회사</p>
             </div>
           </div>
           <div className="h-[58vh] items-center flex justify-center z-20">

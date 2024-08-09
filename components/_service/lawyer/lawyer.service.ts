@@ -172,8 +172,8 @@ export const deleteFile: any = createAsyncThunk(
 
 export const getLawyersByLaw: any = createAsyncThunk(
   "lawyer/getLawyersByLaw",
-  async (law: string) => {
-    const data: any = await getLawyersByLawApi(law);
+  async (laws: string[]) => {
+    const data: any = await getLawyersByLawApi(laws);
     return data;
   }
 );

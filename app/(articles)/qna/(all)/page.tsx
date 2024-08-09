@@ -1,6 +1,6 @@
 "use client";
 
-import { getAllQnaBoard } from "@/components/_service/user/user.service";
+import { getQnaBoardList } from "@/components/_service/qna/qna.service";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -35,7 +35,7 @@ const QnaBoardPage = () => {
     if (isLoading) return;
     setIsLoading(true);
 
-    await dispatch(getAllQnaBoard({ page, size })).then((res: any) => {
+    await dispatch(getQnaBoardList({ page, size })).then((res: any) => {
       console.log(res);
       setQuestionBoard(res.payload);
       setPage(page + 1);

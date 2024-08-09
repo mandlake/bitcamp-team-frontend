@@ -99,16 +99,14 @@ export default function Product(props: any) {
             const paymentData: IPayment = {
               impUid: rsp.imp_uid,
               status: "PENDING",
-              buyer:{
-                  id: userId as number,
-              } ,
+              buyer: {
+                id: userId as number,
+              },
               product: {
                 id: selectedProductId || 0,
               },
               amount: productPrice,
-              
             };
-            
 
             dispatch(savePayment(paymentData));
             const { data } = await axios.post(
@@ -181,7 +179,7 @@ export default function Product(props: any) {
 
   const handleProductSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
     const selectedProductId = Number(event.target.value);
-    console.log("선택한 상품 id: " + selectedProductId)
+    console.log("선택한 상품 id: " + selectedProductId);
     const selectedProduct = products.find(
       (product) => product.id === selectedProductId
     );
@@ -193,66 +191,70 @@ export default function Product(props: any) {
 
   const handlePointUsage = async () => {
     if (selectedProductId === null || selectedProductId === 0) {
-        alert("포인트 결제를 진행할 제품을 선택해주세요.");
-        return;
+      alert("포인트 결제를 진행할 제품을 선택해주세요.");
+      return;
     }
-
 
     // const impUid = await getImpUid();
-    const impUid = "imp_157435462997"
+    const impUid = "imp_157435462997";
 
     if (!impUid) {
-        alert("impUid를 가져오는 데 실패했습니다.");
-        return;
+      alert("impUid를 가져오는 데 실패했습니다.");
+      return;
     }
 
     try {
-        const response = await axios.post(`${userURL}/user/payments/usePoint`, {
-            id: userId,
-            amount: price,
-            status: "PENDING",
-            product: {
-              id: selectedProductId,
-            },
-        }, {
-            headers: {
-                Authorization: `Bearer ${token}`, // 토큰을 헤더에 포함
-            },
-            params: {
-                impUid, // impUid를 요청 파라미터로 추가
-            }
-        });
-
-        if (response.data.message === "SUCCESS") {
-            alert("포인트 결제가 성공적으로 완료되었습니다.");
-            // 추가적인 상태 업데이트 또는 UI 갱신 로직을 여기에 추가
-        } else {
-            alert(response.data.message || "포인트 결제에 실패했습니다.");
+      const response = await axios.post(
+        `${userURL}/user/payments/usePoint`,
+        {
+          id: userId,
+          amount: price,
+          status: "PENDING",
+          product: {
+            id: selectedProductId,
+          },
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`, // 토큰을 헤더에 포함
+          },
+          params: {
+            impUid, // impUid를 요청 파라미터로 추가
+          },
         }
-    } catch (error) {
-        console.error("포인트 결제 요청 중 오류 발생:", error);
-        alert("포인트 결제 처리 중 오류가 발생했습니다.");
-    }
-};
+      );
 
-// 예시: impUid를 가져오는 함수 (구체적인 구현은 상황에 따라 다릅니다)
-const getImpUid = async () => {
+      if (response.data.message === "SUCCESS") {
+        alert("포인트 결제가 성공적으로 완료되었습니다.");
+        // 추가적인 상태 업데이트 또는 UI 갱신 로직을 여기에 추가
+      } else {
+        alert(response.data.message || "포인트 결제에 실패했습니다.");
+      }
+    } catch (error) {
+      console.error("포인트 결제 요청 중 오류 발생:", error);
+      alert("포인트 결제 처리 중 오류가 발생했습니다.");
+    }
+  };
+
+  // 예시: impUid를 가져오는 함수 (구체적인 구현은 상황에 따라 다릅니다)
+  const getImpUid = async () => {
     try {
-        // 여기에 impUid를 생성하거나 가져오는 로직을 추가하세요
-        // 예시: API 호출 또는 다른 로직을 통해 impUid를 가져옴
-        const response = await axios.get(`${userURL}/some-endpoint-to-get-impUid`, {
-            headers: {
-                Authorization: `Bearer ${token}`,
-            }
-        });
-        return response.data.impUid;
+      // 여기에 impUid를 생성하거나 가져오는 로직을 추가하세요
+      // 예시: API 호출 또는 다른 로직을 통해 impUid를 가져옴
+      const response = await axios.get(
+        `${userURL}/some-endpoint-to-get-impUid`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      return response.data.impUid;
     } catch (error) {
-        console.error("impUid를 가져오는 중 오류 발생:", error);
-        return null;
+      console.error("impUid를 가져오는 중 오류 발생:", error);
+      return null;
     }
-};
-
-
+  };
 
   return (
     <div>
@@ -286,12 +288,18 @@ const getImpUid = async () => {
       </div>
       <br />
       <div className="grid grid-cols-2 gap-3 w-full">
-      <button className="border border-gray-300 rounded-2xl py-2 px-4" onClick={() => requestPay(price)}>
-        결제
-      </button>
-      <button className="border border-gray-300 rounded-2xl py-2 px-4" onClick={handlePointUsage}>
-        포인트 결제
-      </button>
+        <button
+          className="border border-gray-300 rounded-2xl py-2 px-4"
+          onClick={() => requestPay(price)}
+        >
+          결제
+        </button>
+        <button
+          className="border border-gray-300 rounded-2xl py-2 px-4"
+          onClick={handlePointUsage}
+        >
+          포인트 결제
+        </button>
       </div>
     </div>
   );

@@ -246,15 +246,16 @@ export const deleteFileApi = async (id: string): Promise<void> => {
   }
 };
 
-export const getLawyersByLawApi = async (law: string) => {
+export const getLawyersByLawApi = async (laws: string[]): Promise<void> => {
   try {
-    const response = await lawyerInstance().get(`/law`, { params: { law } });
+    const response = await lawyerInstance().get("/law", {
+      params: { law: laws },
+    });
 
-    console.log("success");
-    return response.data;
+    console.log("Lawyers found:", response.data);
   } catch (error) {
-    console.log(error);
-    return error;
+    console.error("Error fetching lawyers:", error);
+    throw error;
   }
 };
 
@@ -510,6 +511,21 @@ export const getLawyersByLaw = async (laws: string[]): Promise<void> => {
     console.log("Lawyers found:", response.data);
   } catch (error) {
     console.error("Error fetching lawyers:", error);
+    throw error;
+  }
+};
+
+export const getRepliesByArticleIdApi = async (
+  articleId: string
+): Promise<ILawyerReply[]> => {
+  try {
+    const response = await lawyerInstance().get(
+      `/replies/article/${articleId}`
+    );
+    console.log("Get replies success");
+    return response.data;
+  } catch (error) {
+    console.error("Get replies error:", error);
     throw error;
   }
 };

@@ -29,7 +29,7 @@ export default function Payment({ params }: any) {
   const requestPay = async (amount: number) => {
     const confirmMessage = `결제할 금액은 ${amount}원 입니다. 계속 진행하시겠습니까?`;
     const isConfirmed = window.confirm(confirmMessage);
-    
+
     window.IMP.init("imp78717406");
     if (!window.IMP) {
       console.error("IMP is not loaded");
@@ -50,10 +50,10 @@ export default function Payment({ params }: any) {
           orderUid: new Date().getTime().toString(),
           name: "포인트",
           amount: amount,
-          buyer: {id: userId},
+          buyer: { id: userId },
           buyer_name: user.name,
           buyer_tel: user.phone,
-          buyer_email: user.email
+          buyer_email: user.email,
         },
         async (rsp: any) => {
           if (rsp.success) {
@@ -71,7 +71,7 @@ export default function Payment({ params }: any) {
                 id: userId,
               },
             };
-            
+
             dispatch(savePayment(paymentData));
             const { data } = await axios.post(
               `${userURL}/user/payments/verifyIamport/${rsp.imp_uid}`,

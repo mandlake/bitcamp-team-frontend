@@ -40,7 +40,7 @@ export const updateUserByIdApi = async (user: IUser) => {
 };
 
 export const localLoginAPI = async (user: IUser) => {
-  console.log(`Parameter in loginAPI: ${JSON.stringify(user)}`)
+  console.log(`Parameter in loginAPI: ${JSON.stringify(user)}`);
   try {
     const response = await instance().post(`auth/login/local`, user);
     return response.data;
@@ -83,7 +83,6 @@ export const updateUserAPI = async (id: number) => {
     return error;
   }
 };
-
 
 export const deleteUserAPI = async (id: number) => {
   try {
