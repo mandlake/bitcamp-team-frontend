@@ -13,9 +13,9 @@ export interface ILawyer {
   auth?: boolean;
   createdDate?: string;
   modifiedDate?: string;
-  posts?: {};
-  files?: {};
-  replies?: {};
+  posts?: ILawyerPost;
+  files?: ILawyerFile;
+  replies?: ILawyerReply;
   reservations?: {};
   notices?: {};
   detail?: ILawyerDetail;

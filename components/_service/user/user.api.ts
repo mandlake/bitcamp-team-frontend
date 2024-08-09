@@ -38,3 +38,17 @@ export const updateUserByIdApi = async (user: IUser) => {
     return error;
   }
 };
+
+export const getAllQnaBoardApi = async ({ page, size }: any) => {
+  try {
+    const response = await userInstance().get("/questions/all", {
+      params: { page, size },
+    });
+
+    console.log(response.data);
+    return response.data;
+  } catch (error) {
+    console.log(error);
+    return error;
+  }
+};

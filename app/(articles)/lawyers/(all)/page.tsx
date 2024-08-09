@@ -1,5 +1,6 @@
 "use client";
 
+import { ILawyer, ILawyerDetail } from "@/components/_model/lawyer/lawyer";
 import { getAllLawyer } from "@/components/_service/lawyer/lawyer.service";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
@@ -19,7 +20,7 @@ const LawyersBoardPage = () => {
     formState: { errors },
   } = useForm<any>();
 
-  const [lawyers, setLawyers] = useState([]);
+  const [lawyers, setLawyers] = useState<ILawyer[]>([]);
 
   const options = [
     { value: "형사법", label: "형사법" },
@@ -45,6 +46,9 @@ const LawyersBoardPage = () => {
     getAllLawyers();
   }, []);
 
+  useEffect(() => {
+    console.log(lawyers);
+  }, [lawyers]);
   return (
     <>
       <div className={`flex flex-col justify-center items-center relative`}>
@@ -82,7 +86,7 @@ const LawyersBoardPage = () => {
                 </button>
               </div>
             </div>
-            <div className="w-auto grid grid-cols-6 justify-start items-baseline gap-3">
+            <div className="w-auto flex flex-wrap justify-start items-baseline gap-3">
               {lawyers.map((item: any) => (
                 <div
                   key={item.id}
@@ -101,9 +105,9 @@ const LawyersBoardPage = () => {
                       {item.name} 변호사
                     </h1>
                     <div className="text-sm flex gap-2">
-                      {item.detail?.law.map((law: any) => {
-                        <div>#{law.data}</div>;
-                      })}
+                      {item.detail?.law.map((law: any, index: number) => (
+                        <div key={index}>#{law}</div>
+                      ))}
                     </div>
                   </div>
                 </div>

@@ -1,9 +1,12 @@
 "use client";
 
-import { getCaseLawList } from "@/components/_service/judicial-precedent/judicial.service";
+import {
+  getAllCaseLaws,
+  getCaseLawList,
+} from "@/components/_service/judicial-precedent/judicial.service";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { useEffect } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
 
@@ -23,79 +26,35 @@ const JudicialPrecidentPage = () => {
     formState: { errors },
   } = useForm<any>();
 
-  const judicialPrecident = [
-    {
-      serialNumber: "000001",
-      caseName:
-        "판례 제목판례 제목판례 제목판례 제목판례 제목판례 제목판례 제목판례 제목판례 제목",
-      caseNumber: "2021.10.01",
-      dateOfDecision: "2021.10.01",
-    },
-    {
-      serialNumber: "000002",
-      caseName: "판례 제목",
-      caseNumber: "2021.10.01",
-      dateOfDecision: "2021.10.01",
-    },
-    {
-      serialNumber: "000003",
-      caseName: "판례 제목",
-      caseNumber: "2021.10.01",
-      dateOfDecision: "2021.10.01",
-    },
-    {
-      serialNumber: "000004",
-      caseName: "판례 제목",
-      caseNumber: "2021.10.01",
-      dateOfDecision: "2021.10.01",
-    },
-    {
-      serialNumber: "000005",
-      caseName: "판례 제목",
-      caseNumber: "2021.10.01",
-      dateOfDecision: "2021.10.01",
-    },
-    {
-      serialNumber: "000006",
-      caseName: "판례 제목",
-      caseNumber: "2021.10.01",
-      dateOfDecision: "2021.10.01",
-    },
-    {
-      serialNumber: "000007",
-      caseName: "판례 제목",
-      caseNumber: "2021.10.01",
-      dateOfDecision: "2021.10.01",
-    },
-    {
-      serialNumber: "000008",
-      caseName: "판례 제목",
-      caseNumber: "2021.10.01",
-      dateOfDecision: "2021.10.01",
-    },
-    {
-      serialNumber: "000009",
-      caseName: "판례 제목",
-      caseNumber: "2021.10.01",
-      dateOfDecision: "2021.10.01",
-    },
-    {
-      serialNumber: "000010",
-      caseName: "판례 제목",
-      caseNumber: "2021.10.01",
-      dateOfDecision: "2021.10.01",
-    },
-  ];
+  const [judicialPrecident, setJudicialPrecident] = useState<any[]>([]);
+  const [page, setPage] = useState(1);
+  const [isLoading, setIsLoading] = useState(false);
+  const lastItemRef = useRef(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const notificationsPerPage = 10;
+  const [totalPages, setTotalPages] = useState(0);
 
   const handleCaseLawList = async () => {
-    await dispatch(getCaseLawList()).then((res: any) => {
+    if (isLoading) return;
+    setIsLoading(true);
+
+    await dispatch(
+      getAllCaseLaws({ page: currentPage, notificationsPerPage })
+    ).then((res: any) => {
       console.log(res);
+      setTotalPages(res.payload.totalPages);
+      setJudicialPrecident(res.payload.content);
+      setPage(page + 1);
     });
+
+    setIsLoading(false);
   };
 
   useEffect(() => {
-    handleCaseLawList();
-  }, []);
+    return () => {
+      handleCaseLawList();
+    };
+  }, [isLoading, currentPage]);
 
   return (
     <>
@@ -133,28 +92,60 @@ const JudicialPrecidentPage = () => {
               </div>
             </div>
             <div className="flex flex-wrap items-center justify-center w-[60vw] box-border gap-6">
-              {judicialPrecident.map((item) => (
-                <div
-                  key={item.serialNumber}
-                  className="flex flex-col items-baseline border rounded-md border-[var(--color-Harbor-sec)] w-[60vw] h-[15vh] p-8 gap-2"
-                  onClick={() =>
-                    window.location.replace(
-                      `/judicial-precedent/${item.serialNumber}`
-                    )
-                  }
-                >
-                  <div className="flex flex-row w-[55vw] justify-between font-chosunsg text-base">
-                    <div>{item.serialNumber}</div>
-                    <div>
-                      {item.caseNumber} ~ {item.dateOfDecision}
+              {judicialPrecident.map((item: any, index: number) => {
+                return (
+                  <div
+                    ref={lastItemRef}
+                    key={item.serialNumber}
+                    className="flex flex-col items-baseline border rounded-md border-[var(--color-Harbor-sec)] w-[60vw] h-[15vh] p-8 gap-2"
+                    onClick={() =>
+                      window.location.replace(
+                        `/judicial-precedent/${item.serialNumber}`
+                      )
+                    }
+                  >
+                    <div className="flex flex-row w-[55vw] justify-between font-chosunsg text-base">
+                      <div>{item.serialNumber}</div>
+                      <div>
+                        {item.caseNumber} ~ {item.dateOfDecision}
+                      </div>
+                    </div>
+                    <div className="text-3xl w-[55vw] truncate">
+                      {item.caseName}
                     </div>
                   </div>
-                  <div className="text-3xl w-[55vw] truncate">
-                    {item.caseName}
-                  </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
+          </div>
+          <div className="flex flex-row justify-center pt-10">
+            <button
+              onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+              disabled={currentPage === 1}
+              className="px-4 py-2 mx-1 border border-gray-300 rounded"
+            >
+              이전
+            </button>
+            {Array.from({ length: totalPages }, (_, i) => (
+              <button
+                key={i + 1}
+                onClick={() => setCurrentPage(i + 1)}
+                className={`px-4 py-2 mx-1 border ${
+                  currentPage === i + 1 ? "border-black" : "border-gray-300"
+                } rounded`}
+              >
+                {i + 1}
+              </button>
+            ))}
+            <button
+              onClick={() =>
+                setCurrentPage((prev) => Math.min(prev + 1, totalPages))
+              }
+              disabled={currentPage === totalPages}
+              className="px-4 py-2 mx-1 border border-gray-300 rounded"
+            >
+              다음
+            </button>
           </div>
         </div>
       </div>

@@ -1,8 +1,11 @@
 "use client";
 
+import { getAllQnaBoard } from "@/components/_service/user/user.service";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
+import { useDispatch } from "react-redux";
 
 const QnaBoardPage = () => {
   const router = useRouter();
@@ -20,6 +23,30 @@ const QnaBoardPage = () => {
     getValues,
     formState: { errors },
   } = useForm<any>();
+  const dispatch = useDispatch();
+
+  const [questionBoard, setQuestionBoard] = useState<any[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [page, setPage] = useState(0);
+  const size = 20;
+  const [totalPages, setTotalPages] = useState(0);
+
+  const handleQuestionBoard = async () => {
+    if (isLoading) return;
+    setIsLoading(true);
+
+    await dispatch(getAllQnaBoard({ page, size })).then((res: any) => {
+      console.log(res);
+      setQuestionBoard(res.payload);
+      setPage(page + 1);
+    });
+
+    setIsLoading(false);
+  };
+
+  useEffect(() => {
+    handleQuestionBoard();
+  }, []);
   return (
     <>
       <div className={`flex flex-col justify-center items-center relative`}>
@@ -68,39 +95,25 @@ const QnaBoardPage = () => {
             </div>
           </div>
           <div className="grid grid-cols-2 items-center justify-center w-[60vw] box-border gap-8 py-7">
-            {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((item) => (
+            {questionBoard.map((item) => (
               <div
-                key={item}
-                className="flex flex-col border rounded-md border-[var(--color-Harbor-sec)] w-[29vw] h-[25vh] p-8 gap-4"
-                onClick={() => router.push(`/qna/${item}`)}
+                key={item.id}
+                className="flex flex-col border rounded-md border-[var(--color-Harbor-sec)] w-[29vw] p-8 gap-4"
+                onClick={() => router.push(`/qna/${item.id}`)}
               >
-                <div className="text-7xl flex flex-row gap-3">
+                <div className="text-7xl flex flex-row items-start align-text-top gap-3">
                   <p className=" text-[var(--color-Harbor-first)]">Q</p>
                   <div className="font-roboto">
-                    <p className="text-lg line-clamp-2 font-semibold">
-                      질문질문질문질문질문질문질문질문질문질문질문
-                      질문질문질문질문질문질문질문질문질문질문질문
-                      질문질문질문질문질문질문질문질문질문질문질문
-                      질문질문질문질문질문질문질문질문질문질문질문
+                    <p className="text-lg line-clamp-1 font-semibold">
+                      {item.title}
+                    </p>
+                    <p className="text-sm line-clamp-2 font-semibold">
+                      {item.content}
                     </p>
                     <p className="text-sm truncate text-[var(--color-Harbor-sec)]">
-                      질문자1
+                      {item.writer || "작성자"}
                     </p>
                   </div>
-                </div>
-                <div className="text-7xl flex flex-row gap-3 justify-center items-end text-[var(--color-Harbor-first)]">
-                  <div className="font-roboto flex flex-col items-end">
-                    <p className="text-lg line-clamp-2 font-semibold">
-                      답변답변답변답변답변답변답변답변답변답변
-                      답변답변답변답변답변답변답변답변답변답변
-                      답변답변답변답변답변답변답변답변답변답변
-                      답변답변답변답변답변답변답변답변답변답변
-                    </p>
-                    <p className="text-sm truncate text-[var(--color-Harbor-sec)]">
-                      답변자1 외 2명
-                    </p>
-                  </div>
-                  <p className="">A</p>
                 </div>
               </div>
             ))}

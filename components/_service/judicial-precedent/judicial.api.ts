@@ -46,9 +46,11 @@ export const getsearchCaseLawsApi = async (numbers: ISerialNumber) => {
 
 // 판례 조회 서비스
 // 전체 판례 조회
-export const getAllCaseLaws = async () => {
+export const getAllCaseLawsApi = async (page: number, pageSize: number) => {
   try {
-    const response = await manageInstance().get("/caselaw/all");
+    const response = await manageInstance().get("/caselaw/all", {
+      params: { page, pageSize },
+    });
     console.log("Fetched all case laws successfully");
     return response.data;
   } catch (error) {
@@ -56,8 +58,9 @@ export const getAllCaseLaws = async () => {
     throw error;
   }
 };
+
 // 시리얼 넘버로 판례 조회
-export const getCaseLawDetail = async (serialNumber: string) => {
+export const getCaseLawDetailApi = async (serialNumber: string) => {
   try {
     const response = await manageInstance().get(`/caselaw/${serialNumber}`);
     console.log(`Fetched case law detail for serial number: ${serialNumber}`);
@@ -72,7 +75,7 @@ export const getCaseLawDetail = async (serialNumber: string) => {
 };
 
 //키워드로 판례 검색
-export const searchCaseLaws = async (searchCriteria: SearchCriteriaDto) => {
+export const searchCaseLawsApi = async (searchCriteria: SearchCriteriaDto) => {
   try {
     const response = await manageInstance().post(
       "/caselaw/search",
@@ -88,7 +91,7 @@ export const searchCaseLaws = async (searchCriteria: SearchCriteriaDto) => {
 
 // 통계 서비스
 // 일별 사용자 통계 저장
-export const saveUserStats = async (): Promise<void> => {
+export const saveUserStatsApi = async (): Promise<void> => {
   try {
     await manageInstance().get("/user/stats/save");
     console.log("Saved user stats successfully");
@@ -99,7 +102,7 @@ export const saveUserStats = async (): Promise<void> => {
 };
 
 // 일별 사용자 통계 조회
-export const getUserStatsByDate = async () => {
+export const getUserStatsByDateApi = async () => {
   try {
     const response = await manageInstance().get("/user/stats/date");
     console.log("Fetched user stats by date successfully");
@@ -111,7 +114,7 @@ export const getUserStatsByDate = async () => {
 };
 
 // 월별 사용자 통계 조회
-export const getUserStatsByMonth = async () => {
+export const getUserStatsByMonthApi = async () => {
   try {
     const response = await manageInstance().get("/user/stats/month");
     console.log("Fetched user stats by month successfully");
@@ -123,7 +126,7 @@ export const getUserStatsByMonth = async () => {
 };
 
 // 연도별 사용자 통계 조회
-export const getUserStatsByYear = async () => {
+export const getUserStatsByYearApi = async () => {
   try {
     const response = await manageInstance().get("/user/stats/year");
     console.log("Fetched user stats by year successfully");
@@ -135,7 +138,7 @@ export const getUserStatsByYear = async () => {
 };
 
 // 총 사용자 통계 조회
-export const getUserTotalStats = async () => {
+export const getUserTotalStatsApi = async () => {
   try {
     const response = await manageInstance().get("/user/stats/total");
     console.log("Fetched total user stats successfully");

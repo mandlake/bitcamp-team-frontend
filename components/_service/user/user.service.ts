@@ -1,5 +1,10 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { getUserByIdApi, updateUserByIdApi, userLogoutApi } from "./user.api";
+import {
+  getAllQnaBoardApi,
+  getUserByIdApi,
+  updateUserByIdApi,
+  userLogoutApi,
+} from "./user.api";
 import { IUser } from "@/components/_model/user/user";
 
 export const userLogout: any = createAsyncThunk("user/userLogout", async () => {
@@ -19,6 +24,14 @@ export const updateUserById: any = createAsyncThunk(
   "user/updateUserById",
   async (user: IUser) => {
     const data: any = await updateUserByIdApi(user);
+    return data;
+  }
+);
+
+export const getAllQnaBoard: any = createAsyncThunk(
+  "user/getAllQnaBoard",
+  async ({ page, pageSize }: any) => {
+    const data: any = await getAllQnaBoardApi({ page, pageSize });
     return data;
   }
 );
