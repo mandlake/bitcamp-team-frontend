@@ -22,13 +22,14 @@ export default function Payment({ params }: any) {
   const [amount, setAmount] = useState<number>(0);
   const user: IUser = useSelector(getUserById);
   const token = parseCookies().accessToken;
-  const [transactions, setTransactions] = useState<any[]>([]);
-  const [showProfile, setShowProfile] = useState(false);
+  const [uid, setUid] = useState<string>("");
+  // const lawyerId = params.lawyerId;
 
   const userId = parseInt(UserId() || "");
   const requestPay = async (amount: number) => {
     const confirmMessage = `결제할 금액은 ${amount}원 입니다. 계속 진행하시겠습니까?`;
     const isConfirmed = window.confirm(confirmMessage);
+    
     window.IMP.init("imp78717406");
     if (!window.IMP) {
       console.error("IMP is not loaded");
@@ -49,23 +50,28 @@ export default function Payment({ params }: any) {
           orderUid: new Date().getTime().toString(),
           name: "포인트",
           amount: amount,
+          buyer: {id: userId},
+          buyer_name: user.name,
+          buyer_tel: user.phone,
+          buyer_email: user.email
         },
         async (rsp: any) => {
           if (rsp.success) {
             console.log(rsp.imp_uid);
+            setUid(rsp.imp_uid);
             const token = parseCookies().accessToken;
             confirm("결제가 완료되었습니다.");
 
             // 서버로 결제 데이터 전송
             const paymentData: IPayment = {
-              payment_uid: rsp.imp_uid,
+              impUid: rsp.imp_uid,
               amount: amount,
               status: "OK",
               buyer: {
                 id: userId,
               },
             };
-
+            
             dispatch(savePayment(paymentData));
             const { data } = await axios.post(
               `${userURL}/user/payments/verifyIamport/${rsp.imp_uid}`,
@@ -91,6 +97,7 @@ export default function Payment({ params }: any) {
   useEffect(() => {
     const jquery = document.createElement("script");
     jquery.src = "http://code.jquery.com/jquery-1.12.4.min.js";
+    // jquery.src = "http://code.jquery.com/jquery-3.3.1.min.js";
     const iamport = document.createElement("script");
     iamport.src = "http://cdn.iamport.kr/js/iamport.payment-1.1.7.js";
     document.head.appendChild(jquery);
@@ -113,7 +120,7 @@ export default function Payment({ params }: any) {
       loadScript("https://cdn.iamport.kr/js/iamport.payment-1.2.0.js", () => {
         const IMP = window.IMP;
         document.addEventListener("DOMContentLoaded", () => {
-          const payment_uid = "O" + new Date().getTime();
+          const imp_uid = "O" + new Date().getTime();
           const totalPriceElement = document.getElementById("totalPrice");
           const totalPrice = totalPriceElement
             ? totalPriceElement.innerText
@@ -124,7 +131,7 @@ export default function Payment({ params }: any) {
               "Content-Type": "application/json",
             },
             body: JSON.stringify({
-              payment_uid: payment_uid,
+              imp_uid: imp_uid,
               amount: totalPrice,
             }),
           });

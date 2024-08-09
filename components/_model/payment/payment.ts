@@ -1,16 +1,14 @@
 export interface IPayment {
   id?: number;
-  lawyer?: {
-    id?: number;
-  };
-  payment_uid?: number;
+  lawyer?: string;
+  impUid?: string;
   status?: string;
   item_name?: string;
   amount?: number;
-  buyer?: {
-    id?: number;
-  };
-  product?: {
-    id?: number;
-  };
-}
+  buyer?:{
+      id?: number;
+  } ;
+  product?:{
+      id?: number;
+  } ;
+  }

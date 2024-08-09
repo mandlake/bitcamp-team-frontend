@@ -4,6 +4,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { parseCookies } from "nookies";
+import { jwtDecode } from "jwt-decode";
 import { useForm } from "react-hook-form";
 import { getProductById } from "@/components/_service/product/product-slice";
 import { IUser } from "@/components/_model/user/user";
@@ -12,6 +13,8 @@ import { IPayment } from "@/components/_model/payment/payment";
 import { savePayment } from "@/components/_service/payment/payment-service";
 import UserId from "@/components/hooks/userId";
 import { getUserById } from "@/components/_service/user/user.service";
+import { ILawyer } from "@/components/_model/lawyer/lawyer";
+import { getLawyerById } from "@/components/_service/lawyer/lawyer.service";
 import { userURL } from "@/components/common/url";
 
 declare global {
@@ -34,6 +37,7 @@ export default function Product(props: any) {
     formState: { errors },
   } = useForm<IUser>();
   const user: IUser = useSelector(getUserById);
+  const product: IProduct = useSelector(getProductById);
   const token = parseCookies().accessToken;
   const [transactions, setTransactions] = useState<any[]>([]);
   const userId = parseInt(UserId() || "");
@@ -78,11 +82,12 @@ export default function Product(props: any) {
 
       window.IMP.request_pay(
         {
-          id: user.id,
+          id: userId,
           pg: "html5_inicis",
           pay_method: "card",
           orderUid: new Date().getTime().toString(),
           amount: price,
+          lawyer: lawyerId,
         },
         async (rsp: any) => {
           if (rsp.success) {
@@ -92,16 +97,18 @@ export default function Product(props: any) {
 
             // 서버로 결제 데이터 전송
             const paymentData: IPayment = {
-              payment_uid: rsp.imp_uid,
+              impUid: rsp.imp_uid,
               status: "PENDING",
-              buyer: {
-                id: userId as number,
-              },
+              buyer:{
+                  id: userId as number,
+              } ,
               product: {
-                id: selectedProductId as number,
+                id: selectedProductId || 0,
               },
               amount: productPrice,
+              
             };
+            
 
             dispatch(savePayment(paymentData));
             const { data } = await axios.post(
@@ -148,7 +155,7 @@ export default function Product(props: any) {
       loadScript("https://cdn.iamport.kr/js/iamport.payment-1.2.0.js", () => {
         const IMP = window.IMP;
         document.addEventListener("DOMContentLoaded", () => {
-          const payment_uid = "O" + new Date().getTime();
+          const imp_uid = "O" + new Date().getTime();
           const totalPriceElement = document.getElementById("totalPrice");
           const totalPrice = totalPriceElement
             ? totalPriceElement.innerText
@@ -159,7 +166,7 @@ export default function Product(props: any) {
               "Content-Type": "application/json",
             },
             body: JSON.stringify({
-              payment_uid: payment_uid,
+              imp_uid: imp_uid,
               price: totalPrice,
             }),
           });
@@ -174,6 +181,7 @@ export default function Product(props: any) {
 
   const handleProductSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
     const selectedProductId = Number(event.target.value);
+    console.log("선택한 상품 id: " + selectedProductId)
     const selectedProduct = products.find(
       (product) => product.id === selectedProductId
     );
@@ -183,7 +191,68 @@ export default function Product(props: any) {
     }
   };
 
-  const handlePointUsage = async () => {};
+  const handlePointUsage = async () => {
+    if (selectedProductId === null || selectedProductId === 0) {
+        alert("포인트 결제를 진행할 제품을 선택해주세요.");
+        return;
+    }
+
+
+    // const impUid = await getImpUid();
+    const impUid = "imp_157435462997"
+
+    if (!impUid) {
+        alert("impUid를 가져오는 데 실패했습니다.");
+        return;
+    }
+
+    try {
+        const response = await axios.post(`${userURL}/user/payments/usePoint`, {
+            id: userId,
+            amount: price,
+            status: "PENDING",
+            product: {
+              id: selectedProductId,
+            },
+        }, {
+            headers: {
+                Authorization: `Bearer ${token}`, // 토큰을 헤더에 포함
+            },
+            params: {
+                impUid, // impUid를 요청 파라미터로 추가
+            }
+        });
+
+        if (response.data.message === "SUCCESS") {
+            alert("포인트 결제가 성공적으로 완료되었습니다.");
+            // 추가적인 상태 업데이트 또는 UI 갱신 로직을 여기에 추가
+        } else {
+            alert(response.data.message || "포인트 결제에 실패했습니다.");
+        }
+    } catch (error) {
+        console.error("포인트 결제 요청 중 오류 발생:", error);
+        alert("포인트 결제 처리 중 오류가 발생했습니다.");
+    }
+};
+
+// 예시: impUid를 가져오는 함수 (구체적인 구현은 상황에 따라 다릅니다)
+const getImpUid = async () => {
+    try {
+        // 여기에 impUid를 생성하거나 가져오는 로직을 추가하세요
+        // 예시: API 호출 또는 다른 로직을 통해 impUid를 가져옴
+        const response = await axios.get(`${userURL}/some-endpoint-to-get-impUid`, {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            }
+        });
+        return response.data.impUid;
+    } catch (error) {
+        console.error("impUid를 가져오는 중 오류 발생:", error);
+        return null;
+    }
+};
+
+
 
   return (
     <div>
@@ -217,18 +286,12 @@ export default function Product(props: any) {
       </div>
       <br />
       <div className="grid grid-cols-2 gap-3 w-full">
-        <button
-          className="border border-gray-300 rounded-2xl py-2 px-4"
-          onClick={() => requestPay(price)}
-        >
-          결제
-        </button>
-        <button
-          className="border border-gray-300 rounded-2xl py-2 px-4"
-          onClick={handlePointUsage}
-        >
-          포인트 결제
-        </button>
+      <button className="border border-gray-300 rounded-2xl py-2 px-4" onClick={() => requestPay(price)}>
+        결제
+      </button>
+      <button className="border border-gray-300 rounded-2xl py-2 px-4" onClick={handlePointUsage}>
+        포인트 결제
+      </button>
       </div>
     </div>
   );
