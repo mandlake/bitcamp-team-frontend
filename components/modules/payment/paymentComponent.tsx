@@ -68,7 +68,6 @@ const PayComponent: React.FC<PayComponentProps> = ({
           confirm("결제가 완료되었습니다.");
 
           const paymentData: IPayment = {
-            payment_uid: rsp.imp_uid,
             item_name: product?.item_name || "포인트",
             amount: amount,
             buyer: {

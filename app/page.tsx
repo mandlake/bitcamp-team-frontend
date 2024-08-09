@@ -4,7 +4,7 @@ import { useRef, useState } from "react";
 import "animate.css";
 import Image from "next/image";
 import { useForm } from "react-hook-form";
-import { saveChat } from "@/components/_service/chat/chat.service";
+import { saveChat, temp } from "@/components/_service/chat/chat.service";
 import { useDispatch } from "react-redux";
 import { IChat } from "@/components/_model/chat/chat";
 import { ExplainLawmatePage } from "./(main)/explain.page";
@@ -15,7 +15,8 @@ export default function Home(props: any) {
   const dispatch = useDispatch();
   const [message, setMessage] = useState({
     question: "",
-    answer: "How Can I Help You Today ?",
+    answer:
+      "화장품을 제조하여 판매하려는 자는 식품의약품안전처장에게 “화장품제조업” 및 “화장품책임판매업” 등록을 해야 합니다. 화장품제조업 등록을 하려면 일정한 시설기준을 갖춰야 하고, 화장품책임판매업 등록을 하려면 품질관리기준, 책임판매 후 안전관리기준 및 책임판매관리자에 관한 기준을 갖춰야 합니다.",
   } as IChat);
   const [next, setNext] = useState(0);
   const [chatted, setChatted] = useState(false);
@@ -48,6 +49,12 @@ export default function Home(props: any) {
     } finally {
       resetField("question");
     }
+  };
+
+  const handleLawLaw = async () => {
+    await dispatch(temp(message.question)).then((res: any) => {
+      console.log(res);
+    });
   };
 
   const chatContainerRef = useRef<HTMLDivElement>(null); // Ref for the chat container
