@@ -298,7 +298,7 @@ export default function Product(props: any) {
           className="border border-gray-300 rounded-2xl py-2 px-4"
           onClick={handlePointUsage}
         >
-          포인트 결제
+          포인트로 결제
         </button>
       </div>
     </div>

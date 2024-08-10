@@ -288,18 +288,10 @@ const LawyerByIdPage = (props: any) => {
           {userId ? <p>User {userId}</p> : <p>Loading...</p>}
           <h1>Lawyer {lawyerId}</h1>
           <br />
-          <h1>포인트 충전</h1>
-          <Payment lawyerId={lawyerId} />
-          <br />
           <br />
           <h1>상담 결제</h1>
           <Product lawyerId={lawyerId} />
           <br />
-          <br />
-          <h1>사건 알림</h1>
-          <IssuePage lawyerId={lawyerId} />
-          <br />
-          <CancelPayment />
         </div>
         <div className="w-[498px] absolute top-0 right-10 py-[16px]">
           <div className="h-[14vh] bg-[var(--color-Harbor-first)] text-[var(--color-Harbor-firth)] p-9 py-7 rounded-t-xl">

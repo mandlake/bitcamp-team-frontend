@@ -9,6 +9,8 @@ import { parseCookies } from "nookies";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import ChatList from "@/components/common/chat/ChatList";
+import Payment from "@/app/(payment)/payment/[id]/page";
+import CancelPayment from "@/app/(payment)/cancel/[id]/page";
 
 const UserSingeInfoPage = () => {
   const dispatch = useDispatch();
@@ -194,8 +196,10 @@ const UserSingeInfoPage = () => {
               </div>
             </div>
           </div>
+          <Payment/>
+          <CancelPayment />
           <div className="w-[694px] border-2 border-[var(--color-Harbor-firth)] rounded-2xl p-5">
-            <p className="text-[var(--color-Harbor-sec)]">예약 정보</p>
+            <p className="text-[var(--color-Harbor-sec)]">결제 정보</p>
             <div className="flex flex-row w-[650px] items-center px-2 pt-5">
               <p className="w-[100px]">포인트</p>
               <div className="flex flex-row w-[550px] justify-between items-center">
@@ -217,7 +221,14 @@ const UserSingeInfoPage = () => {
               </div>
             </div>
           </div>
+          <div className="w-[694px] border-2 border-[var(--color-Harbor-firth)] rounded-2xl p-5">
+            <p className="text-[var(--color-Harbor-sec)]">예약 정보</p>
+            <div className="flex flex-row w-[650px] items-center px-2 pt-5">
+              <p className="w-[100px]">여기에다가 /users/user/payments/buyer/id 경로로 findby userid 추가해주세요 product id로 연관 테이블 불러와서 상품 정보 보이게끔 해주시고 상태도 보여주세요 </p>
+            </div>
+          </div>
           <ChatList currentUser={currentUser} lawyers={lawyers} />
+          <p>유저가 상담 요청한 변호사가 수락한 이후 결제 상태가 OK로 변합니다. 그 떄 해당 변호사랑 채팅할 수 있도록 수정해 주세요.</p>
         </div>
       </div>
     </>
