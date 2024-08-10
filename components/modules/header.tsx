@@ -10,6 +10,8 @@ import { destroyCookie, parseCookies } from "nookies";
 import { lawyerLogout } from "../_service/lawyer/lawyer.service";
 import { jwtDecode } from "jwt-decode";
 import { userLogout } from "../_service/user/user.service";
+import { userURL } from "../common/url";
+import { findIssueById } from "../_service/issue/issue-service";
 
 const Header = ({ isDropdownOpen, setIsDropdownOpen }: any) => {
   const dispatch = useDispatch();
@@ -61,7 +63,7 @@ const Header = ({ isDropdownOpen, setIsDropdownOpen }: any) => {
     },
   ];
 
-  const notificationMenu = [
+  const [notificationMenu, setNotificationMenu] = useState([
     {
       key: 1,
       title: "첫번째 알람 제목",
@@ -74,7 +76,7 @@ const Header = ({ isDropdownOpen, setIsDropdownOpen }: any) => {
       path: "/alert/2",
       sub: "변호사 회원",
     },
-  ];
+  ]);
 
   const messageMenu = [
     {
@@ -130,6 +132,25 @@ const Header = ({ isDropdownOpen, setIsDropdownOpen }: any) => {
       menu: !isDropdownOpen.menu,
     });
   };
+
+  const handleAlert = async () => {
+    try {
+      await dispatch(findIssueById(2)).then((res: any) => {
+        /// findIssueById(2)는 임시로 넣은 것입니다. 원하시는 lawyerId로 변경해주세요.
+        console.log(res);
+        setNotificationMenu((prevIssues) => [
+          { key: res.payload.id, title: res.payload.title, path: "", sub: "" },
+          ...prevIssues,
+        ]);
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    handleAlert();
+  }, []);
 
   const handleLogOut = () => {
     if (role === "ROLE_LAWYER") {

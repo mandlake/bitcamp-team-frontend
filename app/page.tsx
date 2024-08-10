@@ -10,6 +10,8 @@ import { IChat } from "@/components/_model/chat/chat";
 import { ExplainLawmatePage } from "./(main)/explain.page";
 import { LongLeftArrow, LongRightArrow } from "@/components/common/next.icons";
 import { RecommendedLawyerPage } from "./(main)/recommendLawyer.page";
+import IssueForm from "@/components/modules/issue/NewIssueForm";
+import IssueList from "@/components/modules/issue/IssueList";
 
 export default function Home(props: any) {
   const dispatch = useDispatch();

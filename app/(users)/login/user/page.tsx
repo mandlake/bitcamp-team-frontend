@@ -22,7 +22,6 @@ const UserLogin = () => {
       await dispatch(localLogin(formData))
         .then((res: any) => {
           console.log(res);
-
           setCookie({}, "accessToken", res.payload.accessToken, {
             httpOnly: false,
             path: "/",
@@ -31,8 +30,13 @@ const UserLogin = () => {
             httpOnly: false,
             path: "/",
           });
+          if (res.payload.success === "true") {
+            alert("로그인 성공");
+          }
+          window.location.replace("/");
           return res;
         })
+        .then((res: any) => {})
         .catch((error: any) => {
           console.log(error);
         });

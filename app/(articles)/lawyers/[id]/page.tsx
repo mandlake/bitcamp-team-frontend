@@ -12,6 +12,7 @@ import {
 import { savePayment } from "@/components/_service/payment/payment-service";
 import { userURL } from "@/components/common/url";
 import UserId from "@/components/hooks/userId";
+import IssueList from "@/components/modules/issue/IssueList";
 import axios from "axios";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
@@ -282,9 +283,7 @@ const LawyerByIdPage = (props: any) => {
               </div>
             </div>
           </div>
-          <Payment lawyerId={lawyerId} />
-          <Product lawyerId={lawyerId} />
-          <CancelPayment lawyerId={lawyerId} />
+          <IssueList lawyerId={lawyer.id} />
         </div>
         <div className="w-[498px] absolute top-0 right-10 py-[16px]">
           <div className="h-[14vh] bg-[var(--color-Harbor-first)] text-[var(--color-Harbor-firth)] p-9 py-7 rounded-t-xl">
