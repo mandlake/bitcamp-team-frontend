@@ -5,11 +5,7 @@ export interface IAdmin {
   role?: string;
   username?: string;
   name?: string;
-}
-
-export interface IKeyword {
-  id: number;
-  keyword?: string;
+  enabled?: boolean;
 }
 
 export interface ISendMail {
@@ -24,4 +20,15 @@ export interface ISendBulkMail {
   reciepts?: string;
   subject?: string;
   text?: string;
+}
+
+export interface IAdminBoard {
+  id?: string;
+  title?: string;
+  content?: string;
+  writer?: string;
+  viewCount?: number;
+  files: [];
+  createdDate?: string;
+  modifiedDate?: string;
 }

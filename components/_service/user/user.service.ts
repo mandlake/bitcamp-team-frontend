@@ -17,7 +17,7 @@ export const userLogout: any = createAsyncThunk("user/userLogout", async () => {
 
 export const getUserById: any = createAsyncThunk(
   "user/getUserById",
-  async (id: number) => {
+  async (id: string) => {
     const data: any = await getUserByIdApi(id);
     return data;
   }

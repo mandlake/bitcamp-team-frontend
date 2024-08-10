@@ -1,15 +1,18 @@
 "use client";
 
+import IssuePage from "@/app/(issue)/issue/[id]/page";
 import SubmitIssuePage from "@/app/(issue)/submit-issue/page";
 import CancelPayment from "@/app/(payment)/cancel/[id]/page";
 import Payment from "@/app/(payment)/payment/[id]/page";
 import Product from "@/app/(product)/products/[id]/page";
+import { ILawyer, ILawyerDetail } from "@/components/_model/lawyer/lawyer";
 import { IPayment } from "@/components/_model/payment/payment";
 import {
   getLawyerById,
   getLawyerDetailById,
 } from "@/components/_service/lawyer/lawyer.service";
 import { savePayment } from "@/components/_service/payment/payment-service";
+import ChatList from "@/components/common/chat/ChatList";
 import { userURL } from "@/components/common/url";
 import UserId from "@/components/hooks/userId";
 import IssueList from "@/components/modules/issue/IssueList";
@@ -18,7 +21,6 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { parseCookies } from "nookies";
 import { useEffect, useState } from "react";
-import { set } from "react-hook-form";
 import { useDispatch } from "react-redux";
 
 declare global {
@@ -41,8 +43,8 @@ const LawyerByIdPage = (props: any) => {
     date: false,
     time: false,
   });
-  const [lawyerDetail, setLawyerDetail] = useState<any>({});
-  const [lawyer, setLawyer] = useState<any>({});
+  const [lawyerDetail, setLawyerDetail] = useState<any>({} as ILawyerDetail);
+  const [lawyer, setLawyer] = useState<any>({} as ILawyer);
   const [consultation, setConsultation] = useState(false);
 
   const consultationType = [
@@ -283,7 +285,21 @@ const LawyerByIdPage = (props: any) => {
               </div>
             </div>
           </div>
-          <IssueList lawyerId={lawyer.id} />
+          {userId ? <p>User {userId}</p> : <p>Loading...</p>}
+          <h1>Lawyer {lawyerId}</h1>
+          <br />
+          <h1>포인트 충전</h1>
+          <Payment lawyerId={lawyerId} />
+          <br />
+          <br />
+          <h1>상담 결제</h1>
+          <Product lawyerId={lawyerId} />
+          <br />
+          <br />
+          <h1>사건 알림</h1>
+          <IssuePage lawyerId={lawyerId} />
+          <br />
+          <CancelPayment />
         </div>
         <div className="w-[498px] absolute top-0 right-10 py-[16px]">
           <div className="h-[14vh] bg-[var(--color-Harbor-first)] text-[var(--color-Harbor-firth)] p-9 py-7 rounded-t-xl">

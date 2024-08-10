@@ -8,10 +8,17 @@ import { useRouter } from "next/navigation";
 import { parseCookies } from "nookies";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
+import ChatList from "@/components/common/chat/ChatList";
 
 const UserSingeInfoPage = () => {
   const dispatch = useDispatch();
   const router = useRouter();
+  const lawyers = [
+    { id: "lawyer1", name: "Lawyer 1" },
+    { id: "lawyer2", name: "Lawyer 2" },
+    { id: "lawyer3", name: "Lawyer 3" },
+  ];
+  const currentUser = "user1";
 
   const [user, setUser] = useState({} as IUser);
 
@@ -20,6 +27,7 @@ const UserSingeInfoPage = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   const getUser = async () => {
+    console.log(decodedToken.id);
     await dispatch(getUserById(decodedToken.id)).then((res: any) => {
       console.log(res);
       setUser(res.payload);
@@ -31,22 +39,16 @@ const UserSingeInfoPage = () => {
       return; // or handle the case where there's no token
     }
     setIsLoggedIn(!!accessToken);
-    console.log(accessToken);
     try {
       setDecodedToken(jwtDecode(accessToken));
       if (decodedToken.roles !== undefined) {
         console.log(decodedToken);
+        getUser();
       }
     } catch (error) {
       console.log(error);
     }
   }, [isLoggedIn]);
-
-  useEffect(() => {
-    return () => {
-      getUser();
-    };
-  }, []);
 
   return (
     <>
@@ -72,10 +74,10 @@ const UserSingeInfoPage = () => {
               className="text-[var(--color-Harbor-first)]"
             />
             <h1 className=" font-semibold text-[26px] text-[var(--color-Harbor-first)]">
-              {user.name}
+              {user?.name}
             </h1>
             <p className=" text-[var(--color-Harbor-first)]/60 text-[22px]">
-              {user.email}
+              {user?.email}
             </p>
           </div>
         </div>
@@ -94,11 +96,11 @@ const UserSingeInfoPage = () => {
               <div className="w-[600px] px-2">
                 <div className="flex flex-row justify-between items-center">
                   <p className="w-[22vw] h-[3vh] text-[14px] px-[1.111vw] bg-white">
-                    {user.name}
+                    {user?.name}
                   </p>
                 </div>
                 <p className="w-[22vw] h-[3vh] text-[14px] px-[1.111vw] bg-white">
-                  {user.email}
+                  {user?.email}
                 </p>
               </div>
             </div>
@@ -111,7 +113,7 @@ const UserSingeInfoPage = () => {
                   id="password"
                   name="password"
                   placeholder="Password"
-                  value={user.password}
+                  value={user?.password}
                   onChange={(e: any) =>
                     setUser({ ...user, password: e.target.value })
                   }
@@ -129,7 +131,7 @@ const UserSingeInfoPage = () => {
                   id="phone"
                   name="phone"
                   placeholder="Phone"
-                  value={user.phone}
+                  value={user?.phone}
                   onChange={(e: any) =>
                     setUser({ ...user, phone: e.target.value })
                   }
@@ -147,7 +149,7 @@ const UserSingeInfoPage = () => {
                   id="email"
                   name="email"
                   placeholder="Email"
-                  value={user.email}
+                  value={user?.email}
                   onChange={(e: any) =>
                     setUser({ ...user, email: e.target.value })
                   }
@@ -164,7 +166,7 @@ const UserSingeInfoPage = () => {
                   id="age"
                   name="age"
                   placeholder="Age"
-                  value={user.age}
+                  value={user?.age}
                   onChange={(e: any) =>
                     setUser({ ...user, age: e.target.value })
                   }
@@ -182,7 +184,7 @@ const UserSingeInfoPage = () => {
                   id="gender"
                   name="gender"
                   placeholder="Gender"
-                  value={user.gender}
+                  value={user?.gender}
                   onChange={(e: any) =>
                     setUser({ ...user, gender: e.target.value })
                   }
@@ -198,11 +200,11 @@ const UserSingeInfoPage = () => {
               <p className="w-[100px]">포인트</p>
               <div className="flex flex-row w-[550px] justify-between items-center">
                 <input
-                  type="point"
+                  type="number"
                   id="point"
                   name="point"
                   placeholder="point"
-                  value={user.point}
+                  value={user?.point}
                   onChange={(e: any) =>
                     setUser({
                       ...user,
@@ -215,6 +217,7 @@ const UserSingeInfoPage = () => {
               </div>
             </div>
           </div>
+          <ChatList currentUser={currentUser} lawyers={lawyers} />
         </div>
       </div>
     </>

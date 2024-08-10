@@ -16,9 +16,8 @@ import { findIssueById } from "../_service/issue/issue-service";
 const Header = ({ isDropdownOpen, setIsDropdownOpen }: any) => {
   const dispatch = useDispatch();
   const router = useRouter();
-  // const accessToken: string = parseCookies().accessToken;
+  const accessToken: string = parseCookies().accessToken;
   const refreshToken = parseCookies().refreshToken;
-  const accessToken = parseCookies().accessToken;
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [decodedToken, setDecodedToken] = useState({} as any);
   const [role, setRole] = useState("");
@@ -29,7 +28,7 @@ const Header = ({ isDropdownOpen, setIsDropdownOpen }: any) => {
       title: "User Info",
       path:
         accessToken !== undefined &&
-        (role === "ROLE_NEWUSER" || role === "ROLE_NEWUSER")
+        (role === "ROLE_NEWUSER" || role === "ROLE_USER")
           ? `/user-info`
           : `/lawyer-info`,
       sub: "회원 정보",
@@ -190,6 +189,7 @@ const Header = ({ isDropdownOpen, setIsDropdownOpen }: any) => {
     } else if (role === "ROLE_USER") {
       dispatch(userLogout())
         .then((res: any) => {
+          console.log("res");
           console.log(res);
           setIsLoggedIn(false);
           destroyCookie({}, "accessToken");
@@ -221,6 +221,7 @@ const Header = ({ isDropdownOpen, setIsDropdownOpen }: any) => {
         setRole(decodedToken?.roles[0]);
       }
     } catch (error) {
+      console.log("error");
       console.log(error);
     }
   }, [isLoggedIn]);
@@ -410,7 +411,7 @@ const Header = ({ isDropdownOpen, setIsDropdownOpen }: any) => {
                     <button
                       key={item.key}
                       onClick={() => {
-                        if (item.key === 3) {
+                        if (item.key === 2) {
                           handleLogOut();
                         } else {
                           window.location.replace(item.path);
