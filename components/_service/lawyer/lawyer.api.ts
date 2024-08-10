@@ -11,7 +11,7 @@ import { lawyerInstance } from "@/components/config/axios-config";
 
 export const lawyerLoginApi = async (lawyer: ILawyer) => {
   try {
-    const response = await lawyerInstance().post("/login", lawyer);
+    const response = await lawyerInstance().post("/auth/login", lawyer);
 
     console.log("success");
     return response.data;

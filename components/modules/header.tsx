@@ -152,25 +152,7 @@ const Header = ({ isDropdownOpen, setIsDropdownOpen }: any) => {
   }, []);
 
   const handleLogOut = () => {
-    if (role === "ROLE_LAWYER") {
-      dispatch(lawyerLogout(accessToken))
-        .then((res: any) => {
-          console.log(res);
-          if (res.payload.message === "SUCCESS") {
-            setIsLoggedIn(false);
-            destroyCookie({}, "accessToken");
-            destroyCookie({}, "requestToken");
-          }
-          return res;
-        })
-        .catch((error: any) => {
-          console.log("로그아웃 실행에서 에러가 발생함 : ");
-          console.log(error);
-        })
-        .then(() => {
-          window.location.reload();
-        });
-    } else if (role === "ROLE_NEWUSER") {
+    if (role === "ROLE_NEWUSER") {
       dispatch(userLogout())
         .then((res: any) => {
           console.log(res);
@@ -204,7 +186,23 @@ const Header = ({ isDropdownOpen, setIsDropdownOpen }: any) => {
           window.location.reload();
         });
     } else {
-      console.log("error");
+      dispatch(lawyerLogout(accessToken))
+        .then((res: any) => {
+          console.log(res);
+          if (res.payload.message === "SUCCESS") {
+            setIsLoggedIn(false);
+            destroyCookie({}, "accessToken");
+            destroyCookie({}, "requestToken");
+          }
+          return res;
+        })
+        .catch((error: any) => {
+          console.log("로그아웃 실행에서 에러가 발생함 : ");
+          console.log(error);
+        })
+        .then(() => {
+          window.location.reload();
+        });
     }
   };
 

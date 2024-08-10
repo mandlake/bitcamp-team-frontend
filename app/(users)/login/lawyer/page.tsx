@@ -28,6 +28,7 @@ const LawyerLogin = () => {
             httpOnly: false,
             path: "/",
           });
+          window.location.replace("/");
           return res;
         })
         .catch((error: any) => {
