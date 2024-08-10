@@ -1,12 +1,16 @@
 "use client";
 
 import React from "react";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import ChatRoom from "@/components/common/chat/ChatRoom";
 
+import { useSearchParams } from 'next/navigation';
+
 const ChatPage: React.FC = () => {
-  const router = useRouter();
-  const { roomId, currentUser, receiver } = router.query;
+  const searchParams = useSearchParams();
+  const roomId = searchParams.get('roomId');
+  const currentUser = searchParams.get('currentUser');
+  const receiver = searchParams.get('receiver');
 
   if (!roomId || !currentUser) {
     return <div>Loading...</div>;

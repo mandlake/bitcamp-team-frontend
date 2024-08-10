@@ -7,11 +7,12 @@ import {
   ILawyerReply,
   ILawyerQuestion,
 } from "@/components/_model/lawyer/lawyer";
-import { lawyerInstance } from "@/components/config/axios-config";
+import { instance,
+  lawyerInstance } from "@/components/config/axios-config";
 
 export const lawyerLoginApi = async (lawyer: ILawyer) => {
   try {
-    const response = await lawyerInstance().post("/auth/login", lawyer);
+    const response = await instance().post("/auth/lawyer/login", lawyer);
 
     console.log("success");
     return response.data;
