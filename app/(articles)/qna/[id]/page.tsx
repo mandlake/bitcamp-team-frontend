@@ -20,6 +20,13 @@ const QnAByIdPage = (props: any) => {
         setQuestion(res.payload);
         setOptions(res.payload.law);
       });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleReply = async () => {
+    try {
       await dispatch(findReplyByArticleId(props.params.id)).then((res: any) => {
         console.log(res);
       });
@@ -30,6 +37,7 @@ const QnAByIdPage = (props: any) => {
 
   useEffect(() => {
     handleQuestion();
+    handleReply();
   }, []);
 
   return (

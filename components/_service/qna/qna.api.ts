@@ -24,9 +24,11 @@ export const findQnaBoardByIdApi = async (id: number) => {
   }
 };
 
-export const findReplyByArticleIdApi = async (id: string) => {
+export const findReplyByArticleIdApi = async (articleId: string) => {
   try {
-    const response = await lawyerInstance().get(`/questions/replies/${id}`);
+    const response = await lawyerInstance().get(
+      `/questions/replies/${articleId}`
+    );
 
     console.log(response.data);
     return response.data;
@@ -43,6 +45,19 @@ export const saveQuestionsApi = async (data: any) => {
     return response.data;
   } catch (error) {
     console.log(error);
+    return error;
+  }
+};
+
+// 포스트아이디로 포스트 찾기
+export const getPostByIdApi = async (id: string) => {
+  try {
+    const response = await lawyerInstance().get(`posts/find/${id}`);
+
+    console.log("Success:", response.data);
+    return response.data;
+  } catch (error) {
+    console.error("Error:", error);
     return error;
   }
 };
