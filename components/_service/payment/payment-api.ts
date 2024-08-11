@@ -16,7 +16,6 @@ export const paymentStatusAPI = async (payment: IPayment) => {
   try {
     const response = await userInstance().post("user/payments/status", payment);
     // java 에서 Messenger.message에 값을 담음
-    console.log(response.data);
     return response.data;
   } catch (error) {
     console.log(error);

@@ -16,7 +16,6 @@ function Join() {
 
     try {
       await dispatch(localJoin(data)).then((res: any) => {
-        console.log(res);
         if (res.payload.message === "SUCCESS") {
           alert("회원가입 성공");
           window.location.replace("/login/user");

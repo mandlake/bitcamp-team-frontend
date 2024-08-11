@@ -38,7 +38,6 @@ const JudicialPrecidentPage = () => {
 
   const handleSearch = async () => {
     await dispatch(searchCaseLaws(watch("keyword"))).then((res: any) => {
-      console.log(res);
       setJudicialPrecident(res.payload);
       setTotalPages(0);
     });
@@ -51,7 +50,6 @@ const JudicialPrecidentPage = () => {
     await dispatch(
       getAllCaseLaws({ page: currentPage, notificationsPerPage })
     ).then((res: any) => {
-      console.log(res);
       setTotalPages(res.payload.totalPages);
       setJudicialPrecident(res.payload.content);
       setPage(page + 1);

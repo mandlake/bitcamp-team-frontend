@@ -151,7 +151,6 @@ const LawyerByIdPage = (props: any) => {
 
   const findLawyerDetailById = async () => {
     await dispatch(getLawyerById(lawyerId)).then((response: any) => {
-      console.log(response);
       setLawyer(response.payload);
       setLawyerDetail(response.payload.detail);
     });

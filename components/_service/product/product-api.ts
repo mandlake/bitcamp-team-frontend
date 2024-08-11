@@ -40,7 +40,6 @@ export const findProductByIdAPI = async (id: number) => {
     const response = await userInstance().get(`product/${id}`, {
       params: { id },
     });
-    console.log(response.data);
     return response.data;
   } catch (error) {
     console.log(error);

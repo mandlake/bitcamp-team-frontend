@@ -136,7 +136,6 @@ const Header = ({ isDropdownOpen, setIsDropdownOpen }: any) => {
     try {
       await dispatch(findIssueById(2)).then((res: any) => {
         /// findIssueById(2)는 임시로 넣은 것입니다. 원하시는 lawyerId로 변경해주세요.
-        console.log(res);
         setNotificationMenu((prevIssues) => [
           { key: res.payload.id, title: res.payload.title, path: "", sub: "" },
           ...prevIssues,
@@ -155,7 +154,6 @@ const Header = ({ isDropdownOpen, setIsDropdownOpen }: any) => {
     if (role === "ROLE_NEWUSER") {
       dispatch(userLogout())
         .then((res: any) => {
-          console.log(res);
           setIsLoggedIn(false);
           destroyCookie({}, "accessToken");
           destroyCookie({}, "requestToken");
@@ -171,8 +169,6 @@ const Header = ({ isDropdownOpen, setIsDropdownOpen }: any) => {
     } else if (role === "ROLE_USER") {
       dispatch(userLogout())
         .then((res: any) => {
-          console.log("res");
-          console.log(res);
           setIsLoggedIn(false);
           destroyCookie({}, "accessToken");
           destroyCookie({}, "requestToken");
@@ -188,7 +184,6 @@ const Header = ({ isDropdownOpen, setIsDropdownOpen }: any) => {
     } else {
       dispatch(lawyerLogout(accessToken))
         .then((res: any) => {
-          console.log(res);
           if (res.payload.message === "SUCCESS") {
             setIsLoggedIn(false);
             destroyCookie({}, "accessToken");

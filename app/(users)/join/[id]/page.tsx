@@ -50,7 +50,6 @@ const JoinLawyerNextPage: NextPage = (props: any) => {
       await dispatch(lawyerSaveDetail(data))
         .then((res: any) => {
           alert("success to join us");
-          console.log(res);
         })
         .then(() => {
           router.push("/login/lawyer");

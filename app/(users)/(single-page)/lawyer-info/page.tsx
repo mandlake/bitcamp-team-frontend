@@ -36,14 +36,12 @@ const LawyerSingleInfoPage = () => {
 
   const getLawyer = async () => {
     await dispatch(getLawyerById(decodedToken.id)).then((res: any) => {
-      console.log(res);
       setLawyer(res.payload);
     });
   };
 
   const getLawyerDetail = async () => {
     await dispatch(getLawyerDetailById(parseCookies().id)).then((res: any) => {
-      console.log(res);
       setLawyerDetail(res.payload);
     });
   };

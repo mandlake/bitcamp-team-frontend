@@ -35,14 +35,12 @@ const LawyersBoardPage = () => {
 
   const getAllLawyers = async () => {
     await dispatch(getAllLawyer()).then((res: any) => {
-      console.log(res);
       setLawyers(res.payload);
     });
   };
 
   const handleSearch = async () => {
     await dispatch(searchLawyer(watch("search"))).then((res: any) => {
-      console.log(res);
       setLawyers(res.payload);
     });
   };
@@ -56,7 +54,6 @@ const LawyersBoardPage = () => {
         laws.push(law);
       });
     await dispatch(getLawyersByLaw(laws)).then((res: any) => {
-      console.log(res);
       setLawyers(res.payload);
     });
   };

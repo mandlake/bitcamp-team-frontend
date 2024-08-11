@@ -36,7 +36,6 @@ const QnaBoardPage = () => {
     setIsLoading(true);
 
     await dispatch(getQnaBoardList({ page, size })).then((res: any) => {
-      console.log(res);
       setQuestionBoard(res.payload);
       setPage(page + 1);
     });

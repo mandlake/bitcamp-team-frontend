@@ -29,7 +29,6 @@ const UserLoginDetailPage = () => {
     try {
       await dispatch(updateUserById({ ...data, id: decodedToken.id })).then(
         (res: any) => {
-          console.log(res);
           window.location.replace("/");
         }
       );

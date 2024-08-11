@@ -35,7 +35,6 @@ const PayComponent: React.FC<PayComponentProps> = ({
       try {
         const decoded: any = jwtDecode(token);
         dispatch(getUserById(decoded.id)).then((res: any) => {
-          console.log(res);
           setUser(res.payload);
         });
       } catch (error) {

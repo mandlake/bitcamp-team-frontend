@@ -44,7 +44,6 @@ const NorificationAddPage = () => {
       );
       if (response.status === 200) {
         alert("파일 업로드 성공");
-        console.log(response);
 
         setFileId(response.data.map((item: { id: string }) => item.id));
         setFilename(

@@ -24,7 +24,7 @@ export const getQnaBoardList: any = createAsyncThunk(
 );
 
 export const findReplyByArticleId: any = createAsyncThunk(
-  "user/getRepliesByLawyerId",
+  "user/findReplyByArticleId",
   async (articleId: string) => {
     const data: any = await findReplyByArticleIdApi(articleId);
     return data;

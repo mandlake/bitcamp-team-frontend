@@ -4,7 +4,6 @@ export const getQnaBoardListApi = async () => {
   try {
     const response = await userInstance().get(`/questions/all`);
 
-    console.log(response.data);
     return response.data;
   } catch (error) {
     console.log(error);
@@ -16,7 +15,6 @@ export const findQnaBoardByIdApi = async (id: number) => {
   try {
     const response = await userInstance().get(`/questions/${id}`);
 
-    console.log(response.data);
     return response.data;
   } catch (error) {
     console.log(error);
@@ -27,10 +25,9 @@ export const findQnaBoardByIdApi = async (id: number) => {
 export const findReplyByArticleIdApi = async (articleId: string) => {
   try {
     const response = await lawyerInstance().get(
-      `/questions/replies/${articleId}`
+      `/replies/article/${articleId}`
     );
 
-    console.log(response.data);
     return response.data;
   } catch (error) {
     console.log(error);
@@ -41,7 +38,6 @@ export const findReplyByArticleIdApi = async (articleId: string) => {
 export const saveQuestionsApi = async (data: any) => {
   try {
     const response = await lawyerInstance().post(`/user/questions/save`, data);
-    console.log(response.data);
     return response.data;
   } catch (error) {
     console.log(error);

@@ -12,11 +12,11 @@ const QnAByIdPage = (props: any) => {
   const [options, setOptions] = useState([] as any);
 
   const [question, setQuestion] = useState({} as any);
+  const [reply, setReply] = useState([] as any);
 
   const handleQuestion = async () => {
     try {
       await dispatch(findQnaBoardById(props.params.id)).then((res: any) => {
-        console.log(res);
         setQuestion(res.payload);
         setOptions(res.payload.law);
       });
@@ -29,6 +29,7 @@ const QnAByIdPage = (props: any) => {
     try {
       await dispatch(findReplyByArticleId(props.params.id)).then((res: any) => {
         console.log(res);
+        setReply(res.payload);
       });
     } catch (error) {
       console.log(error);
@@ -72,24 +73,30 @@ const QnAByIdPage = (props: any) => {
         </div>
         <div className="flex flex-col p-10 gap-10">
           <div className="p-5 flex flex-col gap-3">
-            {[1, 2, 3, 4, 5].map((item) => (
-              <div key={item} className="flex flex-row gap-5 items-start">
+            {/* {reply?.map((item: any, key: any) => (
+              <div key={key} className="flex flex-row gap-5 items-start">
                 <div className="w-10 h-10 bg-slate-600"></div>
                 <div className="text-sm flex flex-col gap-2">
                   <p className="font-bold">작성자</p>
-                  <p>
-                    sodydjsakhgfkjaghkkjksafkahkfhkahfkhsakfhksahfksahkfhsahfkakfakhfkahkfh
-                    <br />
-                    ashdsahkjfhakf asjfhkjaskjfhsakhfksahkhs
-                  </p>
+                  <p>{item.content}</p>
                   <div className="text-xs flex flex-row gap-4 font-light">
-                    <p>날짜</p>
-                    <p>시간</p>
-                    <p>답글쓰기</p>
+                    <p>{item.modifiedDate}</p>
+                    <p>삭제하기</p>
                   </div>
                 </div>
               </div>
-            ))}
+            ))} */}
+            <div className="flex flex-row gap-5 items-start">
+              <div className="w-10 h-10 bg-slate-600"></div>
+              <div className="text-sm flex flex-col gap-2">
+                <p className="font-bold">변호사</p>
+                <p>{reply?.content}</p>
+                <div className="text-xs flex flex-row gap-4 font-light">
+                  <p>{reply?.modifiedDate}</p>
+                  <p>삭제하기</p>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>

@@ -17,7 +17,6 @@ function Join() {
 
     try {
       await dispatch(lawyerJoin(data)).then((res: any) => {
-        console.log(res);
         router.push(`/join/${res.payload.id}`);
       });
     } catch (error) {

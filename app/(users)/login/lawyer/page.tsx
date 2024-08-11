@@ -19,7 +19,6 @@ const LawyerLogin = () => {
     try {
       await dispatch(lawyerLogin(formData))
         .then((res: any) => {
-          console.log(res);
           setCookie({}, "accessToken", res.payload.accessToken, {
             httpOnly: false,
             path: "/",
