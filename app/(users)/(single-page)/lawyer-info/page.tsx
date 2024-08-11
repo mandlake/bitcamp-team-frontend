@@ -2,10 +2,13 @@
 
 import { ILawyer, ILawyerDetail } from "@/components/_model/lawyer/lawyer";
 import {
+  getLawyerById,
   getLawyerByUsername,
+  getLawyerDetailById,
   getLawyerDetailByUsername,
   updateLawyer,
 } from "@/components/_service/lawyer/lawyer.service";
+import { jwtDecode } from "jwt-decode";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { parseCookies } from "nookies";
@@ -27,23 +30,22 @@ const LawyerSingleInfoPage = () => {
 
   const [lawyerDetail, setLawyerDetail] = useState({} as ILawyerDetail);
   const [showCalendar, setShowCalendar] = useState(false);
+  const accessToken: string = parseCookies().accessToken;
+  const [decodedToken, setDecodedToken] = useState({} as any);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   const getLawyer = async () => {
-    // await dispatch(getLawyerByUsername(parseCookies().username)).then(
-    //   (res: any) => {
-    //     console.log(res);
-    //     setLawyer(res.payload);
-    //   }
-    // );
+    await dispatch(getLawyerById(decodedToken.id)).then((res: any) => {
+      console.log(res);
+      setLawyer(res.payload);
+    });
   };
 
   const getLawyerDetail = async () => {
-    // await dispatch(getLawyerDetailByUsername(parseCookies().username)).then(
-    //   (res: any) => {
-    //     console.log(res);
-    //     setLawyerDetail(res.payload);
-    //   }
-    // );
+    await dispatch(getLawyerDetailById(parseCookies().id)).then((res: any) => {
+      console.log(res);
+      setLawyerDetail(res.payload);
+    });
   };
 
   useEffect(() => {
@@ -64,11 +66,21 @@ const LawyerSingleInfoPage = () => {
   };
 
   useEffect(() => {
-    return () => {
-      getLawyer();
-      getLawyerDetail();
-    };
-  }, []);
+    if (!accessToken) {
+      return; // or handle the case where there's no token
+    }
+    setIsLoggedIn(!!accessToken);
+    try {
+      setDecodedToken(jwtDecode(accessToken));
+      if (decodedToken.roles !== undefined) {
+        console.log(decodedToken);
+        getLawyer();
+        getLawyerDetail();
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }, [isLoggedIn]);
 
   return (
     <>
