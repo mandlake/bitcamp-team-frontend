@@ -273,6 +273,21 @@ export const searchLawyerApi = async (search: string) => {
   }
 };
 
+// 변호사 포스트 전체 불러오기
+export const getAllPostsApi = async (page: number, size: number) => {
+  try {
+    const response = await lawyerInstance().get("/posts/all", {
+      params: { page, size },
+    });
+
+    console.log("Success:", response.data);
+    return response.data;
+  } catch (error) {
+    console.error("Error:", error);
+    return error;
+  }
+};
+
 // 포스트 생성
 export const createPostApi = async (
   lawyerId: string,

@@ -1,16 +1,32 @@
 "use client";
 
+import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+
 const LawyerColumnByIdPage = (props: any) => {
+  const ColumnId = props.params.id;
   const options = [
     { value: "형사법", label: "형사법" },
     { value: "공법", label: "공법" },
     { value: "국제법", label: "국제법" },
     { value: "국제거래법", label: "국제거래법" },
   ];
+  const dispatch = useDispatch();
+  const [column, setColumn] = useState({} as any);
+
+  const getColumn = async () => {
+    // const data = await dispatch(getColumnById(ColumnId));
+    // console.log(data);
+    // setColumn(data.payload);
+  };
 
   const formattedOptions = options.reduce((acc, option) => {
     return acc + " - " + option.label;
   }, "");
+
+  useEffect(() => {
+    getColumn();
+  }, []);
 
   return (
     <>

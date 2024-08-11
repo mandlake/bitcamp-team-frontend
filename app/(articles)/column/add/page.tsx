@@ -1,8 +1,12 @@
 "use client";
 
+import { ILawyerPost } from "@/components/_model/lawyer/lawyer";
+import { createPost } from "@/components/_service/lawyer/lawyer.service";
+import axios from "axios";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { set } from "react-hook-form";
 import { useDispatch } from "react-redux";
 
 const ColumnBoardAddPage = () => {
@@ -10,64 +14,60 @@ const ColumnBoardAddPage = () => {
   const dispatch = useDispatch();
 
   const [selectBoard, setSelectBoard] = useState({
-    title: "",
-    content: "",
-    writer: "작성자1",
-    email: "",
-    tag: [] as any,
+    lawyerId: "",
+    post: {} as ILawyerPost,
+    files: File,
   });
 
   const [inputValue, setInputValue] = useState("");
 
   const handleInputChange = (event: any) => {
-    setInputValue(event.target.value);
-  };
-
-  const handleHashtagAdd = () => {
-    if (inputValue.trim() !== "") {
-      setSelectBoard({
-        ...selectBoard,
-        tag: [...selectBoard.tag, { value: inputValue }], // Create a new object with the value
-      });
-      setInputValue("");
-    }
-  };
-
-  const handleHashtagRemove = (index: any) => {
+    // setInputValue(event.target.value);
     setSelectBoard({
       ...selectBoard,
-      tag: selectBoard.tag.filter((_: any, i: any) => i !== index),
+      post: { ...selectBoard.post, category: event.target.value },
     });
   };
 
+  // const handleHashtagAdd = () => {
+  //   if (inputValue.trim() !== "") {
+  //     setSelectBoard({
+  //       ...selectBoard,
+  //       tag: [...selectBoard.tag, { value: inputValue }], // Create a new object with the value
+  //     });
+  //     setInputValue("");
+  //   }
+  // };
+
+  // const handleHashtagRemove = (index: any) => {
+  //   setSelectBoard({
+  //     ...selectBoard,
+  //     tag: selectBoard.tag.filter((_: any, i: any) => i !== index),
+  //   });
+  // };
+
   const submit = async () => {
     console.log(selectBoard);
-    // const formData = new FormData();
-    // formData.append("boardDto", JSON.stringify(selectBoard));
-    // if (selectedFile.length == 0) {
-    //   alert("파일을 선택해주세요.");
-    //   return 0;
-    // }
-    // Array.from(selectedFile).forEach((file: File) => {
-    //   formData.append("files", file);
-    // });
-    // try {
-    //   const response = await axios.post(
-    //     "http://localhost:8082/board/save",
-    //     formData,
-    //     {
-    //       headers: {
-    //         "Content-Type": "multipart/form-data",
-    //       },
-    //     }
-    //   );
-    //   if (response.status === 200) {
-    //     alert("파일이 성공적으로 등록되었습니다.");
-    //     router.push("/notification");
-    //   }
-    // } catch (error) {
-    //   console.log(error);
-    // }
+    const formData = new FormData();
+    formData.append("boardDto", JSON.stringify(selectBoard));
+    const selectedFile = selectBoard.files;
+    if (selectedFile.length == 0) {
+      alert("파일을 선택해주세요.");
+      return 0;
+    }
+
+    Array.from<File>(selectedFile as any).forEach((file: File) => {
+      formData.append("files", file);
+    });
+
+    try {
+      const response = await dispatch(createPost(formData));
+      if (response.status === 200) {
+        alert("파일이 성공적으로 등록되었습니다.");
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
   return (
     <>
@@ -85,23 +85,22 @@ const ColumnBoardAddPage = () => {
               onChange={(event: any) =>
                 setSelectBoard({
                   ...selectBoard,
-                  title: event.target.value,
+                  post: { ...selectBoard.post, title: event.target.value },
                 })
               }
             />
           </div>
           <div className="flex flex-row items-center justify-between mt-3 pb-2">
-            <p className="text-xl">태그</p>
+            <p className="text-xl">카테고리</p>
             <input
               type="text"
-              value={inputValue}
               onChange={handleInputChange}
-              placeholder="해시태그를 입력하세요"
+              placeholder="카테고리를 입력하세요"
               className="w-10/12 p-2"
             />
-            <button onClick={handleHashtagAdd}>추가</button>
+            {/* <button onClick={handleHashtagAdd}>추가</button> */}
           </div>
-          <div className="flex flex-row items-center gap-5">
+          {/* <div className="flex flex-row items-center gap-5">
             {selectBoard.tag.map((hashtag: any, index: any) => (
               <span
                 key={index}
@@ -120,6 +119,15 @@ const ColumnBoardAddPage = () => {
                 />
               </span>
             ))}
+          </div> */}
+          <div className="flex items-center justify-center align-middle mt-3">
+            <input
+              type="file"
+              className="w-[42vw] h-[44px] focus:outline-none"
+              onChange={(event: any) =>
+                setSelectBoard({ ...selectBoard, files: event.target.files })
+              }
+            />
           </div>
           <textarea
             placeholder="내용을 입력하세요."
@@ -127,7 +135,7 @@ const ColumnBoardAddPage = () => {
             onChange={(event: any) =>
               setSelectBoard({
                 ...selectBoard,
-                content: event.target.value,
+                post: { ...selectBoard.post, content: event.target.value },
               })
             }
           ></textarea>

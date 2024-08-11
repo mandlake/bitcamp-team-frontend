@@ -1,5 +1,5 @@
 import Link from "next/link";
-import React, { useState } from "react";
+import { useState } from "react";
 import { set, useForm } from "react-hook-form";
 import { userURL } from "../../common/url";
 import UserId from "@/components/hooks/userId";
@@ -65,9 +65,6 @@ const IssueForm: React.FC<IssueFormProps> = (props: any) => {
       <input
         type="text"
         placeholder="Title"
-        value={`사용자 ${UserId()}가 변호사 ${
-          props.lawyerId || ""
-        }에게 보내는 알림`}
         className="text-gray-700 border border-gray-300 rounded-2xl py-2 px-4 block w-full focus:outline-2 focus:outline-blue-500"
         {...register("title", { required: "Title is required" })}
       />
@@ -84,7 +81,6 @@ const IssueForm: React.FC<IssueFormProps> = (props: any) => {
       <input
         type="text"
         placeholder="Attachment"
-        value={`${props.date} ${props.time}에 ${props.consultingType}을 요청합니다.`}
         className="text-gray-700 border border-gray-300 rounded-2xl py-2 px-4 block w-full focus:outline-2 focus:outline-blue-500"
         {...register("attachment", { required: "Attachment is required" })}
       />

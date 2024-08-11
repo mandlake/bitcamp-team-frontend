@@ -17,18 +17,17 @@ import CancelPayment from "@/app/(payment)/cancel/[id]/page";
 import { IPayment } from "@/components/_model/payment/payment";
 import { getLawyerById } from "@/components/_service/lawyer/lawyer.service";
 
-interface Lawyer {
-  id: string;
-  name: string;
-}
-
 const UserSingeInfoPage = () => {
   const dispatch = useDispatch();
-  const [lawyers, setLawyers] = useState([] as Lawyer[]);
   const [payments, setPayments] = useState([] as IPayment[]);
   const currentUser = "user1";
 
   const [user, setUser] = useState({} as IUser);
+  const lawyers = [
+    { id: "lawyer1", name: "Lawyer 1" },
+    { id: "lawyer2", name: "Lawyer 2" },
+    { id: "lawyer3", name: "Lawyer 3" },
+  ];
 
   const accessToken: string = parseCookies().accessToken;
   const [decodedToken, setDecodedToken] = useState({} as any);
@@ -42,10 +41,6 @@ const UserSingeInfoPage = () => {
         buy.payload?.map((pay: any) => {
           console.log("pay");
           console.log(pay);
-          setLawyers((prevMessages: any) => [
-            ...prevMessages,
-            { id: pay.lawyer, name: pay.lawyer },
-          ]);
         });
       });
     });

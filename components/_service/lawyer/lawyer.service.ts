@@ -9,6 +9,7 @@ import {
   downloadFileApi,
   downloadPostFileApi,
   getAllLawyerApi,
+  getAllPostsApi,
   getFilesByLawyerIdApi,
   getLawyerByIdApi,
   getLawyerByUsernameApi,
@@ -182,6 +183,15 @@ export const searchLawyer: any = createAsyncThunk(
   "lawyer/searchLawyer",
   async (search: string) => {
     const data: any = await searchLawyerApi(search);
+    return data;
+  }
+);
+
+// 변호사 포스트 전체 불러오기
+export const getAllPosts: any = createAsyncThunk(
+  "lawyer/getPosts",
+  async ({ page, number }: any) => {
+    const data: any = await getAllPostsApi(page, number);
     return data;
   }
 );

@@ -1,4 +1,5 @@
 "use client";
+
 import { createEventSource } from "@/components/_service/issue/issue-api";
 import { userURL } from "@/components/common/url";
 import IssueList from "@/components/modules/issue/IssueList";
@@ -23,7 +24,7 @@ const IssuePage = (props: any) => {
 
   useEffect(() => {
     const eventSource = createEventSource(
-      `${userURL}/issues/sse`,
+      userURL + `user/issues/sse`,
       (newIssue: Issue) => {
         setIssues((prevIssues) => [...prevIssues, newIssue]);
       }

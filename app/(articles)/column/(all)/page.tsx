@@ -1,8 +1,11 @@
 "use client";
 
+import { getAllPosts } from "@/components/_service/lawyer/lawyer.service";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { useForm } from "react-hook-form";
+import { useEffect, useState } from "react";
+import { set, useForm } from "react-hook-form";
+import { useDispatch } from "react-redux";
 
 const LawyerColumnPage = () => {
   const router = useRouter();
@@ -14,6 +17,22 @@ const LawyerColumnPage = () => {
     getValues,
     formState: { errors },
   } = useForm<any>();
+  const [columns, setColumns] = useState<any[]>([]);
+  const dispatch = useDispatch();
+  const [currentPage, setCurrentPage] = useState(1);
+  const columnsPerPage = 10;
+  const [totalPages, setTotalPages] = useState(0);
+  const post = {
+    page: currentPage - 1,
+    number: columnsPerPage,
+  };
+
+  const getColumns = async () => {
+    const data = await dispatch(getAllPosts(post));
+    console.log(data);
+    setColumns(data.payload);
+    setTotalPages(10);
+  };
 
   const laws = [
     { value: "형사법", label: "형사법" },
@@ -33,6 +52,10 @@ const LawyerColumnPage = () => {
     { value: "제목", label: "제목" },
     { value: "내용", label: "내용" },
   ];
+
+  useEffect(() => {
+    getColumns();
+  }, [currentPage]);
 
   return (
     <>
@@ -96,34 +119,60 @@ const LawyerColumnPage = () => {
             </div>
           </div>
           <div className="grid grid-cols-2 items-center justify-center w-[60vw] box-border gap-8">
-            {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((item) => (
+            {columns.map((item: any, key: any) => (
               <div
-                key={item}
-                className="flex flex-col border rounded-md border-[var(--color-Harbor-sec)] items-baseline justify-between w-[29vw] h-[24vh] p-8 gap-8"
-                onClick={() => window.location.replace(`/column/${item}`)}
+                key={key}
+                className="flex flex-col border rounded-md border-[var(--color-Harbor-sec)] items-baseline justify-between w-[29vw] p-8 gap-8"
+                onClick={() => window.location.replace(`/column/${item.id}`)}
               >
                 <div className="font-roboto flex flex-col items-baseline gap-2">
                   <div className="font-light flex flex-row items-center gap-2 text-xs">
-                    <p># 성범죄</p>
-                    <p># 미성년 대상 성범죄</p>
+                    <p># {item.category}</p>
                   </div>
                   <p className="text-2xl font-bold max-w-[24vw] truncate">
-                    title{item}title{item}title{item}title{item}title{item}title
-                    {item}title{item}title{item}title{item}title{item}title
-                    {item}
+                    {item.title}
                   </p>
                   <div className="text-lg font-normal w-[24vw] break-all line-clamp-2">
-                    content{item}content{item}content{item}content{item}
-                    content{item}content{item}content{item}content{item}content
-                    {item}content{item}content{item}content{item}content{item}
-                    content{item}content{item}content{item}content{item}
+                    {item.content}
                   </div>
                 </div>
-                <p className=" font-light font-roboto text-sm">
-                  By 홍길동 변호사
-                </p>
               </div>
             ))}
+          </div>
+          <div className="flex flex-row justify-center pt-10">
+            {totalPages !== 0 && (
+              <>
+                <button
+                  onClick={() =>
+                    setCurrentPage((prev) => Math.max(prev - 1, 1))
+                  }
+                  disabled={currentPage === 1}
+                  className="px-4 py-2 mx-1 border border-gray-300 rounded"
+                >
+                  이전
+                </button>
+                {Array.from({ length: totalPages }, (_, i) => (
+                  <button
+                    key={i + 1}
+                    onClick={() => setCurrentPage(i + 1)}
+                    className={`px-4 py-2 mx-1 border ${
+                      currentPage === i + 1 ? "border-black" : "border-gray-300"
+                    } rounded`}
+                  >
+                    {i + 1}
+                  </button>
+                ))}
+                <button
+                  onClick={() =>
+                    setCurrentPage((prev) => Math.min(prev + 1, totalPages))
+                  }
+                  disabled={currentPage === totalPages}
+                  className="px-4 py-2 mx-1 border border-gray-300 rounded"
+                >
+                  다음
+                </button>
+              </>
+            )}
           </div>
         </div>
       </div>
