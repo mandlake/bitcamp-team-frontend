@@ -72,5 +72,9 @@ export const deleteUser: any = createAsyncThunk(
 
 export const paymentsBuyerById: any = createAsyncThunk(
   "users/paymentsBuyerById",
-  async (id: number) => await paymentsBuyerByIdAPI(id)
+  async (id: number) => {
+    const data = await paymentsBuyerByIdAPI(id);
+    console.log(data);
+    return data;
+  }
 );

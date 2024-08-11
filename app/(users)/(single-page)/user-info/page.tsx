@@ -14,15 +14,18 @@ import { useDispatch } from "react-redux";
 import ChatList from "@/components/common/chat/ChatList";
 import Payment from "@/app/(payment)/payment/[id]/page";
 import CancelPayment from "@/app/(payment)/cancel/[id]/page";
+import { IPayment } from "@/components/_model/payment/payment";
+import { getLawyerById } from "@/components/_service/lawyer/lawyer.service";
+
+interface Lawyer {
+  id: string;
+  name: string;
+}
 
 const UserSingeInfoPage = () => {
   const dispatch = useDispatch();
-  const router = useRouter();
-  const lawyers = [
-    { id: "lawyer1", name: "Lawyer 1" },
-    { id: "lawyer2", name: "Lawyer 2" },
-    { id: "lawyer3", name: "Lawyer 3" },
-  ];
+  const [lawyers, setLawyers] = useState([] as Lawyer[]);
+  const [payments, setPayments] = useState([] as IPayment[]);
   const currentUser = "user1";
 
   const [user, setUser] = useState({} as IUser);
@@ -32,14 +35,18 @@ const UserSingeInfoPage = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   const getUser = async () => {
-    console.log(decodedToken.id);
     await dispatch(getUserById(decodedToken.id)).then((res: any) => {
-      console.log(res);
       setUser(res.payload);
-      console.log("getPaymnet");
-      dispatch(paymentsBuyerById(res.payload.id)).then((res: any) => {
-        console.log(res);
-        // setUser(res.payload);
+      dispatch(paymentsBuyerById(res.payload.id)).then((buy: any) => {
+        setPayments(buy.payload);
+        buy.payload?.map((pay: any) => {
+          console.log("pay");
+          console.log(pay);
+          setLawyers((prevMessages: any) => [
+            ...prevMessages,
+            { id: pay.lawyer, name: pay.lawyer },
+          ]);
+        });
       });
     });
   };
@@ -52,7 +59,6 @@ const UserSingeInfoPage = () => {
     try {
       setDecodedToken(jwtDecode(accessToken));
       if (decodedToken.roles !== undefined) {
-        console.log(decodedToken);
         getUser();
       }
     } catch (error) {
@@ -232,18 +238,29 @@ const UserSingeInfoPage = () => {
           <div className="w-[694px] border-2 border-[var(--color-Harbor-firth)] rounded-2xl p-5">
             <p className="text-[var(--color-Harbor-sec)]">예약 정보</p>
             <div className="flex flex-row w-[650px] items-center px-2 pt-5">
-              <p className="w-[100px]">
-                여기에다가 /users/user/payments/buyer/id 경로로 findby userid
-                추가해주세요 product id로 연관 테이블 불러와서 상품 정보
-                보이게끔 해주시고 상태도 보여주세요
-              </p>
+              <div>
+                <div className="flex flex-row gap-5">
+                  <div className="flex items-center justify-center">
+                    <p className="w-36">가격</p>
+                  </div>
+                  <div className="flex items-center justify-center">
+                    <p className="w-36">현재 진행상태</p>
+                  </div>
+                </div>
+                {payments.map((payment: any) => (
+                  <div key={payment.id} className="flex flex-row gap-5">
+                    <div className="flex items-center justify-center">
+                      <p className="w-36">{payment.amount} 원</p>
+                    </div>
+                    <div className="flex items-center justify-center">
+                      <p className="w-36">{payment.status}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
           <ChatList currentUser={user?.name || currentUser} lawyers={lawyers} />
-          <p>
-            유저가 상담 요청한 변호사가 수락한 이후 결제 상태가 OK로 변합니다.
-            그 떄 해당 변호사랑 채팅할 수 있도록 수정해 주세요.
-          </p>
         </div>
       </div>
     </>

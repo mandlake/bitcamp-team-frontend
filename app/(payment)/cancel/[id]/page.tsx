@@ -47,7 +47,7 @@ export default function CancelPayment({ params }: any) {
   const cancelPayment = async () => {
     const paymentDto = {
       id: userId,
-      impUid: "imp_667455309876",
+      impUid: "imp_055045284793",
       cancel_request_amount: 200,
       reason: "거절된 상담 요청",
       amount: 200,

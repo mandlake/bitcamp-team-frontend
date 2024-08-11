@@ -95,7 +95,7 @@ export const deleteUserAPI = async (id: number) => {
 
 export const paymentsBuyerByIdAPI = async (id: number) => {
   try {
-    const response = await userInstance().delete(`/user/payments/buyer/${id}`);
+    const response = await userInstance().get(`/user/payments/buyer/${id}`);
     return response.data;
   } catch (error) {
     console.log(error);

@@ -148,12 +148,6 @@ export default function Home(props: any) {
           >
             {message?.map((msg: any, index: any) => (
               <div key={index} className="gap-5">
-                {/* <div className="text-[40px] rounded-3xl odd:text-right">
-                  {item.sender === "user" && item.text}
-                </div>
-                <div className="text-[40px] rounded-3xl">
-                  {item.sender !== "user" && item.text}
-                </div> */}
                 <strong>{msg.sender === "user" ? "유저" : "챗봇"}: </strong>
                 <span>{msg.text}</span>
               </div>
