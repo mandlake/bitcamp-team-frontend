@@ -5,6 +5,7 @@ import {
   getUserByIdApi,
   locaJoinAPI,
   localLoginAPI,
+  paymentsBuyerByIdAPI,
   updateUserByIdApi,
   userLogoutApi,
 } from "./user.api";
@@ -67,4 +68,9 @@ export const existsEmail: any = createAsyncThunk(
 export const deleteUser: any = createAsyncThunk(
   "users/delete",
   async (id: number) => await deleteUserAPI(id)
+);
+
+export const paymentsBuyerById: any = createAsyncThunk(
+  "users/paymentsBuyerById",
+  async (id: number) => await paymentsBuyerByIdAPI(id)
 );

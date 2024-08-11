@@ -5,3 +5,4 @@ export const lawyerURL = mainURL + "/lawyers";
 export const adminURL = mainURL + "/admin";
 export const chatURL = mainURL + "/chats";
 export const manageURL = mainURL + "/manage";
+export const aiURL = process.env.AI_URL;

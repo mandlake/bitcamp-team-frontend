@@ -1,7 +1,10 @@
 "use client";
 
 import { IUser } from "@/components/_model/user/user";
-import { getUserById } from "@/components/_service/user/user.service";
+import {
+  getUserById,
+  paymentsBuyerById,
+} from "@/components/_service/user/user.service";
 import { jwtDecode } from "jwt-decode";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
@@ -33,6 +36,11 @@ const UserSingeInfoPage = () => {
     await dispatch(getUserById(decodedToken.id)).then((res: any) => {
       console.log(res);
       setUser(res.payload);
+      console.log("getPaymnet");
+      dispatch(paymentsBuyerById(res.payload.id)).then((res: any) => {
+        console.log(res);
+        // setUser(res.payload);
+      });
     });
   };
 
@@ -196,7 +204,7 @@ const UserSingeInfoPage = () => {
               </div>
             </div>
           </div>
-          <Payment/>
+          <Payment />
           <CancelPayment />
           <div className="w-[694px] border-2 border-[var(--color-Harbor-firth)] rounded-2xl p-5">
             <p className="text-[var(--color-Harbor-sec)]">결제 정보</p>
@@ -224,11 +232,18 @@ const UserSingeInfoPage = () => {
           <div className="w-[694px] border-2 border-[var(--color-Harbor-firth)] rounded-2xl p-5">
             <p className="text-[var(--color-Harbor-sec)]">예약 정보</p>
             <div className="flex flex-row w-[650px] items-center px-2 pt-5">
-              <p className="w-[100px]">여기에다가 /users/user/payments/buyer/id 경로로 findby userid 추가해주세요 product id로 연관 테이블 불러와서 상품 정보 보이게끔 해주시고 상태도 보여주세요 </p>
+              <p className="w-[100px]">
+                여기에다가 /users/user/payments/buyer/id 경로로 findby userid
+                추가해주세요 product id로 연관 테이블 불러와서 상품 정보
+                보이게끔 해주시고 상태도 보여주세요
+              </p>
             </div>
           </div>
-          <ChatList currentUser={currentUser} lawyers={lawyers} />
-          <p>유저가 상담 요청한 변호사가 수락한 이후 결제 상태가 OK로 변합니다. 그 떄 해당 변호사랑 채팅할 수 있도록 수정해 주세요.</p>
+          <ChatList currentUser={user?.name || currentUser} lawyers={lawyers} />
+          <p>
+            유저가 상담 요청한 변호사가 수락한 이후 결제 상태가 OK로 변합니다.
+            그 떄 해당 변호사랑 채팅할 수 있도록 수정해 주세요.
+          </p>
         </div>
       </div>
     </>

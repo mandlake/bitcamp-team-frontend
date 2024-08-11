@@ -92,3 +92,13 @@ export const deleteUserAPI = async (id: number) => {
     return error;
   }
 };
+
+export const paymentsBuyerByIdAPI = async (id: number) => {
+  try {
+    const response = await userInstance().delete(`/user/payments/buyer/${id}`);
+    return response.data;
+  } catch (error) {
+    console.log(error);
+    return error;
+  }
+};

@@ -12,51 +12,113 @@ import { LongLeftArrow, LongRightArrow } from "@/components/common/next.icons";
 import { RecommendedLawyerPage } from "./(main)/recommendLawyer.page";
 import IssueForm from "@/components/modules/issue/NewIssueForm";
 import IssueList from "@/components/modules/issue/IssueList";
+import axios from "axios";
+
+export interface chatting {
+  sender: string;
+  text: any;
+}
 
 export default function Home(props: any) {
-  const dispatch = useDispatch();
-  const [message, setMessage] = useState({
-    question: "",
-    answer:
-      "화장품을 제조하여 판매하려는 자는 식품의약품안전처장에게 “화장품제조업” 및 “화장품책임판매업” 등록을 해야 합니다. 화장품제조업 등록을 하려면 일정한 시설기준을 갖춰야 하고, 화장품책임판매업 등록을 하려면 품질관리기준, 책임판매 후 안전관리기준 및 책임판매관리자에 관한 기준을 갖춰야 합니다.",
-  } as IChat);
+  const [message, setMessages] = useState<chatting[]>([]);
   const [next, setNext] = useState(0);
   const [chatted, setChatted] = useState(false);
-  const [chat, setChat] = useState<IChat[]>([]);
   const {
     register,
     handleSubmit,
     resetField,
     formState: { errors },
   } = useForm<IChat>();
+  const lawTerms = [
+    "형사법",
+    "공법",
+    "국제법",
+    "국제거래법",
+    "노동법",
+    "조세법",
+    "지적재산권법",
+    "민사법",
+    "경제법",
+    "환경법",
+  ];
 
-  const onSubmit = async (data: IChat) => {
-    setMessage({ ...message, question: data.question });
-    console.log("입력된 값 : " + JSON.stringify(data));
+  const onSubmit = async ({ question }: any) => {
+    const message = question;
+    // 유저 메시지를 상태에 추가
+    setMessages((prevMessages: any) => [
+      ...prevMessages,
+      { sender: "user", text: message },
+    ]);
+    setChatted(true);
+    console.log(message);
+
     try {
-      await dispatch(saveChat(message))
-        .then((res: any) => {
-          console.log(res);
-          setMessage({ ...message, answer: res.payload.answer });
-          setChatted(true);
-          scrollToBottom();
-        })
-        .then(() => {
-          setChat([...chat, message]);
-          console.log(chat);
-          scrollToBottom();
-        });
-    } catch (error) {
-      console.log(error);
-    } finally {
-      resetField("question");
-    }
-  };
+      // 서버에 첫 번째 요청 보내기
+      const response = await axios.post(
+        "https://27b5-125-131-113-53.ngrok-free.app/v1/chat/completions",
+        {
+          model: "llm",
+          messages: [{ role: "user", content: message }],
+          temperature: 0,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
 
-  const handleLawLaw = async () => {
-    await dispatch(temp(message.question)).then((res: any) => {
-      console.log(res);
-    });
+      // 챗봇 응답을 상태에 추가
+      const botMessage = response.data.choices[0].message.content;
+      setMessages((prevMessages: any) => [
+        ...prevMessages,
+        { sender: "bot", text: botMessage },
+      ]);
+
+      // 추가 요청 보내기
+      const additionalResponse = await axios.post(
+        "https://27b5-125-131-113-53.ngrok-free.app/v1/chat/completions",
+        {
+          model: "classifier",
+          messages: [{ role: "user", content: botMessage }],
+          temperature: 0,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      // 추가 요청의 content 부분만 출력
+      const additionalContent =
+        additionalResponse.data.choices[0].message.content;
+      console.log(additionalContent);
+
+      // 특정 단어가 포함되어 있는지 확인
+      const containsLawTerm = lawTerms.some((term) =>
+        additionalContent.includes(term)
+      );
+      if (containsLawTerm) {
+        // 특정 단어가 포함된 경우 추가 API 요청
+        const apiResponse = await axios.get(
+          `http://lawmate-api-gateway-41bd9-25937505-8ab9cf98a540.kr.lb.naverncp.com/lawyers/law?law=${lawTerms.find(
+            (term) => additionalContent.includes(term)
+          )}`
+        );
+
+        // 응답에서 id와 name 출력
+        apiResponse.data.forEach((lawyer: any) => {
+          console.log(`id: ${lawyer.id}, name: ${lawyer.name}`);
+        });
+      }
+    } catch (error) {
+      console.error("Error while sending message:", error);
+      setMessages((prevMessages: any) => [
+        ...prevMessages,
+        { sender: "bot", text: "응답을 받을 수 없습니다. 다시 시도해 주세요." },
+      ]);
+    }
   };
 
   const chatContainerRef = useRef<HTMLDivElement>(null); // Ref for the chat container
@@ -84,12 +146,16 @@ export default function Home(props: any) {
             className="w-[1400px] flex flex-col h-4/5 overflow-auto gap-5 rounded-md p-5"
             ref={chatContainerRef}
           >
-            {chat?.map((item, index) => (
+            {message?.map((msg: any, index: any) => (
               <div key={index} className="gap-5">
-                <div className="text-[40px] rounded-3xl odd:text-right">
-                  {item.question}
+                {/* <div className="text-[40px] rounded-3xl odd:text-right">
+                  {item.sender === "user" && item.text}
                 </div>
-                <div className="text-[40px] rounded-3xl">{item.answer}</div>
+                <div className="text-[40px] rounded-3xl">
+                  {item.sender !== "user" && item.text}
+                </div> */}
+                <strong>{msg.sender === "user" ? "유저" : "챗봇"}: </strong>
+                <span>{msg.text}</span>
               </div>
             ))}
           </div>
@@ -141,11 +207,10 @@ export default function Home(props: any) {
           <input
             type="text"
             className="bg-[var(--color-Harbor-first)] w-[1000px] h-[40px] text-[var(--color-Harbor-firth)] px-8 py-3 rounded-e-2xl outline-none"
-            {...register("question")}
+            {...register("question", { required: "메시지를 입력해주세요." })}
             autoFocus
             onKeyDown={(e: any) => {
               if (e.key === "Enter") {
-                handleSubmit(onSubmit)();
                 scrollToBottom();
               }
             }}
@@ -153,7 +218,6 @@ export default function Home(props: any) {
           <button
             type="submit"
             onClick={() => {
-              handleSubmit(onSubmit)();
               scrollToBottom();
             }}
             className="absolute top-1 right-1 w-[30px] h-[30px] flex items-center bg-[var(--color-Harbor-sec)] justify-center text-center rounded-2xl"

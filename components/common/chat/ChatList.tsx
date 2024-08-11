@@ -13,7 +13,7 @@ const ChatList: React.FC<ChatListProps> = ({ lawyers, currentUser }) => {
   const handleChatStart = async (receiver: string) => {
     const { roomId } = await createChatRoom(currentUser, receiver);
     router.push(
-      `../chat?roomId=${roomId}&currentUser=${currentUser}&receiver=${receiver}`
+      `/chat?roomId=${roomId}&currentUser=${currentUser}&receiver=${receiver}`
     );
   };
 
