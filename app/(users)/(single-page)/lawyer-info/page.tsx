@@ -8,6 +8,8 @@ import {
   getLawyerDetailByUsername,
   updateLawyer,
 } from "@/components/_service/lawyer/lawyer.service";
+import { userURL } from "@/components/common/url";
+import axios from "axios";
 import { jwtDecode } from "jwt-decode";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
@@ -33,6 +35,7 @@ const LawyerSingleInfoPage = () => {
   const accessToken: string = parseCookies().accessToken;
   const [decodedToken, setDecodedToken] = useState({} as any);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [notifications, setNotifications] = useState([] as any[]); // 추가된 상태
 
   const getLawyer = async () => {
     await dispatch(getLawyerById(decodedToken.id)).then((res: any) => {
@@ -44,6 +47,17 @@ const LawyerSingleInfoPage = () => {
     await dispatch(getLawyerDetailById(parseCookies().id)).then((res: any) => {
       setLawyerDetail(res.payload);
     });
+  };
+
+  const getNotifications = async () => {
+    try {
+      const response = await axios.get(
+        `${userURL}/issues/notification/${decodedToken.id}`
+      );
+      setNotifications(response.data);
+    } catch (error) {
+      console.error("Error fetching notifications:", error);
+    }
   };
 
   useEffect(() => {
@@ -74,6 +88,7 @@ const LawyerSingleInfoPage = () => {
         console.log(decodedToken);
         getLawyer();
         getLawyerDetail();
+        getNotifications();
       }
     } catch (error) {
       console.log(error);
@@ -490,6 +505,24 @@ const LawyerSingleInfoPage = () => {
                 className={`my-5 ${showCalendar ? "block" : "hidden"}`}
               ></div>
             </div>
+          </div>
+          <div className="w-[694px] border-2 border-[var(--color-Harbor-firth)] rounded-2xl p-5">
+            <p className="text-[var(--color-Harbor-sec)]">예약 내역</p>
+            {notifications.length > 0 ? (
+              notifications.map((notification) => (
+                <div
+                  key={notification.id}
+                  className="flex flex-row w-full items-center border-b py-2"
+                >
+                  <div className="w-[150px]">{notification.date}</div>
+                  <div className="w-[150px]">{notification.time}</div>
+                  <div className="w-[200px]">{notification.title}</div>
+                  <div className="w-[300px]">{notification.content}</div>
+                </div>
+              ))
+            ) : (
+              <p>예약 내역이 없습니다.</p>
+            )}
           </div>
         </div>
       </div>

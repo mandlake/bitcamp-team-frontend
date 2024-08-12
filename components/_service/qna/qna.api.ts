@@ -37,7 +37,7 @@ export const findReplyByArticleIdApi = async (articleId: string) => {
 
 export const saveQuestionsApi = async (data: any) => {
   try {
-    const response = await lawyerInstance().post(`/user/questions/save`, data);
+    const response = await userInstance().post(`/questions/save`, data);
     return response.data;
   } catch (error) {
     console.log(error);

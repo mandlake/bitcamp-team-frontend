@@ -205,13 +205,12 @@ const UserSingeInfoPage = () => {
               </div>
             </div>
           </div>
-          <Payment />
-          <CancelPayment />
           <div className="w-[694px] border-2 border-[var(--color-Harbor-firth)] rounded-2xl p-5">
             <p className="text-[var(--color-Harbor-sec)]">결제 정보</p>
             <div className="flex flex-row w-[650px] items-center px-2 pt-5">
               <p className="w-[100px]">포인트</p>
               <div className="flex flex-row w-[550px] justify-between items-center">
+                <Payment />
                 <input
                   type="number"
                   id="point"
@@ -224,9 +223,9 @@ const UserSingeInfoPage = () => {
                       point: e.target.value,
                     })
                   }
-                  className="w-[22vw] pl-2 h-[3vh] text-[14px] bg-white"
+                  className="pl-2 text-[14px] bg-white"
                 />
-                <input type="submit" value="수정" className="px-2" />
+                {/* <input type="submit" value="수정" className="px-2" /> */}
               </div>
             </div>
           </div>
@@ -236,6 +235,12 @@ const UserSingeInfoPage = () => {
               <div>
                 <div className="flex flex-row gap-5">
                   <div className="flex items-center justify-center">
+                    <p className="w-36">상담 정보</p>
+                  </div>
+                  <div className="flex items-center justify-center">
+                    <p className="w-36">변호사</p>
+                  </div>
+                  <div className="flex items-center justify-center">
                     <p className="w-36">가격</p>
                   </div>
                   <div className="flex items-center justify-center">
@@ -244,6 +249,12 @@ const UserSingeInfoPage = () => {
                 </div>
                 {payments.map((payment: any) => (
                   <div key={payment.id} className="flex flex-row gap-5">
+                    <div className="flex items-center justify-center">
+                      <p className="w-36">{payment.product.itemName}</p>
+                    </div>
+                    <div className="flex items-center justify-center">
+                      <p className="w-36">{payment.lawyer?.name}</p>
+                    </div>
                     <div className="flex items-center justify-center">
                       <p className="w-36">{payment.amount} 원</p>
                     </div>
@@ -255,7 +266,7 @@ const UserSingeInfoPage = () => {
               </div>
             </div>
           </div>
-          <ChatList currentUser={user?.name || currentUser} lawyers={lawyers} />
+          {/* <ChatList currentUser={user?.name || currentUser} lawyers={lawyers} /> */}
         </div>
       </div>
     </>

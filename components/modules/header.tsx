@@ -93,12 +93,12 @@ const Header = ({ isDropdownOpen, setIsDropdownOpen }: any) => {
   ];
 
   const boardMenu = [
-    {
-      key: 1,
-      title: "News Board",
-      path: "/news",
-      sub: "뉴스",
-    },
+    // {
+    //   key: 1,
+    //   title: "News Board",
+    //   path: "/news",
+    //   sub: "뉴스",
+    // },
     {
       key: 2,
       title: "Lawyers Board",

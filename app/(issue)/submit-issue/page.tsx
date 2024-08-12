@@ -2,18 +2,7 @@
 
 import IssueForm from "@/components/modules/issue/NewIssueForm";
 import { useState } from "react";
-
-interface Issue {
-  id: number;
-  title: string;
-  content: string;
-  law: string;
-  attachment: string;
-  client?: {
-    id?: number;
-  };
-  lawyer?: string;
-}
+import { Issue } from "@/components/_model/issue/issue";
 
 const SubmitIssuePage = (props: any) => {
   const lawyerId = props.lawyerId;

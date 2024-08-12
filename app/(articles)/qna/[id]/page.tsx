@@ -13,6 +13,7 @@ const QnAByIdPage = (props: any) => {
 
   const [question, setQuestion] = useState({} as any);
   const [reply, setReply] = useState([] as any);
+  const [answer, setAnswer] = useState({} as any);
 
   const handleQuestion = async () => {
     try {
@@ -72,7 +73,7 @@ const QnAByIdPage = (props: any) => {
           </div>
         </div>
         <div className="flex flex-col p-10 gap-10">
-          <div className="p-5 flex flex-col gap-3">
+          <div className="p-5 flex flex-col gap-5">
             {/* {reply?.map((item: any, key: any) => (
               <div key={key} className="flex flex-row gap-5 items-start">
                 <div className="w-10 h-10 bg-slate-600"></div>
@@ -95,6 +96,22 @@ const QnAByIdPage = (props: any) => {
                   <p>{reply?.modifiedDate}</p>
                   <p>삭제하기</p>
                 </div>
+              </div>
+            </div>
+            <div className="border rounded-2xl p-8 w-full mt-10">
+              <p>댓글</p>
+              <textarea
+                placeholder="내용을 입력하세요."
+                className=" mt-4 px-4 focus:outline-none w-full"
+                onChange={(event: any) =>
+                  setAnswer({
+                    ...answer,
+                    answer: event.target.value,
+                  })
+                }
+              ></textarea>
+              <div className="flex items-end justify-end">
+                <p>등록</p>
               </div>
             </div>
           </div>

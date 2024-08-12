@@ -35,6 +35,8 @@ export const paymentSlice = createSlice({
 
 export const getPaymentById = (state: any) => state.payment?.json;
 export const getAllPayments = (state: any) => state.payment.array;
+export const cancelPayment = (state: any) => state.payment.json;
+export const confirmPayment = (state: any) => state.payment.json;
 
 export const {} = paymentSlice.actions;
 

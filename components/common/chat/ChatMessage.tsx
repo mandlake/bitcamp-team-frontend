@@ -10,13 +10,13 @@ interface ChatMessageProps {
 const ChatMessage: React.FC<ChatMessageProps> = ({ message, currentUser }) => {
   const isSender = message.sender === currentUser;
   return (
-    <div style={{ textAlign: isSender ? "left" : "right" }}>
+    <div className={`${isSender ? "text-right" : "text-left"}`}>
       <div
-        style={{
-          display: "inline-block",
-          padding: "10px",
-          background: isSender ? "#dcf8c6" : "#fff",
-        }}
+        className={`inline-block p-1.5 ${
+          isSender
+            ? "bg-white border border-[var(--color-Harbor-firth)]"
+            : "bg-[var(--color-Harbor-firth)]"
+        }`}
       >
         <p>{message.message}</p>
       </div>

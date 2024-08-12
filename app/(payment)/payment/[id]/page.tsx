@@ -146,17 +146,17 @@ export default function Payment({ params }: any) {
   }, []);
 
   return (
-    <div className="flex items-center">
+    <div className="flex">
       <input
         type="number"
         value={amount}
         onChange={(e) => setAmount(parseInt(e.target.value, 10))}
-        className="border border-gray-300 rounded-2xl py-2 px-4"
+        className="w-[22vw] pl-2 h-[3vh] text-[14px] bg-white"
         placeholder="Enter amount"
       />
       <button
-        className="border border-gray-300 rounded-2xl py-2 px-4"
         onClick={() => requestPay(amount)}
+        className="px-2s justify-end items-end"
       >
         충전
       </button>

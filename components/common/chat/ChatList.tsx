@@ -22,13 +22,7 @@ const ChatList: React.FC<ChatListProps> = ({ lawyers, currentUser }) => {
       <ul>
         {lawyers.map((lawyer) => (
           <li key={lawyer.id}>
-            {lawyer.name}{" "}
-            <button
-              className="w-full shadow-xl py-2.5 px-4 text-sm font-semibold rounded text-white bg-blue-600 hover:bg-blue-700 focus:outline-none"
-              onClick={() => handleChatStart(lawyer.id)}
-            >
-              Chat
-            </button>
+            <button onClick={() => handleChatStart(lawyer.id)}>Chat</button>
           </li>
         ))}
       </ul>

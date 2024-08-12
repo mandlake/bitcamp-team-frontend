@@ -22,3 +22,26 @@ export const paymentStatusAPI = async (payment: IPayment) => {
     return error;
   }
 };
+
+export const confirmPaymentAPI = async (payment: IPayment) => {
+  try {
+    const response = await userInstance().post(
+      "user/payments/confirm",
+      payment
+    );
+    return response.data;
+  } catch (error) {
+    console.log(error);
+    return error;
+  }
+};
+
+export const cancelPaymentAPI = async (payment: IPayment) => {
+  try {
+    const response = await userInstance().post("user/payments/cancel", payment);
+    return response.data;
+  } catch (error) {
+    console.log(error);
+    return error;
+  }
+};

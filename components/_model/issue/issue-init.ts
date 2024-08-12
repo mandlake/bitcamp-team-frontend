@@ -1,6 +1,6 @@
-import { ISse } from "./issue";
+import { Issue } from "./issue";
 
-export const initialState: ISse = {
+export const initialState: Issue = {
   id: 0,
   law: "",
   title: "",
@@ -11,7 +11,8 @@ export const initialState: ISse = {
   boardId: 0,
   regDate: "",
   modDate: "",
-  attachment: "",
+  date: "",
+  time: "",
   json: {},
   array: [],
 };

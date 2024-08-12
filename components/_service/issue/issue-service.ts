@@ -7,7 +7,7 @@ import {
   deleteIssueAPI,
   modifyIssueAPI,
 } from "./issue-api";
-import { ISse } from "@/components/_model/issue/issue";
+import { Issue } from "@/components/_model/issue/issue";
 
 export const findAllIssues: any = createAsyncThunk(
   "issues/findAllIssues",
@@ -32,7 +32,7 @@ export const findCountIssues: any = createAsyncThunk(
 
 export const saveIssue: any = createAsyncThunk(
   "issues/saveIssue",
-  async (issue: ISse) => {
+  async (issue: Issue) => {
     try {
       return await saveIssueAPI(issue);
     } catch (error) {
@@ -49,4 +49,15 @@ export const deleteIssue: any = createAsyncThunk(
 export const modifyIssue: any = createAsyncThunk(
   "issues/modifyIssue",
   async (id: number) => await modifyIssueAPI(id)
+);
+
+export const getAllLawyerNotifications: any = createAsyncThunk(
+  "issues/getAllLawyerNotifications",
+  async (page: number) => {
+    console.log("getAllLawyerNotifications page: " + page);
+    const data: any = await findAllIssuesAPI(page);
+
+    const { message, result }: any = data;
+    return data;
+  }
 );

@@ -5,18 +5,7 @@ import { userURL } from "@/components/common/url";
 import IssueList from "@/components/modules/issue/IssueList";
 import IssueForm from "@/components/modules/issue/NewIssueForm";
 import { useEffect, useState } from "react";
-
-interface Issue {
-  id: number;
-  title: string;
-  content: string;
-  law: string;
-  attachment: string;
-  client?: {
-    id?: number;
-  };
-  lawyer?: string;
-}
+import { Issue } from "@/components/_model/issue/issue";
 
 const IssuePage = (props: any) => {
   const lawyerId = props.lawyerId;
@@ -47,9 +36,7 @@ const IssuePage = (props: any) => {
           <IssueForm onSave={handleSaveIssue} lawyerId={lawyerId} />
         </div>
       </div>
-      <form className="border border-gray-300 rounded-2xl py-2 px-4">
-        <IssueList lawyerId={lawyerId} />
-      </form>
+      <IssueList lawyerId={lawyerId} />
     </div>
   );
 };

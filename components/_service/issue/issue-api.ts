@@ -1,4 +1,4 @@
-import { ISse } from "@/components/_model/issue/issue";
+import { Issue } from "@/components/_model/issue/issue";
 import { userInstance } from "@/components/config/axios-config";
 
 export const findAllIssuesAPI = async (page: number) => {
@@ -33,7 +33,7 @@ export const findCountIssuesAPI = async () => {
   }
 };
 
-export const saveIssueAPI = async (issue: ISse) => {
+export const saveIssueAPI = async (issue: Issue) => {
   console.log(`parameter in saveIssue: ${JSON.stringify(issue)}`);
   try {
     return (await userInstance().post(`issues/save`, issue)).data;
@@ -79,4 +79,12 @@ export const createEventSource = (
   };
 
   return eventSource;
+};
+
+export const getAllLawyerNotificationsAPI = async (lawyerId: string) => {
+  try {
+    return (await userInstance().get(`/issues/notification/${lawyerId}`)).data;
+  } catch (error) {
+    return error;
+  }
 };

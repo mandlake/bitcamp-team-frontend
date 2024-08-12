@@ -15,7 +15,6 @@ import { savePayment } from "@/components/_service/payment/payment-service";
 import ChatList from "@/components/common/chat/ChatList";
 import { userURL } from "@/components/common/url";
 import UserId from "@/components/hooks/userId";
-import IssueList from "@/components/modules/issue/IssueList";
 import axios from "axios";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
@@ -284,19 +283,7 @@ const LawyerByIdPage = (props: any) => {
               </div>
             </div>
           </div>
-          {userId ? <p>User {userId}</p> : <p>Loading...</p>}
-          <h1>Lawyer {lawyerId}</h1>
-          <br />
-          <br />
-          <h1>상담 결제</h1>
-          <Product lawyerId={lawyerId} />
-          <br />
-          <br />
-          <h1>사건 알림</h1>
-          <IssuePage lawyerId={lawyerId} />
-          <br />
-          <CancelPayment />
-          <br />
+          <Product />
         </div>
         <div className="w-[498px] absolute top-0 right-10 py-[16px]">
           <div className="h-[14vh] bg-[var(--color-Harbor-first)] text-[var(--color-Harbor-firth)] p-9 py-7 rounded-t-xl">
@@ -345,7 +332,7 @@ const LawyerByIdPage = (props: any) => {
                               amount === type.price
                                 ? "bg-[var(--color-Harbor-sec)] text-white"
                                 : ""
-                            } p-3 rounded-lg border`}
+                            } p-3 rounded-lg border cursor-pointer`}
                             onClick={() => {
                               setAmount(type.price);
                               setconsultingType(type.type);
@@ -389,7 +376,7 @@ const LawyerByIdPage = (props: any) => {
                               date === type.type
                                 ? "bg-[var(--color-Harbor-sec)] text-white"
                                 : ""
-                            } p-3 rounded-lg border`}
+                            } p-3 rounded-lg border cursor-pointer`}
                             onClick={() => {
                               setDate(type.type);
                             }}
@@ -432,7 +419,7 @@ const LawyerByIdPage = (props: any) => {
                               time === type.type
                                 ? "bg-[var(--color-Harbor-sec)] text-white"
                                 : ""
-                            } p-3 rounded-lg border`}
+                            } p-3 rounded-lg border cursor-pointer`}
                             onClick={() => {
                               setTime(type.type);
                             }}

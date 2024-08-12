@@ -73,10 +73,7 @@ export default function CancelPayment({ params }: any) {
 
   return (
     <div className="flex items-center">
-      <button
-        className="border border-gray-300 rounded-2xl py-2 px-4"
-        onClick={cancelPayment}
-      >
+      <button className="border border-gray-300" onClick={cancelPayment}>
         결제 취소
       </button>
     </div>

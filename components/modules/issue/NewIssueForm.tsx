@@ -14,7 +14,8 @@ interface Issue {
   title: string;
   content: string;
   law: string;
-  attachment: string;
+  date: string;
+  time: string;
   client?: {
     id?: number;
   };
@@ -54,9 +55,6 @@ const IssueForm: React.FC<IssueFormProps> = (props: any) => {
       onSubmit={handleSubmit(onSubmit)}
       className="flex flex-col items-center gap-3"
     >
-      <p>
-        사용자 {UserId()}가 변호사 {props.lawyerId || ""}에게 보내는 알림
-      </p>
       <input
         type="hidden"
         value={props.lawyerId}
@@ -64,37 +62,31 @@ const IssueForm: React.FC<IssueFormProps> = (props: any) => {
       ></input>
       <input
         type="text"
-        placeholder="Title"
-        className="text-gray-700 border border-gray-300 rounded-2xl py-2 px-4 block w-full focus:outline-2 focus:outline-blue-500"
-        {...register("title", { required: "Title is required" })}
+        placeholder="제목"
+        className="w-[22vw] h-[5vh] border border-[var(--color-Harbor-first)] px-[1.111vw] bg-white"
+        {...register("title", { required: "제목을 입력해 주세요." })}
       />
-      {errors.title && <p className="text-red-500">{errors.title.message}</p>}
+      {errors.title && (
+        <p className="text-red-500 text-xs">{errors.title.message}</p>
+      )}
 
       <input
         type="text"
-        placeholder="Law"
-        className="text-gray-700 border border-gray-300 rounded-2xl py-2 px-4 block w-full focus:outline-2 focus:outline-blue-500"
-        {...register("law", { required: "Law is required" })}
+        placeholder="분야"
+        className="w-[22vw] h-[5vh] border border-[var(--color-Harbor-first)] px-[1.111vw] bg-white"
+        {...register("law", { required: "분야를 입력해 주세요." })}
       />
-      {errors.law && <p className="text-red-500">{errors.law.message}</p>}
-
-      <input
-        type="text"
-        placeholder="Attachment"
-        className="text-gray-700 border border-gray-300 rounded-2xl py-2 px-4 block w-full focus:outline-2 focus:outline-blue-500"
-        {...register("attachment", { required: "Attachment is required" })}
-      />
-      {errors.attachment && (
-        <p className="text-red-500">{errors.attachment.message}</p>
+      {errors.law && (
+        <p className="text-red-500 text-xs">{errors.law.message}</p>
       )}
 
       <textarea
-        placeholder="Describe everything about this issue here."
-        className="text-gray-700 border border-gray-300 rounded-2xl py-2 px-4 block w-full focus:outline-2 focus:outline-blue-500 bg-transparent"
-        {...register("content", { required: "Content is required" })}
+        placeholder="상담 내용"
+        className="w-[22vw] h-[5vh] border border-[var(--color-Harbor-first)] px-[1.111vw] bg-white"
+        {...register("content", { required: "내용을 입력해 주세요." })}
       />
       {errors.content && (
-        <p className="text-red-500">{errors.content.message}</p>
+        <p className="text-red-500 text-xs">{errors.content.message}</p>
       )}
       <button
         type="submit"

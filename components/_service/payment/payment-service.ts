@@ -12,3 +12,13 @@ export const paymentStatus: any = createAsyncThunk(
   async (payment: IPayment, { rejectWithValue }) =>
     await paymentStatusAPI(payment)
 );
+
+export const confirmPayment: any = createAsyncThunk(
+  "/payment/confirmPayment",
+  async (payment: IPayment) => await paymentStatusAPI(payment)
+);
+
+export const cancelPayment: any = createAsyncThunk(
+  "/payment/cancelPayment",
+  async (payment: IPayment) => await paymentStatusAPI(payment)
+);

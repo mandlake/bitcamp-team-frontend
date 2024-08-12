@@ -20,12 +20,12 @@ const LawyerColumnByIdPage = (props: any) => {
   const getColumn = async () => {
     const data = await dispatch(getPostById(props.params.id)).then(
       (res: any) => {
+        setColumn(res.payload);
         dispatch(getLawyerById(res.payload.lawyerId)).then((res: any) => {
           setLawyer(res.payload.name);
         });
       }
     );
-    setColumn(data.payload);
   };
 
   const formattedOptions = options.reduce((acc, option) => {
