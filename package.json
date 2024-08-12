@@ -27,8 +27,7 @@
     "react-hook-form": "7.51.5",
     "redux-actions": "3.0.0",
     "redux-persist": "6.0.0",
-    "shadcn-ui": "0.8.0",
-    "@mui/material": "5.2.3"
+    "shadcn-ui": "0.8.0"
   },
   "devDependencies": {
     "@reduxjs/toolkit": "2.2.5",
