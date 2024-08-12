@@ -62,7 +62,7 @@ const QnAByIdPage = (props: any) => {
             <p>조회수 1,000</p>
           </div>
           <div className="flex flex-row items-baseline gap-2">
-            {/* {options.map((i: any) => (
+            {/* {options.map((i:  any) => (
               <> */}
             <div className="flex flex-row justify-center items-center p-2 text-xs rounded-2xl border">
               #{question.law}
