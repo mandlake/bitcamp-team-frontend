@@ -26,6 +26,7 @@ import {
   searchLawyerApi,
   updateDetailLawyerApi,
   updateLawyerApi,
+  updatePostApi,
   updateReplyApi,
   uploadFilesApi,
 } from "./lawyer.api";
@@ -218,7 +219,7 @@ export const getPostsByLawyerId: any = createAsyncThunk(
 export const updatePost: any = createAsyncThunk(
   "lawyer/updatePost",
   async ({ postId, updatedPost, files }: any) => {
-    const data: any = await createPostApi(postId, updatedPost, files);
+    const data: any = await updatePostApi(postId, updatedPost, files);
     return data;
   }
 );

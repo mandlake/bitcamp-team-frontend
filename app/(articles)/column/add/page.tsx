@@ -3,9 +3,11 @@
 import { ILawyerPost } from "@/components/_model/lawyer/lawyer";
 import { createPost } from "@/components/_service/lawyer/lawyer.service";
 import axios from "axios";
+import { jwtDecode } from "jwt-decode";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { parseCookies } from "nookies";
+import { useEffect, useState } from "react";
 import { set } from "react-hook-form";
 import { useDispatch } from "react-redux";
 
@@ -13,13 +15,17 @@ const ColumnBoardAddPage = () => {
   const router = useRouter();
   const dispatch = useDispatch();
 
+  const accessToken: string = parseCookies().accessToken;
+  const [decodedToken, setDecodedToken] = useState({} as any);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
   const [selectBoard, setSelectBoard] = useState({
     lawyerId: "",
     post: {} as ILawyerPost,
-    files: File,
+    files: [] as File[],
   });
 
-  const [inputValue, setInputValue] = useState("");
+  // const [inputValue, setInputValue] = useState("");
 
   const handleInputChange = (event: any) => {
     // setInputValue(event.target.value);
@@ -47,9 +53,11 @@ const ColumnBoardAddPage = () => {
   // };
 
   const submit = async () => {
+    console.log("before submit");
     console.log(selectBoard);
     const formData = new FormData();
-    formData.append("boardDto", JSON.stringify(selectBoard));
+    formData.append("lawyerId", selectBoard.lawyerId);
+    formData.append("post", JSON.stringify(selectBoard.post));
     const selectedFile = selectBoard.files;
     if (selectedFile.length == 0) {
       alert("파일을 선택해주세요.");
@@ -62,6 +70,8 @@ const ColumnBoardAddPage = () => {
 
     try {
       const response = await dispatch(createPost(formData));
+      console.log("after login");
+      console.log(response);
       if (response.status === 200) {
         alert("파일이 성공적으로 등록되었습니다.");
       }
@@ -69,6 +79,23 @@ const ColumnBoardAddPage = () => {
       console.log(error);
     }
   };
+
+  useEffect(() => {
+    if (!accessToken) {
+      return; // or handle the case where there's no token
+    }
+    setIsLoggedIn(!!accessToken);
+    try {
+      setDecodedToken(jwtDecode(accessToken));
+      if (decodedToken.roles !== undefined) {
+        console.log(decodedToken);
+        setSelectBoard({ ...selectBoard, lawyerId: decodedToken.id });
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }, [isLoggedIn]);
+
   return (
     <>
       <div className="flex flex-col items-center pt-20">
@@ -125,8 +152,9 @@ const ColumnBoardAddPage = () => {
               type="file"
               className="w-[42vw] h-[44px] focus:outline-none"
               onChange={(event: any) =>
-                setSelectBoard({ ...selectBoard, files: event.target.files })
+                setSelectBoard({ ...selectBoard, files: event.target.value })
               }
+              multiple
             />
           </div>
           <textarea

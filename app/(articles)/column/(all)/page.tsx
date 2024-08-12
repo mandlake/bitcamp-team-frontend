@@ -31,7 +31,7 @@ const LawyerColumnPage = () => {
     const data = await dispatch(getAllPosts(post));
     console.log(data);
     setColumns(data.payload);
-    setTotalPages(10);
+    setTotalPages(3);
   };
 
   const laws = [
@@ -75,7 +75,7 @@ const LawyerColumnPage = () => {
           </div>
           <div className="w-[60vw] flex flex-col items-center gap-5 font-roboto">
             <div className="flex flex-row items-baseline justify-center w-[60vw] gap-5 px-5">
-              <select
+              {/* <select
                 className="w-[5vw] h-[5vh] border border-[var(--color-Harbor-first)] px-[1.111vw] mb-[1.111vh] bg-white"
                 style={{ flexBasis: 0, flexGrow: 1 }}
                 value={watch("law")}
@@ -88,7 +88,7 @@ const LawyerColumnPage = () => {
                     {option.label}
                   </option>
                 ))}
-              </select>
+              </select> */}
               <select
                 className="w-[5vw] h-[5vh] border border-[var(--color-Harbor-first)] px-[1.111vw] mb-[1.111vh] bg-white"
                 style={{ flexBasis: 0, flexGrow: 1 }}
@@ -132,7 +132,7 @@ const LawyerColumnPage = () => {
                   <p className="text-2xl font-bold max-w-[24vw] truncate">
                     {item.title}
                   </p>
-                  <div className="text-lg font-normal w-[24vw] break-all line-clamp-2">
+                  <div className="text-lg font-normal w-[24vw] break-all truncate">
                     {item.content}
                   </div>
                 </div>
