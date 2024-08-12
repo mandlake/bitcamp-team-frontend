@@ -39,7 +39,7 @@ const LawyerColumnByIdPage = (props: any) => {
   return (
     <>
       <div className={`w-[1400px] `}>
-        <div className="flex flex-col p-20 gap-10">
+        <div className="flex flex-col p-20 gap-10 border-b">
           <div className="font-light text-base">{column.category}</div>
           <h1 className="font-bold text-4xl">
             {column.title || "제목이 없습니다."}

@@ -36,8 +36,8 @@ const JudicialPrecidentPage = () => {
   const notificationsPerPage = 10;
   const [totalPages, setTotalPages] = useState(0);
 
-  const handleSearch = async () => {
-    await dispatch(searchCaseLaws(watch("keyword"))).then((res: any) => {
+  const handleSearch = async (data: any) => {
+    await dispatch(searchCaseLaws(data)).then((res: any) => {
       setJudicialPrecident(res.payload);
       setTotalPages(0);
     });
@@ -66,11 +66,14 @@ const JudicialPrecidentPage = () => {
 
   return (
     <>
-      <div className={`flex flex-col justify-center items-center relative `}>
+      <div
+        onSubmit={handleSubmit(handleSearch)}
+        className={`flex flex-col justify-center items-center relative `}
+      >
         <div className="flex flex-col items-center py-24">
           <h1 className=" text-5xl font-semibold font-chosunlo">판례 게시판</h1>
           <div className="flex flex-wrap items-center justify-center w-[60vw] box-border gap-7 py-7">
-            <div className="flex flex-row items-baseline justify-center w-[60vw] gap-5 px-5 py-2">
+            <form className="flex flex-row items-baseline justify-center w-[60vw] gap-5 px-5 py-2">
               <select
                 className="w-[5vw] h-[5vh] border border-[var(--color-Harbor-first)] px-[1.111vw] mb-[1.111vh] bg-white"
                 style={{ flexBasis: 0, flexGrow: 1 }}
@@ -91,7 +94,7 @@ const JudicialPrecidentPage = () => {
                   className="w-80 focus:outline-none"
                   {...register("keyword")}
                 />
-                <button onClick={handleSearch}>
+                <button type="submit">
                   <Image
                     width={30}
                     height={20}
@@ -102,7 +105,7 @@ const JudicialPrecidentPage = () => {
                   />
                 </button>
               </div>
-            </div>
+            </form>
             <div className="flex flex-wrap items-center justify-center w-[60vw] box-border gap-6">
               {judicialPrecident?.map((item: any, index: number) => {
                 return (

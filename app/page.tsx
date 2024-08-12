@@ -111,6 +111,7 @@ export default function Home(props: any) {
         apiResponse.data.forEach((lawyer: any) => {
           console.log(`id: ${lawyer.id}, name: ${lawyer.name}`);
         });
+        scrollToBottom();
       }
     } catch (error) {
       console.error("Error while sending message:", error);
