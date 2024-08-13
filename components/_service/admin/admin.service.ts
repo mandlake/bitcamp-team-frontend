@@ -39,7 +39,7 @@ import {
 import { adminURL } from "@/components/common/url";
 import axios from "axios";
 import { EventSourcePolyfill } from "event-source-polyfill";
-const API_URL = adminURL + "/chat";
+const NEXT_PUBLIC_SITE_URL = adminURL + "/chat";
 
 export const authLogin: any = createAsyncThunk(
   "admin/authLogin",
@@ -226,22 +226,25 @@ export const getVisitorCountToday: any = createAsyncThunk(
 );
 
 export const createChatRoom = async (sender: string, receiver: string) => {
-  const response = await axios.get(`${API_URL}/create`, {
+  const response = await axios.get(`${NEXT_PUBLIC_SITE_URL}/create`, {
     params: { sender, receiver },
   });
   return response.data;
 };
 
 export const getChatHistory = async (roomId: string) => {
-  const response = await fetch(`${API_URL}/history?roomId=${roomId}`, {
-    method: "GET",
-    credentials: "include",
-  });
+  const response = await fetch(
+    `${NEXT_PUBLIC_SITE_URL}/history?roomId=${roomId}`,
+    {
+      method: "GET",
+      credentials: "include",
+    }
+  );
   return response.json();
 };
 
 export const sendMessage = async (chatMessage: any) => {
-  await fetch(`${API_URL}/send`, {
+  await fetch(`${NEXT_PUBLIC_SITE_URL}/send`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -252,9 +255,12 @@ export const sendMessage = async (chatMessage: any) => {
 };
 
 export const getMessages = (roomId: string) => {
-  return new EventSourcePolyfill(`${API_URL}/messages?roomId=${roomId}`, {
-    withCredentials: true,
-  });
+  return new EventSourcePolyfill(
+    `${NEXT_PUBLIC_SITE_URL}/messages?roomId=${roomId}`,
+    {
+      withCredentials: true,
+    }
+  );
 };
 
 export const getLawyerTotalStats: any = createAsyncThunk(

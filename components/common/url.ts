@@ -1,4 +1,4 @@
-export const mainURL = process.env.API_URL;
+export const mainURL = process.env.NEXT_PUBLIC_SITE_URL;
 
 export const userURL = mainURL + "/users";
 export const lawyerURL = mainURL + "/lawyers";
