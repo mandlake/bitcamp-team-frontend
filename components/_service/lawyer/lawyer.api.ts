@@ -544,3 +544,16 @@ export const getRepliesByArticleIdApi = async (
     throw error;
   }
 };
+
+export const getPostByIdApi = async (
+  postId: string
+): Promise<ILawyerReply[]> => {
+  try {
+    const response = await lawyerInstance().get(`/posts/post/${postId}`);
+    console.log("Get posts success");
+    return response.data;
+  } catch (error) {
+    console.error("Get posts error:", error);
+    throw error;
+  }
+};

@@ -1,7 +1,10 @@
 "use client";
 
-import { getLawyerById } from "@/components/_service/lawyer/lawyer.service";
-import { getPostById } from "@/components/_service/qna/qna.service";
+import {
+  createPost,
+  getLawyerById,
+  getPostById,
+} from "@/components/_service/lawyer/lawyer.service";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 
@@ -18,14 +21,12 @@ const LawyerColumnByIdPage = (props: any) => {
   const [lawyer, setLawyer] = useState("");
 
   const getColumn = async () => {
-    const data = await dispatch(getPostById(props.params.id)).then(
-      (res: any) => {
-        setColumn(res.payload);
-        dispatch(getLawyerById(res.payload.lawyerId)).then((res: any) => {
-          setLawyer(res.payload.name);
-        });
-      }
-    );
+    const data = await dispatch(getPostById(ColumnId)).then((res: any) => {
+      setColumn(res.payload);
+      dispatch(getLawyerById(res.payload.lawyerId)).then((res: any) => {
+        setLawyer(res.payload.name);
+      });
+    });
   };
 
   const formattedOptions = options.reduce((acc, option) => {

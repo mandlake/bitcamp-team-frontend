@@ -5,6 +5,7 @@ import {
   getPostByIdApi,
   getQnaBoardListApi,
   saveQuestionsApi,
+  saveReplyApi,
 } from "./qna.api";
 
 export const findQnaBoardById: any = createAsyncThunk(
@@ -27,6 +28,14 @@ export const findReplyByArticleId: any = createAsyncThunk(
   "user/findReplyByArticleId",
   async (articleId: string) => {
     const data: any = await findReplyByArticleIdApi(articleId);
+    return data;
+  }
+);
+
+export const saveReply: any = createAsyncThunk(
+  "user/saveReply",
+  async ({ lawyerId, articleId, reply }: any) => {
+    const data: any = await saveReplyApi(lawyerId, articleId, reply);
     return data;
   }
 );

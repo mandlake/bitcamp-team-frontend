@@ -16,6 +16,7 @@ import {
   getLawyerDetailByIdApi,
   getLawyerDetailByUsernameApi,
   getLawyersByLawApi,
+  getPostByIdApi,
   getPostsByLawyerIdApi,
   getRepliesByLawyerIdApi,
   insertLawyerApi,
@@ -274,6 +275,14 @@ export const deleteReply: any = createAsyncThunk(
   "lawyer/deleteReply",
   async (id: string) => {
     const data: any = await deleteReplyApi(id);
+    return data;
+  }
+);
+
+export const getPostById: any = createAsyncThunk(
+  "lawyer/getPostById",
+  async (id: string) => {
+    const data: any = await getPostByIdApi(id);
     return data;
   }
 );

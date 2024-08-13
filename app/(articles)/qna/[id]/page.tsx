@@ -1,9 +1,13 @@
 "use client";
 
+import { ILawyerReply } from "@/components/_model/lawyer/lawyer";
 import {
   findQnaBoardById,
   findReplyByArticleId,
+  saveReply,
 } from "@/components/_service/qna/qna.service";
+import { jwtDecode } from "jwt-decode";
+import { parseCookies } from "nookies";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 
@@ -11,9 +15,20 @@ const QnAByIdPage = (props: any) => {
   const dispatch = useDispatch();
   const [options, setOptions] = useState([] as any);
 
+  const accessToken: string = parseCookies().accessToken;
+  const [decodedToken, setDecodedToken] = useState({} as any);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
   const [question, setQuestion] = useState({} as any);
   const [reply, setReply] = useState([] as any);
-  const [answer, setAnswer] = useState({} as any);
+  const [answer, setAnswer] = useState({
+    lawyerId: decodedToken.id,
+    articleId: props.params.id,
+    reply: {
+      lawyerId: decodedToken.id,
+      articleId: props.params.id,
+    } as ILawyerReply,
+  });
 
   const handleQuestion = async () => {
     try {
@@ -37,10 +52,39 @@ const QnAByIdPage = (props: any) => {
     }
   };
 
+  const handleSendReply = async () => {
+    if (decodedToken.id === undefined) {
+      alert("only lawyer can reply here");
+      return;
+    }
+    try {
+      await dispatch(saveReply(answer)).then((res: any) => {
+        console.log(res);
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   useEffect(() => {
     handleQuestion();
     handleReply();
   }, []);
+
+  useEffect(() => {
+    if (!accessToken) {
+      return; // or handle the case where there's no token
+    }
+    setIsLoggedIn(!!accessToken);
+    try {
+      setDecodedToken(jwtDecode(accessToken));
+      if (decodedToken.roles !== undefined) {
+        console.log(decodedToken);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }, [isLoggedIn]);
 
   return (
     <>
@@ -74,7 +118,7 @@ const QnAByIdPage = (props: any) => {
         </div>
         <div className="flex flex-col p-10 gap-10">
           <div className="p-5 flex flex-col gap-5">
-            {/* {reply?.map((item: any, key: any) => (
+            {reply?.map((item: any, key: any) => (
               <div key={key} className="flex flex-row gap-5 items-start">
                 <div className="w-10 h-10 bg-slate-600"></div>
                 <div className="text-sm flex flex-col gap-2">
@@ -86,31 +130,23 @@ const QnAByIdPage = (props: any) => {
                   </div>
                 </div>
               </div>
-            ))} */}
-            <div className="flex flex-row gap-5 items-start">
-              <div className="w-10 h-10 bg-slate-600"></div>
-              <div className="text-sm flex flex-col gap-2">
-                <p className="font-bold">변호사</p>
-                <p>{reply?.content}</p>
-                <div className="text-xs flex flex-row gap-4 font-light">
-                  <p>{reply?.modifiedDate}</p>
-                  <p>삭제하기</p>
-                </div>
-              </div>
-            </div>
+            ))}
             <div className="border rounded-2xl p-8 w-full mt-10">
-              <p>댓글</p>
+              <p>{decodedToken.name || "댓글"}</p>
               <textarea
                 placeholder="내용을 입력하세요."
                 className=" mt-4 px-4 focus:outline-none w-full"
                 onChange={(event: any) =>
                   setAnswer({
                     ...answer,
-                    answer: event.target.value,
+                    reply: { ...answer.reply, content: event.target.value },
                   })
                 }
               ></textarea>
-              <div className="flex items-end justify-end">
+              <div
+                className="flex items-end justify-end"
+                onClick={handleSendReply}
+              >
                 <p>등록</p>
               </div>
             </div>

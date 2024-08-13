@@ -1,3 +1,4 @@
+import { ILawyerReply } from "@/components/_model/lawyer/lawyer";
 import { lawyerInstance, userInstance } from "@/components/config/axios-config";
 
 export const getQnaBoardListApi = async () => {
@@ -35,6 +36,24 @@ export const findReplyByArticleIdApi = async (articleId: string) => {
   }
 };
 
+export const saveReplyApi = async (
+  lawyerId: string,
+  articleId: string,
+  reply: any
+) => {
+  try {
+    const response = await lawyerInstance().get(
+      `/replies/save/${lawyerId}?articleId=${articleId}`,
+      reply
+    );
+
+    return response.data;
+  } catch (error) {
+    console.log(error);
+    return error;
+  }
+};
+
 export const saveQuestionsApi = async (data: any) => {
   try {
     const response = await userInstance().post(`/questions/save`, data);
@@ -48,7 +67,7 @@ export const saveQuestionsApi = async (data: any) => {
 // 포스트아이디로 포스트 찾기
 export const getPostByIdApi = async (id: string) => {
   try {
-    const response = await lawyerInstance().get(`posts/find/${id}`);
+    const response = await lawyerInstance().get(`/posts/find/${id}`);
 
     console.log("Success:", response.data);
     return response.data;
