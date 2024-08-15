@@ -13,6 +13,7 @@ import { RecommendedLawyerPage } from "./(main)/recommendLawyer.page";
 import IssueForm from "@/components/modules/issue/NewIssueForm";
 import IssueList from "@/components/modules/issue/IssueList";
 import axios from "axios";
+import { mainURL, userURL } from "@/components/common/url";
 
 export interface chatting {
   sender: string;
@@ -55,7 +56,7 @@ export default function Home(props: any) {
     try {
       // 서버에 첫 번째 요청 보내기
       const response = await axios.post(
-        "https://27b5-125-131-113-53.ngrok-free.app/v1/chat/completions",
+        "https://6dcf-125-131-113-53.ngrok-free.app/v1/chat/completions",
         {
           model: "llm",
           messages: [{ role: "user", content: message }],
@@ -77,7 +78,7 @@ export default function Home(props: any) {
 
       // 추가 요청 보내기
       const additionalResponse = await axios.post(
-        "https://27b5-125-131-113-53.ngrok-free.app/v1/chat/completions",
+        "https://6dcf-125-131-113-53.ngrok-free.app/v1/chat/completions",
         {
           model: "classifier",
           messages: [{ role: "user", content: botMessage }],
@@ -102,9 +103,10 @@ export default function Home(props: any) {
       if (containsLawTerm) {
         // 특정 단어가 포함된 경우 추가 API 요청
         const apiResponse = await axios.get(
-          `http://lawmate-api-gateway-41bd9-25937505-8ab9cf98a540.kr.lb.naverncp.com/lawyers/law?law=${lawTerms.find(
-            (term) => additionalContent.includes(term)
-          )}`
+          mainURL +
+            `/lawyers/law?law=${lawTerms.find((term) =>
+              additionalContent.includes(term)
+            )}`
         );
 
         // 응답에서 id와 name 출력
