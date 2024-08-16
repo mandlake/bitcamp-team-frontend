@@ -156,14 +156,12 @@ const Header = ({ isDropdownOpen, setIsDropdownOpen }: any) => {
           setIsLoggedIn(false);
           destroyCookie({}, "accessToken");
           destroyCookie({}, "requestToken");
+          window.location.reload();
           return res;
         })
         .catch((error: any) => {
           console.log("로그아웃 실행에서 에러가 발생함 : ");
           console.log(error);
-        })
-        .then(() => {
-          window.location.reload();
         });
     } else if (role === "ROLE_USER") {
       dispatch(userLogout())
@@ -171,14 +169,12 @@ const Header = ({ isDropdownOpen, setIsDropdownOpen }: any) => {
           setIsLoggedIn(false);
           destroyCookie({}, "accessToken");
           destroyCookie({}, "requestToken");
+          window.location.reload();
           return res;
         })
         .catch((error: any) => {
           console.log("로그아웃 실행에서 에러가 발생함 : ");
           console.log(error);
-        })
-        .then(() => {
-          window.location.reload();
         });
     } else {
       dispatch(lawyerLogout(accessToken))
@@ -187,15 +183,13 @@ const Header = ({ isDropdownOpen, setIsDropdownOpen }: any) => {
             setIsLoggedIn(false);
             destroyCookie({}, "accessToken");
             destroyCookie({}, "requestToken");
+            window.location.reload();
           }
           return res;
         })
         .catch((error: any) => {
           console.log("로그아웃 실행에서 에러가 발생함 : ");
           console.log(error);
-        })
-        .then(() => {
-          window.location.reload();
         });
     }
   };
