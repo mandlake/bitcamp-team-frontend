@@ -211,6 +211,7 @@ const Header = ({ isDropdownOpen, setIsDropdownOpen }: any) => {
     try {
       setDecodedToken(jwtDecode(accessToken));
       if (decodedToken.roles !== undefined) {
+        console.log(decodedToken);
         setRole(decodedToken?.roles[0]);
       }
     } catch (error) {

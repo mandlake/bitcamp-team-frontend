@@ -3,10 +3,7 @@
 import { ILawyer, ILawyerDetail } from "@/components/_model/lawyer/lawyer";
 import {
   getLawyerById,
-  getLawyerByUsername,
   getLawyerDetailById,
-  getLawyerDetailByUsername,
-  updateLawyer,
 } from "@/components/_service/lawyer/lawyer.service";
 import { userURL } from "@/components/common/url";
 import axios from "axios";
@@ -71,7 +68,6 @@ const LawyerSingleInfoPage = () => {
   const openAddressSearch = () => {
     new window.daum.Postcode({
       oncomplete: function (data: any) {
-        console.log(data);
         setLawyerDetail({ ...lawyerDetail, address: data.address });
       },
     }).open();
