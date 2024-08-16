@@ -10,14 +10,13 @@ import { destroyCookie, parseCookies } from "nookies";
 import { lawyerLogout } from "../_service/lawyer/lawyer.service";
 import { jwtDecode } from "jwt-decode";
 import { userLogout } from "../_service/user/user.service";
-import { userURL } from "../common/url";
 import { findIssueById } from "../_service/issue/issue-service";
 
 const Header = ({ isDropdownOpen, setIsDropdownOpen }: any) => {
   const dispatch = useDispatch();
   const router = useRouter();
+  const cookies = parseCookies();
   const accessToken: string = parseCookies().accessToken;
-  const refreshToken = parseCookies().refreshToken;
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [decodedToken, setDecodedToken] = useState({} as any);
   const [role, setRole] = useState("");
@@ -202,6 +201,9 @@ const Header = ({ isDropdownOpen, setIsDropdownOpen }: any) => {
   };
 
   useEffect(() => {
+    console.log("parseCookies");
+    console.log(cookies);
+    console.log("accessToken");
     console.log(accessToken);
     if (!accessToken) {
       console.log("accessToken이 없습니다.");
