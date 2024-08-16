@@ -1,5 +1,6 @@
 "use client";
 
+import Premium from "@/app/(premium)/premium/[id]/page";
 import { ILawyer, ILawyerDetail } from "@/components/_model/lawyer/lawyer";
 import {
   getLawyerById,
@@ -520,6 +521,7 @@ const LawyerSingleInfoPage = () => {
               <p>예약 내역이 없습니다.</p>
             )}
           </div>
+          <Premium />
         </div>
       </div>
     </>
