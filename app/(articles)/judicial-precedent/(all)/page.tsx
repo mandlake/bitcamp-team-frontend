@@ -31,7 +31,7 @@ const JudicialPrecidentPage = () => {
   const [judicialPrecident, setJudicialPrecident] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const lastItemRef = useRef(null);
-  const [currentPage, setCurrentPage] = useState(0);
+  const [currentPage, setCurrentPage] = useState(1);
   const notificationsPerPage = 10;
   const [totalPages, setTotalPages] = useState(11);
 
@@ -47,7 +47,7 @@ const JudicialPrecidentPage = () => {
     setIsLoading(true);
 
     await dispatch(
-      getAllCaseLaws({ page: currentPage, notificationsPerPage })
+      getAllCaseLaws({ page: currentPage - 1, notificationsPerPage })
     ).then((res: any) => {
       setTotalPages(res.payload.totalPages);
       setJudicialPrecident(res.payload.content);
