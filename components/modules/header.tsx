@@ -10,14 +10,13 @@ import { destroyCookie, parseCookies } from "nookies";
 import { lawyerLogout } from "../_service/lawyer/lawyer.service";
 import { jwtDecode } from "jwt-decode";
 import { userLogout } from "../_service/user/user.service";
-import { userURL } from "../common/url";
 import { findIssueById } from "../_service/issue/issue-service";
 
 const Header = ({ isDropdownOpen, setIsDropdownOpen }: any) => {
   const dispatch = useDispatch();
   const router = useRouter();
+  const cookies = parseCookies();
   const accessToken: string = parseCookies().accessToken;
-  const refreshToken = parseCookies().refreshToken;
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [decodedToken, setDecodedToken] = useState({} as any);
   const [role, setRole] = useState("");
@@ -157,14 +156,12 @@ const Header = ({ isDropdownOpen, setIsDropdownOpen }: any) => {
           setIsLoggedIn(false);
           destroyCookie({}, "accessToken");
           destroyCookie({}, "requestToken");
+          window.location.reload();
           return res;
         })
         .catch((error: any) => {
           console.log("로그아웃 실행에서 에러가 발생함 : ");
           console.log(error);
-        })
-        .then(() => {
-          window.location.reload();
         });
     } else if (role === "ROLE_USER") {
       dispatch(userLogout())
@@ -172,14 +169,12 @@ const Header = ({ isDropdownOpen, setIsDropdownOpen }: any) => {
           setIsLoggedIn(false);
           destroyCookie({}, "accessToken");
           destroyCookie({}, "requestToken");
+          window.location.reload();
           return res;
         })
         .catch((error: any) => {
           console.log("로그아웃 실행에서 에러가 발생함 : ");
           console.log(error);
-        })
-        .then(() => {
-          window.location.reload();
         });
     } else {
       dispatch(lawyerLogout(accessToken))
@@ -188,20 +183,21 @@ const Header = ({ isDropdownOpen, setIsDropdownOpen }: any) => {
             setIsLoggedIn(false);
             destroyCookie({}, "accessToken");
             destroyCookie({}, "requestToken");
+            window.location.reload();
           }
           return res;
         })
         .catch((error: any) => {
           console.log("로그아웃 실행에서 에러가 발생함 : ");
           console.log(error);
-        })
-        .then(() => {
-          window.location.reload();
         });
     }
   };
 
   useEffect(() => {
+    console.log("parseCookies");
+    console.log(cookies);
+    console.log("accessToken");
     console.log(accessToken);
     if (!accessToken) {
       console.log("accessToken이 없습니다.");
@@ -211,6 +207,7 @@ const Header = ({ isDropdownOpen, setIsDropdownOpen }: any) => {
     try {
       setDecodedToken(jwtDecode(accessToken));
       if (decodedToken.roles !== undefined) {
+        console.log(decodedToken);
         setRole(decodedToken?.roles[0]);
       }
     } catch (error) {

@@ -7,7 +7,6 @@ import {
 } from "@/components/_service/user/user.service";
 import { jwtDecode } from "jwt-decode";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
 import { parseCookies } from "nookies";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";

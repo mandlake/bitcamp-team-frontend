@@ -1,6 +1,7 @@
 "use client";
 
 import { ILawyerReply } from "@/components/_model/lawyer/lawyer";
+import { deleteReply } from "@/components/_service/lawyer/lawyer.service";
 import {
   findQnaBoardById,
   findReplyByArticleId,
@@ -22,13 +23,13 @@ const QnAByIdPage = (props: any) => {
   const [question, setQuestion] = useState({} as any);
   const [reply, setReply] = useState([] as any);
   const [answer, setAnswer] = useState({
-    lawyerId: decodedToken.id,
-    articleId: props.params.id,
     reply: {
       lawyerId: decodedToken.id,
       articleId: props.params.id,
     } as ILawyerReply,
   });
+
+  const [roles, setRole] = useState("");
 
   const handleQuestion = async () => {
     try {
@@ -58,8 +59,24 @@ const QnAByIdPage = (props: any) => {
       return;
     }
     try {
-      await dispatch(saveReply(answer)).then((res: any) => {
+      await dispatch(saveReply(answer.reply)).then((res: any) => {
         console.log(res);
+        window.location.reload();
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleDeleteReply = async (id: any) => {
+    if (decodedToken.id === undefined) {
+      alert("only lawyer can reply here");
+      return;
+    }
+    try {
+      await dispatch(deleteReply(id)).then((res: any) => {
+        console.log(res);
+        window.location.reload();
       });
     } catch (error) {
       console.log(error);
@@ -79,7 +96,7 @@ const QnAByIdPage = (props: any) => {
     try {
       setDecodedToken(jwtDecode(accessToken));
       if (decodedToken.roles !== undefined) {
-        console.log(decodedToken);
+        console.log("decoded된 token이 존재합니다.");
       }
     } catch (error) {
       console.log(error);
@@ -126,7 +143,7 @@ const QnAByIdPage = (props: any) => {
                   <p>{item.content}</p>
                   <div className="text-xs flex flex-row gap-4 font-light">
                     <p>{item.modifiedDate}</p>
-                    <p>삭제하기</p>
+                    <p onClick={() => handleDeleteReply(item.id)}>삭제하기</p>
                   </div>
                 </div>
               </div>
@@ -139,7 +156,11 @@ const QnAByIdPage = (props: any) => {
                 onChange={(event: any) =>
                   setAnswer({
                     ...answer,
-                    reply: { ...answer.reply, content: event.target.value },
+                    reply: {
+                      ...answer.reply,
+                      content: event.target.value,
+                      lawyerId: decodedToken.id,
+                    },
                   })
                 }
               ></textarea>

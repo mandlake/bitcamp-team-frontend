@@ -29,17 +29,16 @@ const JudicialPrecidentPage = () => {
   } = useForm<any>();
 
   const [judicialPrecident, setJudicialPrecident] = useState<any[]>([]);
-  const [page, setPage] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
   const lastItemRef = useRef(null);
   const [currentPage, setCurrentPage] = useState(1);
   const notificationsPerPage = 10;
-  const [totalPages, setTotalPages] = useState(0);
+  const [totalPages, setTotalPages] = useState(11);
 
   const handleSearch = async (data: any) => {
     await dispatch(searchCaseLaws(data)).then((res: any) => {
       setJudicialPrecident(res.payload);
-      setTotalPages(0);
+      setTotalPages(res.payload.totalPages);
     });
   };
 
@@ -48,11 +47,10 @@ const JudicialPrecidentPage = () => {
     setIsLoading(true);
 
     await dispatch(
-      getAllCaseLaws({ page: currentPage, notificationsPerPage })
+      getAllCaseLaws({ page: currentPage - 1 || 0, notificationsPerPage })
     ).then((res: any) => {
       setTotalPages(res.payload.totalPages);
       setJudicialPrecident(res.payload.content);
-      setPage(page + 1);
     });
 
     setIsLoading(false);
