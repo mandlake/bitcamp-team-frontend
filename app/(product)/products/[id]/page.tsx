@@ -4,7 +4,6 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { parseCookies } from "nookies";
-import { jwtDecode } from "jwt-decode";
 import { useForm } from "react-hook-form";
 import { getProductById } from "@/components/_service/product/product-slice";
 import { IUser } from "@/components/_model/user/user";
@@ -13,8 +12,6 @@ import { IPayment } from "@/components/_model/payment/payment";
 import { savePayment } from "@/components/_service/payment/payment-service";
 import UserId from "@/components/hooks/userId";
 import { getUserById } from "@/components/_service/user/user.service";
-import { ILawyer } from "@/components/_model/lawyer/lawyer";
-import { getLawyerById } from "@/components/_service/lawyer/lawyer.service";
 import { userURL } from "@/components/common/url";
 
 declare global {
