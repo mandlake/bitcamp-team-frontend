@@ -33,6 +33,7 @@ const LawyerByIdPage = (props: any) => {
   const router = useRouter();
   const [amount, setAmount] = useState<number>(0);
   const [consultingType, setconsultingType] = useState<string>("");
+  const [productsName, setProductsName] = useState<string>("");
   const [date, setDate] = useState<string>("");
   const [time, setTime] = useState<string>("");
   const lawyerId = props.params.id;
@@ -45,7 +46,12 @@ const LawyerByIdPage = (props: any) => {
   const [lawyerDetail, setLawyerDetail] = useState<any>({} as ILawyerDetail);
   const [lawyer, setLawyer] = useState<any>({} as ILawyer);
   const [consultation, setConsultation] = useState(false);
-
+  const [products, setProducts] = useState<any[]>([]); // To hold products data
+  const [selectedProductId, setSelectedProductId] = useState<number | null>(
+    null
+  );
+  const [price, setPrice] = useState<number>(0);
+  const [impUid, setImpUid] = useState<string | null>(null);
   const consultationType = [
     {
       type: "15분 전화 상담",
@@ -91,18 +97,13 @@ const LawyerByIdPage = (props: any) => {
     const confirmMessage = `결제할 금액은 ${amount}원 입니다. 계속 진행하시겠습니까?`;
     const isConfirmed = window.confirm(confirmMessage);
     window.IMP.init("imp78717406");
+
     if (!window.IMP) {
       console.error("IMP is not loaded");
       return;
     }
 
     if (isConfirmed) {
-      window.IMP.init("imp78717406");
-      if (!window.IMP) {
-        console.error("IMP is not loaded");
-        return;
-      }
-
       window.IMP.request_pay(
         {
           pg: "html5_inicis",
@@ -110,6 +111,7 @@ const LawyerByIdPage = (props: any) => {
           orderUid: new Date().getTime().toString(),
           name: "포인트",
           amount: amount,
+          lawyer: lawyerId,
         },
         async (rsp: any) => {
           if (rsp.success) {
@@ -117,17 +119,22 @@ const LawyerByIdPage = (props: any) => {
             const token = parseCookies().accessToken;
             confirm("결제가 완료되었습니다.");
 
-            // 서버로 결제 데이터 전송
+            setImpUid(rsp.imp_uid);
+
             const paymentData: IPayment = {
+              impUid: rsp.imp_uid,
               amount: amount,
-              status: "OK",
+              status: "PENDING",
               buyer: {
                 id: userId,
               },
+              product: {
+                id: selectedProductId || 0,
+              },
+              lawyer: lawyerId
             };
-
             dispatch(savePayment(paymentData));
-            const { data } = await axios.post(
+            await axios.post(
               `${userURL}/user/payments/verifyIamport/${rsp.imp_uid}`,
               rsp,
               {
@@ -143,7 +150,6 @@ const LawyerByIdPage = (props: any) => {
         }
       );
     } else {
-      // 사용자가 확인하지 않은 경우 처리
       console.log("결제가 취소되었습니다.");
     }
   };
@@ -155,8 +161,28 @@ const LawyerByIdPage = (props: any) => {
     });
   };
 
+  // Fetch products data from API
+  const loadProducts = async () => {
+    try {
+      const token = parseCookies().accessToken;
+      const response = await axios.get(`${userURL}/product/all`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      if (Array.isArray(response.data)) {
+        setProducts(response.data);
+      } else {
+        console.error("Products data is not an array", response.data);
+      }
+    } catch (error) {
+      console.error("Failed to fetch products", error);
+    }
+  };
+
   useEffect(() => {
     findLawyerDetailById();
+    loadProducts();
     const jquery = document.createElement("script");
     jquery.src = "http://code.jquery.com/jquery-1.12.4.min.js";
     const iamport = document.createElement("script");
@@ -166,43 +192,6 @@ const LawyerByIdPage = (props: any) => {
     return () => {
       document.head.removeChild(jquery);
       document.head.removeChild(iamport);
-    };
-  }, []);
-
-  useEffect(() => {
-    const loadScript = (src: any, callback: any) => {
-      const script = document.createElement("script");
-      script.type = "text/javascript";
-      script.src = src;
-      script.onload = callback;
-      document.head.appendChild(script);
-    };
-    loadScript("https://code.jquery.com/jquery-1.12.4.min.js", () => {
-      loadScript("https://cdn.iamport.kr/js/iamport.payment-1.2.0.js", () => {
-        const IMP = window.IMP;
-        document.addEventListener("DOMContentLoaded", () => {
-          const payment_uid = "O" + new Date().getTime();
-          const totalPriceElement = document.getElementById("totalPrice");
-          const totalPrice = totalPriceElement
-            ? totalPriceElement.innerText
-            : "";
-          fetch(`${userURL}/payments/status`, {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              payment_uid: payment_uid,
-              amount: totalPrice,
-            }),
-          });
-        });
-      });
-    });
-
-    return () => {
-      const scripts = document.querySelectorAll('script[src^="https://"]');
-      scripts.forEach((script) => script.remove());
     };
   }, []);
 
@@ -283,7 +272,6 @@ const LawyerByIdPage = (props: any) => {
               </div>
             </div>
           </div>
-          <Product />
         </div>
         <div className="w-[498px] absolute top-0 right-10 py-[16px]">
           <div className="h-[14vh] bg-[var(--color-Harbor-first)] text-[var(--color-Harbor-firth)] p-9 py-7 rounded-t-xl">
@@ -324,20 +312,21 @@ const LawyerByIdPage = (props: any) => {
                   {selectedOpen.consultationType && (
                     <>
                       <div className="flex flex-row p-2 text-sm gap-2">
-                        {consultationType.map((type) => (
+                        {products.map((product) => (
                           <input
-                            key={type.type}
+                            key={product.id}
                             type="button"
                             className={`${
-                              amount === type.price
+                              amount === product.price
                                 ? "bg-[var(--color-Harbor-sec)] text-white"
                                 : ""
                             } p-3 rounded-lg border cursor-pointer`}
                             onClick={() => {
-                              setAmount(type.price);
-                              setconsultingType(type.type);
+                              setSelectedProductId(product.id);
+                              setAmount(product.price);
+                              setconsultingType(product.item_name);
                             }}
-                            value={type.type}
+                            value={product.item_name}
                           />
                         ))}
                       </div>

@@ -16,12 +16,13 @@ import Payment from "@/app/(payment)/payment/[id]/page";
 import CancelPayment from "@/app/(payment)/cancel/[id]/page";
 import { IPayment } from "@/components/_model/payment/payment";
 import { getLawyerById } from "@/components/_service/lawyer/lawyer.service";
+import { findProductById } from "@/components/_service/product/product-service";
 
 const UserSingeInfoPage = () => {
   const dispatch = useDispatch();
   const [payments, setPayments] = useState([] as IPayment[]);
   const currentUser = "user1";
-
+  const [impUid, setImpUid] = useState<string | null>(null);
   const [user, setUser] = useState({} as IUser);
   const lawyers = [
     { id: "lawyer1", name: "Lawyer 1" },
@@ -38,12 +39,34 @@ const UserSingeInfoPage = () => {
       setUser(res.payload);
       dispatch(paymentsBuyerById(res.payload.id)).then((buy: any) => {
         setPayments(buy.payload);
+        const payments = buy.payload;
+        fetchRelatedData(payments);
         buy.payload?.map((pay: any) => {
           console.log("pay");
           console.log(pay);
         });
       });
     });
+  };
+
+  const fetchRelatedData = async (payments: IPayment[]) => {
+    const paymentsWithRelatedData = await Promise.all(
+      payments.map(async (payment) => {
+        const product = payment.product?.id
+          ? await dispatch(findProductById(payment.product.id)).then(
+              (res: any) => res.payload
+            )
+          : null;
+        const lawyer = payment.lawyer
+          ? await dispatch(getLawyerById(payment.lawyer)).then(
+              (res: any) => res.payload
+            )
+          : null;
+
+        return { ...payment, product, lawyer };
+      })
+    );
+    setPayments(paymentsWithRelatedData);
   };
 
   useEffect(() => {
@@ -250,23 +273,24 @@ const UserSingeInfoPage = () => {
                 {payments.map((payment: any) => (
                   <div key={payment.id} className="flex flex-row gap-5">
                     <div className="flex items-center justify-center">
-                      <p className="w-36">{payment.product.itemName}</p>
+                      <p className="w-36">{payment?.product?.item_name}</p>
                     </div>
                     <div className="flex items-center justify-center">
-                      <p className="w-36">{payment.lawyer?.name}</p>
+                      <p className="w-36">{payment?.lawyer?.name}</p>
                     </div>
                     <div className="flex items-center justify-center">
-                      <p className="w-36">{payment.amount} 원</p>
+                      <p className="w-36">{payment?.amount} 원</p>
                     </div>
                     <div className="flex items-center justify-center">
-                      <p className="w-36">{payment.status}</p>
+                      <p className="w-36">{payment?.status}</p>
                     </div>
                   </div>
                 ))}
+                <CancelPayment impUid={impUid} />
               </div>
             </div>
           </div>
-          {/* <ChatList currentUser={user?.name || currentUser} lawyers={lawyers} /> */}
+          <ChatList currentUser={user?.name || currentUser} lawyers={lawyers} />
         </div>
       </div>
     </>

@@ -15,7 +15,8 @@ declare global {
   }
 }
 
-export default function CancelPayment({ params }: any) {
+export default function CancelPayment(props: any) {
+  const { impUid } = props;
   const dispatch = useDispatch();
   const user: IUser = useSelector(getUserById);
   const token = parseCookies().accessToken;
@@ -47,7 +48,7 @@ export default function CancelPayment({ params }: any) {
   const cancelPayment = async () => {
     const paymentDto = {
       id: userId,
-      impUid: "imp_055045284793",
+      impUid: "imp_216697431857",
       cancel_request_amount: 200,
       reason: "거절된 상담 요청",
       amount: 200,
@@ -72,7 +73,7 @@ export default function CancelPayment({ params }: any) {
   };
 
   return (
-    <div className="flex items-center">
+    <div>
       <button className="border border-gray-300" onClick={cancelPayment}>
         결제 취소
       </button>
