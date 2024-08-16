@@ -1,5 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import {
+  deleteReplyApi,
   findQnaBoardByIdApi,
   findReplyByArticleIdApi,
   getPostByIdApi,
@@ -34,8 +35,16 @@ export const findReplyByArticleId: any = createAsyncThunk(
 
 export const saveReply: any = createAsyncThunk(
   "user/saveReply",
-  async ({ lawyerId, articleId, reply }: any) => {
-    const data: any = await saveReplyApi(lawyerId, articleId, reply);
+  async (reply: any) => {
+    const data: any = await saveReplyApi(reply);
+    return data;
+  }
+);
+
+export const deleteReply: any = createAsyncThunk(
+  "user/deleteReply",
+  async (lawyerId: string) => {
+    const data: any = await deleteReplyApi(lawyerId);
     return data;
   }
 );

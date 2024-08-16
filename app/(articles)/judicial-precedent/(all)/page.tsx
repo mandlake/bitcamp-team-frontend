@@ -47,7 +47,7 @@ const JudicialPrecidentPage = () => {
     setIsLoading(true);
 
     await dispatch(
-      getAllCaseLaws({ page: currentPage - 1, notificationsPerPage })
+      getAllCaseLaws({ page: currentPage - 1 || 0, notificationsPerPage })
     ).then((res: any) => {
       setTotalPages(res.payload.totalPages);
       setJudicialPrecident(res.payload.content);

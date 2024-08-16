@@ -36,16 +36,24 @@ export const findReplyByArticleIdApi = async (articleId: string) => {
   }
 };
 
-export const saveReplyApi = async (
-  lawyerId: string,
-  articleId: string,
-  reply: any
-) => {
+export const saveReplyApi = async (reply: any) => {
   try {
-    const response = await lawyerInstance().get(
-      `/replies/save/${lawyerId}?articleId=${articleId}`,
-      reply
+    const response = await lawyerInstance().post(
+      `/replies/save/${reply.lawyerId}`,
+      reply,
+      { params: { articleId: reply.articleId } }
     );
+
+    return response.data;
+  } catch (error) {
+    console.log(error);
+    return error;
+  }
+};
+
+export const deleteReplyApi = async (lawyerId: string) => {
+  try {
+    const response = await lawyerInstance().delete(`/replies/${lawyerId}`);
 
     return response.data;
   } catch (error) {

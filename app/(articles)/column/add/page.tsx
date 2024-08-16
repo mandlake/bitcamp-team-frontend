@@ -2,9 +2,7 @@
 
 import { ILawyerPost } from "@/components/_model/lawyer/lawyer";
 import { createPost } from "@/components/_service/lawyer/lawyer.service";
-import axios from "axios";
 import { jwtDecode } from "jwt-decode";
-import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { parseCookies } from "nookies";
 import { useEffect, useState } from "react";
@@ -53,30 +51,27 @@ const ColumnBoardAddPage = () => {
   // };
 
   const submit = async () => {
-    console.log("before submit");
-    console.log(selectBoard);
-    const formData = new FormData();
-    formData.append("lawyerId", selectBoard.lawyerId);
-    formData.append("post", JSON.stringify(selectBoard.post));
-    const selectedFile = selectBoard.files;
-    if (selectedFile.length == 0) {
+    if (!selectBoard.files || selectBoard.files.length === 0) {
       alert("파일을 선택해주세요.");
-      return 0;
+      return;
     }
 
-    Array.from<File>(selectedFile as any).forEach((file: File) => {
-      formData.append("files", file);
-    });
-
     try {
-      const response = await dispatch(createPost(formData));
-      console.log("after login");
+      const response = await dispatch(
+        createPost({
+          lawyerId: selectBoard.lawyerId,
+          post: selectBoard.post,
+          files: selectBoard.files,
+        })
+      );
       console.log(response);
-      if (response.status === 200) {
+
+      if (response.meta.requestStatus === "fulfilled") {
         alert("파일이 성공적으로 등록되었습니다.");
+        router.push("/"); // 원하는 페이지로 리다이렉트
       }
     } catch (error) {
-      console.log(error);
+      console.log("Post creation error:", error);
     }
   };
 
