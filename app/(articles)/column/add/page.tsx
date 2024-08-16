@@ -8,6 +8,7 @@ import { jwtDecode } from "jwt-decode";
 import { useDispatch } from "react-redux";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { lawyerURL } from "@/components/common/url";
+import { createPost } from "@/components/_service/lawyer/lawyer.service";
 
 // Post 타입 정의
 interface Post {
@@ -17,43 +18,6 @@ interface Post {
   fileUrls?: string[];
   lawyerId?: string;
 }
-
-// Thunk 함수 정의
-export const createPost = createAsyncThunk(
-  "lawyer/createPost",
-  async ({
-    lawyerId,
-    post,
-    files,
-  }: {
-    lawyerId: string;
-    post: Post;
-    files: File[];
-  }) => {
-    const formData = new FormData();
-    formData.append("post", JSON.stringify(post));
-
-    files.forEach((file) => {
-      formData.append("files", file);
-    });
-
-    try {
-      const response = await axios.post(
-        lawyerURL + `/posts/save/${lawyerId}`,
-        formData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        }
-      );
-      return response.data;
-    } catch (error) {
-      console.error("Create post error:", error);
-      throw error;
-    }
-  }
-);
 
 const ColumnBoardAddPage = () => {
   const router = useRouter();

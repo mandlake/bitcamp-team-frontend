@@ -225,7 +225,7 @@ export default function Premium(props: any) {
   };
 
   return (
-    <div>
+    <div className="border p-5 px-8 rounded-2xl">
       <div className="flex justify-start gap-5">
         {premiums.length === 0 ? (
           <p className="mt-10 ">상품이 존재하지 않습니다.</p>
@@ -257,13 +257,13 @@ export default function Premium(props: any) {
       <br />
       <div className="grid grid-cols-2 gap-3 w-full">
         <button
-          className="border border-gray-300 rounded-2xl py-2 px-4"
+          className="w-[22vw] h-[5vh] bg-white border border-[var(--color-Harbor-first)] hover:bg-[var(--color-Harbor-first)] hover:text-white  font-bold"
           onClick={() => requestPay(price)}
         >
           결제
         </button>
         <button
-          className="border border-gray-300 rounded-2xl py-2 px-4"
+          className="w-[22vw] h-[5vh] bg-white border border-[var(--color-Harbor-first)] hover:bg-[var(--color-Harbor-first)] hover:text-white  font-bold"
           onClick={handlePointUsage}
         >
           포인트로 결제

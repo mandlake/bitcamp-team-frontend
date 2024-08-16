@@ -103,7 +103,7 @@ export default function Product(props: any) {
                 id: selectedProductId || 0,
               },
               amount: productPrice,
-              lawyer: lawyerId
+              lawyer: lawyerId,
             };
 
             dispatch(savePayment(paymentData));

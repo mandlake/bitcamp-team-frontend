@@ -269,22 +269,24 @@ const UserSingeInfoPage = () => {
                     <p className="w-36">현재 진행상태</p>
                   </div>
                 </div>
-                {payments.map((payment: any) => (
-                  <div key={payment.id} className="flex flex-row gap-5">
-                    <div className="flex items-center justify-center">
-                      <p className="w-36">{payment?.product?.item_name}</p>
+                <div className="mb-8">
+                  {payments.map((payment: any) => (
+                    <div key={payment.id} className="flex flex-row gap-5">
+                      <div className="flex items-center justify-center">
+                        <p className="w-36">{payment?.product?.item_name}</p>
+                      </div>
+                      <div className="flex items-center justify-center">
+                        <p className="w-36">{payment?.lawyer?.name}</p>
+                      </div>
+                      <div className="flex items-center justify-center">
+                        <p className="w-36">{payment?.amount} 원</p>
+                      </div>
+                      <div className="flex items-center justify-center">
+                        <p className="w-36">{payment?.status}</p>
+                      </div>
                     </div>
-                    <div className="flex items-center justify-center">
-                      <p className="w-36">{payment?.lawyer?.name}</p>
-                    </div>
-                    <div className="flex items-center justify-center">
-                      <p className="w-36">{payment?.amount} 원</p>
-                    </div>
-                    <div className="flex items-center justify-center">
-                      <p className="w-36">{payment?.status}</p>
-                    </div>
-                  </div>
-                ))}
+                  ))}
+                </div>
                 <CancelPayment impUid={impUid} />
               </div>
             </div>

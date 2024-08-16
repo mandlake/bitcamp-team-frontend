@@ -32,6 +32,8 @@ import {
   uploadFilesApi,
 } from "./lawyer.api";
 import { ILawyer, ILawyerDetail } from "@/components/_model/lawyer/lawyer";
+import { lawyerURL } from "@/components/common/url";
+import axios from "axios";
 
 export const lawyerLogin: any = createAsyncThunk(
   "lawyer/lawyerLogin",
@@ -199,11 +201,49 @@ export const getAllPosts: any = createAsyncThunk(
 );
 
 // 포스트 생성
-export const createPost: any = createAsyncThunk(
+// Post 타입 정의
+interface Post {
+  title: string;
+  content: string;
+  category?: string;
+  fileUrls?: string[];
+  lawyerId?: string;
+}
+
+// Thunk 함수 정의
+export const createPost = createAsyncThunk(
   "lawyer/createPost",
-  async ({ lawyerId, post, files }: any) => {
-    const data: any = await createPostApi(lawyerId, post, files);
-    return data;
+  async ({
+    lawyerId,
+    post,
+    files,
+  }: {
+    lawyerId: string;
+    post: Post;
+    files: File[];
+  }) => {
+    const formData = new FormData();
+    formData.append("post", JSON.stringify(post));
+
+    files.forEach((file) => {
+      formData.append("files", file);
+    });
+
+    try {
+      const response = await axios.post(
+        lawyerURL + `/posts/save/${lawyerId}`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+      return response.data;
+    } catch (error) {
+      console.error("Create post error:", error);
+      throw error;
+    }
   }
 );
 

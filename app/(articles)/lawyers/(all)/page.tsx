@@ -50,7 +50,6 @@ const LawyersBoardPage = () => {
     watch("search")
       .split(", ")
       .map((law: string) => {
-        console.log(law);
         laws.push(law);
       });
     await dispatch(getLawyersByLaw(laws)).then((res: any) => {
@@ -76,9 +75,6 @@ const LawyersBoardPage = () => {
     getAllLawyers();
   }, []);
 
-  useEffect(() => {
-    console.log(lawyers);
-  }, [lawyers]);
   return (
     <>
       <div className={`flex flex-col justify-center items-center relative`}>

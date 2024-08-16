@@ -99,25 +99,25 @@ const Header = ({ isDropdownOpen, setIsDropdownOpen }: any) => {
     //   sub: "뉴스",
     // },
     {
-      key: 2,
+      key: 1,
       title: "Lawyers Board",
       path: "/lawyers",
       sub: "변호사",
     },
     {
-      key: 3,
+      key: 2,
       title: "판례 게시판",
       path: "/judicial-precedent",
       sub: "판례",
     },
     {
-      key: 4,
+      key: 3,
       title: "법률 상담 Q&A",
       path: "/qna",
       sub: "Q&A",
     },
     {
-      key: 5,
+      key: 4,
       title: "변호사 법률 칼럼",
       path: "/column",
       sub: "칼럼",
@@ -156,7 +156,7 @@ const Header = ({ isDropdownOpen, setIsDropdownOpen }: any) => {
           setIsLoggedIn(false);
           destroyCookie({}, "accessToken");
           destroyCookie({}, "requestToken");
-          window.location.reload();
+          window.location.replace("/");
           return res;
         })
         .catch((error: any) => {
@@ -169,7 +169,7 @@ const Header = ({ isDropdownOpen, setIsDropdownOpen }: any) => {
           setIsLoggedIn(false);
           destroyCookie({}, "accessToken");
           destroyCookie({}, "requestToken");
-          window.location.reload();
+          window.location.replace("/");
           return res;
         })
         .catch((error: any) => {
@@ -183,7 +183,7 @@ const Header = ({ isDropdownOpen, setIsDropdownOpen }: any) => {
             setIsLoggedIn(false);
             destroyCookie({}, "accessToken");
             destroyCookie({}, "requestToken");
-            window.location.reload();
+            window.location.replace("/");
           }
           return res;
         })
