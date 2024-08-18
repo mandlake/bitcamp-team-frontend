@@ -138,7 +138,7 @@ const LawyersBoardPage = () => {
                     {item.detail?.premium && (
                       <div className="flex justify-center">
                         <Image
-                          src="https://kr.object.ncloudstorage.com/bucket-lawmate-lawyer/premium_icon.png"
+                          src="/images/badge.jpeg"
                           alt="premium icon"
                           width={20}
                           height={20}

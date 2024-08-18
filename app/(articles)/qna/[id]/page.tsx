@@ -110,7 +110,7 @@ const QnAByIdPage = (props: any) => {
           <h1 className="font-bold text-4xl">{question.title}</h1>
           <div className="flex flex-col gap-7">
             <div className="flex flex-row justify-between border-b py-7">
-              <p>{question.writer || "박주하"}</p>
+              <p>{question.writer || "작성자"}</p>
               <div>
                 <p>{question.regDate || "2024-08-10"}</p>
               </div>
@@ -121,7 +121,7 @@ const QnAByIdPage = (props: any) => {
             dangerouslySetInnerHTML={{ __html: question.content }}
           ></p>
           <div className="flex flex-row gap-2 text-sm">
-            <p>조회수 0</p>
+            <p>조회수 1,000</p>
           </div>
           <div className="flex flex-row items-baseline gap-2">
             {/* {options.map((i:  any) => (
@@ -139,7 +139,7 @@ const QnAByIdPage = (props: any) => {
               <div key={key} className="flex flex-row gap-5 items-start">
                 <div className="w-10 h-10 bg-slate-600"></div>
                 <div className="text-sm flex flex-col gap-2">
-                  <p className="font-bold">김호주</p>
+                  <p className="font-bold">작성자</p>
                   <p>{item.content}</p>
                   <div className="text-xs flex flex-row gap-4 font-light">
                     <p>{item.modifiedDate}</p>
