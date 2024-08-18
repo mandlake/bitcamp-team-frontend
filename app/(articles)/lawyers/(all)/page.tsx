@@ -35,6 +35,7 @@ const LawyersBoardPage = () => {
 
   const getAllLawyers = async () => {
     await dispatch(getAllLawyer()).then((res: any) => {
+      console.log(res);
       setLawyers(res.payload);
     });
   };
@@ -120,21 +121,24 @@ const LawyersBoardPage = () => {
               {lawyers?.map((item: any) => (
                 <div
                   key={item.id}
-                  className=" border border-[var(--color-Harbor-first)] rounded-md text-[var(--color-Harbor-first)] items-center flex flex-col p-4 font-chosunsg"
+                  className=" border border-[var(--color-Harbor-first)] h-72 rounded-md text-[var(--color-Harbor-first)] items-center justify-center flex flex-col p-4 font-chosunsg"
                   onClick={() => window.location.replace(`/lawyers/${item.id}`)}
                 >
                   <Image
-                    src="https://mblogthumb-phinf.pstatic.net/MjAyMTA1MjlfNzYg/MDAxNjIyMjE1MjMwOTk5.TSOSi5EAsh3MX9bdN3W9ugQyjSBYV_I0jMkcLwN9Wkwg.6KIRElwl9bBEUu-Br1UmWMMb0Fuku_CIFNb64SttOHkg.JPEG.acttosun08/IMAGE%EF%BC%BF2020%EF%BC%BF09%EF%BC%BF18%EF%BC%BF06%EF%BC%BF09%EF%BC%BF35.jpg?type=w800"
-                    className="mb-3"
+                    src={
+                      item.detail?.photo ||
+                      "https://img.icons8.com/?size=100&id=11730&format=png&color=000000"
+                    }
+                    className="mb-3 h-48"
                     width={150}
                     height={150}
                     alt="lawyer-image"
                   />
-                  <div className="w-auto flex flex-col items-center gap-1">
+                  <div className="flex flex-col items-center gap-1 w-28">
                     <h1 className="text-lg font-semibold">
                       {item.name} 변호사
                     </h1>
-                    <div className="text-sm">
+                    <div className="text-sm flex flex-row items-center gap-2 truncate w-auto max-w-full">
                       {item.detail?.law.map((law: any, index: number) => (
                         <div key={index}>#{law}</div>
                       ))}
