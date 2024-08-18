@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 
 const JudicialPrecedentByIdPage = (props: any) => {
+  const JudicialPrecedentId = props.params.id;
   const [judicialPrecedent, setJudicialPrecedent] = useState(
     {} as CaseLawDetail
   );
@@ -25,7 +26,7 @@ const JudicialPrecedentByIdPage = (props: any) => {
 
   useEffect(() => {
     getJudicialPrecedentById(props.params.id);
-  }, []);
+  }, [JudicialPrecedentId]);
 
   return (
     <>
