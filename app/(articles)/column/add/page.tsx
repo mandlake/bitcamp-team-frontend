@@ -94,7 +94,7 @@ const ColumnBoardAddPage = () => {
     <div className="flex flex-col items-center pt-20">
       <div className="border border-black w-[50vw] p-10">
         <div>
-          <h1 className="text-3xl border-b-2 p-4">법률상담 질문하기</h1>
+          <h1 className="text-3xl border-b-2 p-4">법률 칼럼쓰기</h1>
         </div>
         <form onSubmit={handleSubmit}>
           <div className="flex flex-row items-center justify-between mt-3">
