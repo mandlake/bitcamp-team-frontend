@@ -240,7 +240,11 @@ const UserSingeInfoPage = () => {
                     id="point"
                     name="point"
                     placeholder="point"
-                    style={{ width: "60px", textAlign: "end", paddingRight: 10 }}
+                    style={{
+                      width: "60px",
+                      textAlign: "end",
+                      paddingRight: 10,
+                    }}
                     value={user?.point}
                     onChange={(e: any) =>
                       setUser({
@@ -259,7 +263,7 @@ const UserSingeInfoPage = () => {
           <div className="w-[694px] border-2 border-[var(--color-Harbor-firth)] rounded-2xl p-5">
             <p className="text-[var(--color-Harbor-sec)]">예약 내역</p>
             <div className="flex flex-row w-[650px] items-center px-2 pt-5">
-              <div>
+              <div className="border-b">
                 <div className="flex flex-row gap-5">
                   <div className="flex items-center justify-center">
                     <p className="w-32">상담 정보</p>
@@ -278,28 +282,32 @@ const UserSingeInfoPage = () => {
                   </div>
                 </div>
                 <div>
-                  {payments.map((payment: any) => (
-                    <div key={payment.id} className="flex flex-row gap-5">
-                      <div className="flex items-center justify-center">
-                        <p className="w-32">{payment?.product?.item_name}</p>
+                  {payments.length > 0 ? (
+                    payments.map((payment: any) => (
+                      <div key={payment.id} className="flex flex-row gap-5">
+                        <div className="flex items-center justify-center">
+                          <p className="w-32">{payment?.product?.item_name}</p>
+                        </div>
+                        <div className="flex items-center justify-center">
+                          <p className="w-32">{payment?.lawyer?.name}</p>
+                        </div>
+                        <div className="flex items-center justify-center">
+                          <p className="w-32">{payment?.amount} 원</p>
+                        </div>
+                        <div className="flex items-center justify-center">
+                          <p className="w-32">{payment?.status}</p>
+                        </div>
+                        <div className="flex items-center justify-center">
+                          <CancelPayment
+                            className="px-2"
+                            impUid={payment?.imp_uid}
+                          />
+                        </div>
                       </div>
-                      <div className="flex items-center justify-center">
-                        <p className="w-32">{payment?.lawyer?.name}</p>
-                      </div>
-                      <div className="flex items-center justify-center">
-                        <p className="w-32">{payment?.amount} 원</p>
-                      </div>
-                      <div className="flex items-center justify-center">
-                        <p className="w-32">{payment?.status}</p>
-                      </div>
-                      <div className="flex items-center justify-center">
-                        <CancelPayment
-                          className="px-2"
-                          impUid={payment?.imp_uid}
-                        />
-                      </div>
-                    </div>
-                  ))}
+                    ))
+                  ) : (
+                    <p>예약 내역이 없습니다.</p>
+                  )}
                 </div>
               </div>
             </div>
