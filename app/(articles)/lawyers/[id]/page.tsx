@@ -69,13 +69,13 @@ const LawyerByIdPage = (props: any) => {
 
   const dateType = [
     {
-      type: "2022-10-10",
+      type: "2024-08-20",
     },
     {
-      type: "2022-10-11",
+      type: "2024-08-21",
     },
     {
-      type: "2022-10-12",
+      type: "2024-08-22",
     },
   ];
 

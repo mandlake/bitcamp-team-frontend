@@ -48,10 +48,10 @@ export default function CancelPayment(props: any) {
   const cancelPayment = async () => {
     const paymentDto = {
       id: userId,
-      impUid: "imp_680596087293",
-      cancel_request_amount: 200,
+      impUid: impUid,
+      cancel_request_amount: amount,
       reason: "거절된 상담 요청",
-      amount: 2000,
+      amount: amount,
     };
 
     try {
@@ -82,7 +82,7 @@ export default function CancelPayment(props: any) {
   return (
     <div>
       <button
-        className="p-2 bg-white border border-[var(--color-Harbor-first)] rounded-xl hover:bg-[var(--color-Harbor-first)] hover:text-white text-sm"
+        className="p-2 bg-[var(--color-Harbor-first)] text-white border border-[var(--color-Harbor-first)] rounded-xl hover:bg-white hover:text-[var(--color-Harbor-first)] text-sm"
         onClick={cancelPayment}
       >
         취소

@@ -110,7 +110,7 @@ const QnaBoardPage = () => {
                       {item.content}
                     </p>
                     <p className="text-sm truncate text-[var(--color-Harbor-sec)]">
-                      {item.writer || "작성자"}
+                      {item.writer || "박주하"}
                     </p>
                   </div>
                 </div>

@@ -87,16 +87,20 @@ const UserSingeInfoPage = () => {
     <>
       <div className="flex flex-row relative">
         <div className="w-[390px]"></div>
-        <div className="w-[390px] h-screen border-x border-[var(--color-Harbor-first)] p-5 items-center fixed top-0 bg-[var(--color-Harbor-firth)]">
+        <div className="w-[390px] h-screen border-x border-[var(--color-Harbor-first)] p-20 items-center fixed top-0 bg-[var(--color-Harbor-firth)]">
           <div
             className="flex items-center justify-center text-[var(--color-Harbor-first)] font-bold text-[22px] cursor-pointer"
             onClick={() => {
               window.location.replace("/");
             }}
           >
-            LAWWMATE LOGO
+            <svg width="60" viewBox="0 0 686 283" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path fill-rule="evenodd" clip-rule="evenodd" d="M284 146.53C268.938 176.46 258.072 198.613 242.468 227.373C237.539 236.451 233.399 246.336 227.495 254.758C216.962 269.777 202.928 276.151 179.151 276.151C156.801 276.151 135.639 275.991 112.412 276.151C86.7991 276.311 64.0768 277.499 44.3776 275.725C24.581 273.935 11.0611 261.86 4.59811 246.203C-1.73186 230.901 0.316071 203.409 0.316071 180.74C0.324937 145.926 0.316071 111.625 0.316071 76.7746C0.316071 65.1697 -0.0917422 53.5115 1.17603 42.9793C3.82681 20.9929 22.7458 -1.95107 52.0906 2.33097C73.3324 5.43389 86.276 19.7162 90.6024 36.9862C93.2354 47.5096 92.3046 61.2954 92.3046 74.638C92.3134 107.236 92.3046 138.824 92.3046 173.045C92.3046 179.313 92.278 186.574 95.7355 189.304C101.117 193.569 115.927 192.5 124.5 192.5C135.369 192.5 146.827 193.134 154.345 190.59C159.7 188.773 164.222 180.971 167.608 175.182C191.474 134.356 216.475 89.8335 239.915 48.9724C252.531 26.2678 263.914 3.0934 295.529 0.203244C313.428 -1.43687 329.448 7.10947 338.305 16.4626C344.324 22.8014 354 40.5 354 40.5C354 40.5 383.439 92.9453 397.349 116.572C411.427 140.473 426.853 167.371 441.419 191.875C446.331 200.129 452.288 208.498 455.542 217.55C463.707 240.228 453.308 260.796 439.708 271.036C426.96 280.628 402.482 282.703 386.666 272.747C376.125 266.106 368.687 252.161 361.417 239.377C342.764 206.53 327.883 179.747 309.62 146.528C306.581 141 301.287 129.124 296.81 129C292.43 129.128 286.783 141 284 146.53Z" fill="#36454A"/>
+            <path fill-rule="evenodd" clip-rule="evenodd" d="M284 146.53C268.938 176.46 258.072 198.613 242.468 227.373C237.539 236.451 233.399 246.336 227.495 254.758C216.962 269.777 202.928 276.151 179.151 276.151C156.801 276.151 135.639 275.991 112.412 276.151C86.7991 276.311 64.0768 277.499 44.3776 275.725C24.581 273.935 11.0611 261.86 4.59811 246.203C-1.73186 230.901 0.316071 203.409 0.316071 180.74C0.324937 145.926 0.316071 111.625 0.316071 76.7746C0.316071 65.1697 -0.0917422 53.5115 1.17603 42.9793C3.82681 20.9929 22.7458 -1.95107 52.0906 2.33097C73.3324 5.43389 86.276 19.7162 90.6024 36.9862C93.2354 47.5096 92.3046 61.2954 92.3046 74.638C92.3134 107.236 92.3046 138.824 92.3046 173.045C92.3046 179.313 92.278 186.574 95.7355 189.304C101.117 193.569 115.927 192.5 124.5 192.5C135.369 192.5 146.827 193.134 154.345 190.59C159.7 188.773 164.222 180.971 167.608 175.182C191.474 134.356 216.475 89.8335 239.915 48.9724C252.531 26.2678 263.914 3.0934 295.529 0.203244C313.428 -1.43687 329.448 7.10947 338.305 16.4626C344.324 22.8014 354 40.5 354 40.5C354 40.5 383.439 92.9453 397.349 116.572C411.427 140.473 426.853 167.371 441.419 191.875C446.331 200.129 452.288 208.498 455.542 217.55C463.707 240.228 453.308 260.796 439.708 271.036C426.96 280.628 402.482 282.703 386.666 272.747C376.125 266.106 368.687 252.161 361.417 239.377C342.764 206.53 327.883 179.747 309.62 146.528C306.581 141 301.287 129.124 296.81 129C292.43 129.128 286.783 141 284 146.53Z" fill="#36454A"/>
+            <path d="M467.968 230.373C483.572 201.613 494.437 179.46 509.5 149.53C512.283 144 517.93 132.128 522.31 132C526.787 132.124 532.08 144 535.12 149.528C553.383 182.747 568.264 209.53 586.917 242.377C594.186 255.161 601.625 269.106 612.166 275.747C627.982 285.703 652.46 283.628 665.208 274.036C678.808 263.796 689.207 243.228 681.042 220.55C677.788 211.498 671.831 203.129 666.919 194.875C652.353 170.371 636.927 143.473 622.849 119.572C608.939 95.9453 579.5 43.5 579.5 43.5C579.5 43.5 569.824 25.8014 563.804 19.4626C554.948 10.1095 538.928 1.56313 521.028 3.20324C489.414 6.0934 478.031 29.2678 465.415 51.9724C441.975 92.8335 416.974 137.356 393.108 178.182L375 211.5L379.5 257.758L404.651 279.151C428.428 279.151 442.462 272.777 452.994 257.758C458.899 249.336 463.039 239.451 467.968 230.373Z" fill="#36454A"/>
+            </svg>
           </div>
-          <div className="flex flex-col items-center justify-center pt-12">
+          <div className="flex flex-col items-center justify-center pt-4">
             <Image
               src="https://img.icons8.com/?size=100&id=7819&format=png&color=000000"
               width={180}
@@ -261,58 +265,65 @@ const UserSingeInfoPage = () => {
             </div>
           </div>
           <div className="w-[694px] border-2 border-[var(--color-Harbor-firth)] rounded-2xl p-5">
-            <p className="text-[var(--color-Harbor-sec)]">예약 내역</p>
+            <p className="text-[var(--color-Harbor-sec)] border-b">예약 내역</p>
             <div className="flex flex-row w-[650px] items-center px-2 pt-5">
-              <div className="border-b">
-                <div className="flex flex-row gap-5">
-                  <div className="flex items-center justify-center">
-                    <p className="w-32">상담 정보</p>
-                  </div>
-                  <div className="flex items-center justify-center">
-                    <p className="w-32">변호사</p>
-                  </div>
-                  <div className="flex items-center justify-center">
-                    <p className="w-32">가격</p>
-                  </div>
-                  <div className="flex items-center justify-center">
-                    <p className="w-32">현재 진행상태</p>
-                  </div>
-                  <div className="flex items-center justify-center">
-                    <p className="w-12"></p>
-                  </div>
-                </div>
+              {payments.length > 0 ? (
                 <div>
-                  {payments.length > 0 ? (
-                    payments.map((payment: any) => (
-                      <div key={payment.id} className="flex flex-row gap-5">
-                        <div className="flex items-center justify-center">
-                          <p className="w-32">{payment?.product?.item_name}</p>
+                  <div className="flex flex-row gap-5">
+                    <div className="flex items-center justify-center">
+                      <p className="w-32">상담 정보</p>
+                    </div>
+                    <div className="flex items-center justify-center">
+                      <p className="w-32">변호사</p>
+                    </div>
+                    <div className="flex items-center justify-center">
+                      <p className="w-32">가격</p>
+                    </div>
+                    <div className="flex items-center justify-center">
+                      <p className="w-32">현재 진행상태</p>
+                    </div>
+                    <div className="flex items-center justify-center">
+                      <p className="w-12"></p>
+                    </div>
+                  </div>
+                  <div>
+                    {payments.length > 0 ? (
+                      payments.map((payment: any) => (
+                        <div key={payment.id} className="flex flex-row gap-5">
+                          <div className="flex items-center justify-center">
+                            <p className="w-32">
+                            20분 영상 상담
+                            </p>
+                          </div>
+                          <div className="flex items-center justify-center">
+                            <p className="w-32">{payment?.lawyer?.name}</p>
+                          </div>
+                          <div className="flex items-center justify-center">
+                            <p className="w-32">{payment?.amount} 원</p>
+                          </div>
+                          <div className="flex items-center justify-center">
+                            <p className="w-32">{payment?.status}</p>
+                          </div>
+                          <div className="flex items-center justify-center">
+                            <CancelPayment
+                              className="px-2"
+                              impUid={payment?.impUid}
+                              amount={payment?.amount}
+                            />
+                          </div>
                         </div>
-                        <div className="flex items-center justify-center">
-                          <p className="w-32">{payment?.lawyer?.name}</p>
-                        </div>
-                        <div className="flex items-center justify-center">
-                          <p className="w-32">{payment?.amount} 원</p>
-                        </div>
-                        <div className="flex items-center justify-center">
-                          <p className="w-32">{payment?.status}</p>
-                        </div>
-                        <div className="flex items-center justify-center">
-                          <CancelPayment
-                            className="px-2"
-                            impUid={payment?.imp_uid}
-                          />
-                        </div>
-                      </div>
-                    ))
-                  ) : (
-                    <p>예약 내역이 없습니다.</p>
-                  )}
+                      ))
+                    ) : (
+                      <p>예약 내역이 없습니다.</p>
+                    )}
+                  </div>
                 </div>
-              </div>
+              ) : (
+                <p>예약 내역이 없습니다.</p>
+              )}
             </div>
           </div>
-          <ChatList currentUser={user?.name || currentUser} lawyers={lawyers} />
+          {/* <ChatList currentUser={user?.name || currentUser} lawyers={lawyers} /> */}
         </div>
       </div>
     </>
