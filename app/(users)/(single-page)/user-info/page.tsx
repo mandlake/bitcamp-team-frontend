@@ -252,7 +252,7 @@ const UserSingeInfoPage = () => {
             </div>
           </div>
           <div className="w-[694px] border-2 border-[var(--color-Harbor-firth)] rounded-2xl p-5">
-            <p className="text-[var(--color-Harbor-sec)]">예약 정보</p>
+            <p className="text-[var(--color-Harbor-sec)]">상담 예약 내역</p>
             <div className="flex flex-row w-[650px] items-center px-2 pt-5">
               <div>
                 <div className="flex flex-row gap-5">
@@ -284,10 +284,13 @@ const UserSingeInfoPage = () => {
                       <div className="flex items-center justify-center">
                         <p className="w-36">{payment?.status}</p>
                       </div>
+                      <div className="flex items-center justify-center">
+                      <CancelPayment className="px-2" impUid={payment?.imp_uid}/>
+                    </div>
                     </div>
                   ))}
                 </div>
-                <CancelPayment impUid={impUid} />
+                
               </div>
             </div>
           </div>

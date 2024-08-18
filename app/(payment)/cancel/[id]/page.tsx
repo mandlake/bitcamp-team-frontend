@@ -75,7 +75,7 @@ export default function CancelPayment(props: any) {
   return (
     <div>
       <button
-        className="w-[22vw] h-[5vh] bg-white border border-[var(--color-Harbor-first)] hover:bg-[var(--color-Harbor-first)] hover:text-white  font-bold"
+        className="p-2 bg-white border border-[var(--color-Harbor-first)] hover:bg-[var(--color-Harbor-first)] hover:text-white"
         onClick={cancelPayment}
       >
         결제 취소

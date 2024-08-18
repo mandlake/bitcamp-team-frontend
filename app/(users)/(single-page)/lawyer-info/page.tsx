@@ -588,10 +588,10 @@ const LawyerSingleInfoPage = () => {
                       <div className="flex items-center justify-center">
                         <p className="w-36">{lawPayments?.status}</p>
                       </div>
+                      <CancelPayment impUid={lawPayments?.imp_uid}  />
                     </div>
                   ))}
                 </div>
-                <CancelPayment impUid="" />
               </div>
             </div>
           </div>
