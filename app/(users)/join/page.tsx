@@ -1,11 +1,11 @@
-"use client";
+'use client';
 
-import { useRouter } from "next/navigation";
-import { useDispatch } from "react-redux";
-import { ILawyer } from "@/components/_model/lawyer/lawyer";
-import { lawyerJoin } from "@/components/_service/lawyer/lawyer.service";
-import { useForm } from "react-hook-form";
-import { useEffect } from "react";
+import { useRouter } from 'next/navigation';
+import { useDispatch } from 'react-redux';
+import { ILawyer } from '@/components/_model/lawyer/lawyer';
+import { lawyerJoin } from '@/components/_service/lawyer/lawyer.service';
+import { useForm } from 'react-hook-form';
+import { useEffect } from 'react';
 
 function Join() {
   const router = useRouter();
@@ -13,7 +13,7 @@ function Join() {
   const { register, handleSubmit, setValue } = useForm<ILawyer>();
 
   const onSubmit = async (data: ILawyer) => {
-    console.log("입력된 값 : " + JSON.stringify(data));
+    console.log('입력된 값 : ' + JSON.stringify(data));
 
     try {
       await dispatch(lawyerJoin(data)).then((res: any) => {
@@ -25,7 +25,7 @@ function Join() {
   };
 
   useEffect(() => {
-    setValue("auth", false);
+    setValue('auth', false);
   }, []);
 
   return (
@@ -51,7 +51,7 @@ function Join() {
                 type="text"
                 id="email"
                 placeholder="Email"
-                {...register("email")}
+                {...register('email')}
                 className="w-[22vw] h-[5vh] border border-[var(--color-Harbor-first)] px-[1.111vw] mb-[1.111vh] bg-white"
               />
             </label>
@@ -64,7 +64,7 @@ function Join() {
                 type="password"
                 id="password"
                 placeholder="Password"
-                {...register("password")}
+                {...register('password')}
                 className="w-[22vw] h-[5vh] border border-[var(--color-Harbor-first)] px-[1.111vw] mb-[1.111vh] bg-white"
               />
             </label>
@@ -77,7 +77,7 @@ function Join() {
                 type="text"
                 id="name"
                 placeholder="Name"
-                {...register("name")}
+                {...register('name')}
                 className="w-[22vw] h-[5vh] border border-[var(--color-Harbor-first)] px-[1.111vw] mb-[1.111vh] bg-white"
               />
             </label>
@@ -90,7 +90,7 @@ function Join() {
                 type="text"
                 id="phone"
                 placeholder="PhoneNumber"
-                {...register("phone")}
+                {...register('phone')}
                 className="w-[22vw] h-[5vh] border border-[var(--color-Harbor-first)] px-[1.111vw] mb-[1.111vh] bg-white"
               />
             </label>
@@ -103,7 +103,7 @@ function Join() {
                 type="date"
                 id="birth"
                 placeholder="Birth"
-                {...register("birth")}
+                {...register('birth')}
                 className="w-[22vw] h-[5vh] border border-[var(--color-Harbor-first)] px-[1.111vw] mb-[1.111vh] bg-white"
               />
             </label>
@@ -116,7 +116,7 @@ function Join() {
                 type="text"
                 id="lawyerNo"
                 placeholder="LawyerNo"
-                {...register("lawyerNo")}
+                {...register('lawyerNo')}
                 className="w-[22vw] h-[5vh] border border-[var(--color-Harbor-first)] px-[1.111vw] mb-[1.111vh] bg-white"
               />
             </label>
@@ -129,20 +129,7 @@ function Join() {
                 type="text"
                 id="mid"
                 placeholder="가맹점 번호"
-                {...register("mid")}
-                className="w-[22vw] h-[5vh] border border-[var(--color-Harbor-first)] px-[1.111vw] mb-[1.111vh] bg-white"
-              />
-            </label>
-            <label
-              htmlFor="lawyerNo"
-              className="flex flex-row items-center justify-between w-[33vw]"
-            >
-              <p className="text-[22px] font-medium">자격 번호</p>
-              <input
-                type="text"
-                id="lawyerNo"
-                placeholder="LawyerNo"
-                {...register("lawyerNo")}
+                {...register('mid')}
                 className="w-[22vw] h-[5vh] border border-[var(--color-Harbor-first)] px-[1.111vw] mb-[1.111vh] bg-white"
               />
             </label>

@@ -1,29 +1,41 @@
-"use client";
+'use client';
 
-import { useRouter } from "next/navigation";
-import { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useRouter } from 'next/navigation';
+import { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import axios from 'axios';
 
 function ForgotPassword() {
   const router = useRouter();
   const dispatch = useDispatch();
   const [formData, setFormData] = useState({
-    email: "",
-    password: "",
+    lawyerNo: '',
   });
-  const handleForgotPassword = async () => {
+  const [message, setMessage] = useState('');
+
+  const handleResetPassword = async () => {
     try {
-      // await dispatch(forgotPassword(formData))
-      //   .then((res: any) => {
-      //     alert("success to change password");
-      //   })
-      //   .then((res: any) => {
-      //     router.push(`/login`);
-      //   });
+      const response = await axios.post(
+        'https://api.hojoo.lawmate.site/lawyers/resetPassword',
+        null,
+        {
+          params: {
+            lawyerNo: formData.lawyerNo,
+          },
+        }
+      );
+
+      if (response.status === 200) {
+        setMessage('Password reset successfully.');
+      } else {
+        setMessage('Failed to reset password.');
+      }
     } catch (error) {
-      console.error(error);
+      console.error('There was an error resetting the password!', error);
+      setMessage('An error occurred while resetting the password.');
     }
   };
+
   return (
     <>
       <div className="flex flex-col w-screen h-screen items-center justify-center">
@@ -36,26 +48,31 @@ function ForgotPassword() {
             잃어버리셨나요?
           </p>
           <div>
-            <label htmlFor="email">
+            <label htmlFor="lawyerNo">
               <input
                 type="text"
-                id="email"
-                name="email"
-                placeholder="Email"
-                value={formData.email}
-                onChange={(e: any) =>
-                  setFormData({ ...formData, email: e.target.value })
+                id="lawyerNo"
+                name="lawyerNo"
+                placeholder="lawyerNo"
+                value={formData.lawyerNo}
+                onChange={(e) =>
+                  setFormData({ ...formData, lawyerNo: e.target.value })
                 }
                 className="w-[22vw] h-[5vh] border border-[var(--color-Harbor-first)] px-[1.111vw] mb-[1.111vh] bg-white"
               />
             </label>
             <button
-              onClick={() => handleForgotPassword()}
-              className="w-[22vw] h-[5vh] bg-white border border-[var(--color-Harbor-first)] hover:bg-[var(--color-Harbor-first)] hover:text-white  font-bold"
+              onClick={handleResetPassword}
+              className="w-[22vw] h-[5vh] bg-white border border-[var(--color-Harbor-first)] hover:bg-[var(--color-Harbor-first)] hover:text-white font-bold"
             >
               Find Password
             </button>
           </div>
+          {message && (
+            <div className="w-[22vw] flex flex-col p-[1.111vh]">
+              <p className="text-gray-700 text-sm">{message}</p>
+            </div>
+          )}
           <div className="w-[22vw] flex flex-col p-[1.111vh]">
             <p
               onClick={() => router.push(`/login/lawyer`)}
