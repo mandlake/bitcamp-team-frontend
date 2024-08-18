@@ -131,7 +131,7 @@ const LawyerByIdPage = (props: any) => {
               product: {
                 id: selectedProductId || 0,
               },
-              lawyer: lawyerId
+              lawyer: lawyerId,
             };
             dispatch(savePayment(paymentData));
             await axios.post(
@@ -156,6 +156,7 @@ const LawyerByIdPage = (props: any) => {
 
   const findLawyerDetailById = async () => {
     await dispatch(getLawyerById(lawyerId)).then((response: any) => {
+      console.log(response);
       setLawyer(response.payload);
       setLawyerDetail(response.payload.detail);
     });
@@ -281,7 +282,16 @@ const LawyerByIdPage = (props: any) => {
             </div>
           </div>
           <div className="h-[58vh] items-center flex justify-center z-20">
-            사진
+            <Image
+              src={
+                lawyerDetail.photo ||
+                "https://img.icons8.com/?size=100&id=11730&format=png&color=000000"
+              }
+              className="mb-3"
+              width={420}
+              height={420}
+              alt="lawyer-image"
+            />
           </div>
           <div className="rounded-xl shadow-2xl fixed bottom-5 p-5 flex flex-col items-center gap-3 bg-white z-40">
             {isModalOpen && !consultation && (

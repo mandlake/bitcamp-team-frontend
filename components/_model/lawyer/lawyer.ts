@@ -27,12 +27,13 @@ export interface ILawyerDetail {
   address?: string;
   addressDetail?: string;
   belongPhone?: string;
-  law?: string;
+  law?: [];
   visitCost?: string;
   phoneCost?: string;
   videoCost?: string;
   university?: string;
   major?: string;
+  photo?: string;
   premium?: boolean;
   createdDate?: string;
   modifiedDate?: string;

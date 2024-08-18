@@ -7,6 +7,7 @@ const nextConfig = {
       "img.etoday.co.kr",
       "img.icons8.com",
       "blog.kakaocdn.net",
+      "bucket-lawmate-lawyer.kr.object.ncloudstorage.com",
     ], // Add the hostname here
   },
 };
