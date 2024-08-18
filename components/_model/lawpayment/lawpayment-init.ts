@@ -9,4 +9,7 @@ export const initialState: ILawPayment = {
   premium: {
     id: 0,
   },
+  startDate: "",
+  expireDate: "",
+  isExpired: false
 };

@@ -1,5 +1,5 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { SaveAPI, findAllPremiumAPI, findPremiumByIdAPI, findPremiumByLawyerAPI } from "./premium-api";
+import { SaveAPI, findAllPremiumAPI, findPremiumByIdAPI } from "./premium-api";
 import { IPremium } from "@/components/_model/premium/premium";
 
 export const savePremium: any = createAsyncThunk(
@@ -22,17 +22,6 @@ export const findPremiumById: any = createAsyncThunk(
   async (id: number) => {
     console.log("findPremiumById id: " + id);
     const data: any = await findPremiumByIdAPI(id);
-
-    const { message, result }: any = data;
-    return data;
-  }
-);
-
-export const findPremiumByLawyer: any = createAsyncThunk(
-  "/premium/findPremiumByLawyer",
-  async (id: number) => {
-    console.log("findPremiumByLawyer id: " + id);
-    const data: any = await findPremiumByLawyerAPI(id);
 
     const { message, result }: any = data;
     return data;

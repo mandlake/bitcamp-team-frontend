@@ -156,7 +156,7 @@ export default function Payment({ params }: any) {
       />
       <button
         onClick={() => requestPay(amount)}
-        className="px-2s justify-end items-end"
+        className="text-white bg-[var(--color-Harbor-first)] p-2 border border-[var(--color-Harbor-sec)] rounded-xl hover:bg-white hover:text-[var(--color-Harbor-sec)] text-sm"
       >
         충전
       </button>

@@ -7,5 +7,8 @@ export interface LawPaymentColumn {
   premium?: {
     id?: number;
   };
+  start_date?: string;
+  expire_date?: string;
+  is_expired?: boolean;
   array?: [];
 }

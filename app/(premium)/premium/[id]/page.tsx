@@ -13,7 +13,6 @@ import { saveLawPayment } from "@/components/_service/lawpayment/lawpayment-serv
 import UserId from "@/components/hooks/userId";
 import { getUserById } from "@/components/_service/user/user.service";
 import { userURL } from "@/components/common/url";
-import CancelPayment from "@/app/(payment)/cancel/[id]/page";
 
 declare global {
   interface Window {
@@ -25,9 +24,6 @@ export default function Premium(props: any) {
   const { lawyerId } = props;
   const dispatch = useDispatch();
   const [premiums, setPremiums] = useState<any[]>([]);
-  const [selectedPremiumId, setSelectedPremiumId] = useState<number | null>(
-    null
-  );
   const [price, setPrice] = useState<number>(0);
   const [plan, setPlan] = useState<string>("");
   const {
@@ -40,6 +36,7 @@ export default function Premium(props: any) {
   const token = parseCookies().accessToken;
   const [transactions, setTransactions] = useState<any[]>([]);
   const userId = parseInt(UserId() || "");
+  const [impUid, setImpUid] = useState<string | null>(null);
 
   useEffect(() => {
     const loadPremiums = async () => {
@@ -62,8 +59,9 @@ export default function Premium(props: any) {
     loadPremiums();
   }, [token]);
 
-  const requestPay = async (premiumPrice: number) => {
+  const requestPay = async (premiumId: number, premiumPrice: number) => {
     setPrice(premiumPrice);
+    setPlan(premiums.find((premium) => premium.id === premiumId)?.plan || "");
     const confirmMessage = `결제할 금액은 ${premiumPrice}원 입니다. 계속 진행하시겠습니까?`;
     const isConfirmed = window.confirm(confirmMessage);
     window.IMP.init("imp78717406");
@@ -73,19 +71,13 @@ export default function Premium(props: any) {
     }
 
     if (isConfirmed) {
-      window.IMP.init("imp78717406");
-      if (!window.IMP) {
-        console.error("IMP is not loaded");
-        return;
-      }
-
       window.IMP.request_pay(
         {
-          id: userId,
           pg: "html5_inicis",
           pay_method: "card",
           orderUid: new Date().getTime().toString(),
-          amount: price,
+          name: "프리미엄 플랜",
+          amount: premiumPrice,
           lawyer: lawyerId,
         },
         async (rsp: any) => {
@@ -94,14 +86,14 @@ export default function Premium(props: any) {
             const token = parseCookies().accessToken;
             confirm("결제가 완료되었습니다.");
 
-            const impUid = rsp.imp_uid;
+            setImpUid(rsp.imp_uid);
 
             // 서버로 결제 데이터 전송
             const paymentData: ILawPayment = {
-              impUid: impUid,
+              impUid: rsp.imp_uid,
               status: "OK",
               premium: {
-                id: selectedPremiumId || 0,
+                id: premiumId || 0,
               },
               amount: premiumPrice,
               lawyer: lawyerId,
@@ -176,99 +168,53 @@ export default function Premium(props: any) {
     };
   }, []);
 
-  const handlePremiumSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const selectedPremiumId = Number(event.target.value);
-    console.log("선택한 상품 id: " + selectedPremiumId);
-    const selectedPremium = premiums.find(
-      (premium) => premium.id === selectedPremiumId
-    );
-    if (selectedPremium) {
-      setSelectedPremiumId(selectedPremiumId);
-      setPrice(selectedPremium.price);
-      setPlan(selectedPremium.plan);
-    }
-  };
-
-  const handlePointUsage = async () => {
-    if (selectedPremiumId === null || selectedPremiumId === 0) {
-      alert("포인트 결제를 진행할 제품을 선택해주세요.");
-      return;
-    }
-
-    // const impUid = await getImpUid();
-    const impUid = "imp_157435462997";
-
-    if (!impUid) {
-      alert("impUid를 가져오는 데 실패했습니다.");
-      return;
-    }
-  };
-
-  // 예시: impUid를 가져오는 함수 (구체적인 구현은 상황에 따라 다릅니다)
-  const getImpUid = async () => {
-    try {
-      // 여기에 impUid를 생성하거나 가져오는 로직을 추가하세요
-      // 예시: API 호출 또는 다른 로직을 통해 impUid를 가져옴
-      const response = await axios.get(
-        `${userURL}/some-endpoint-to-get-impUid`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-      return response.data.impUid;
-    } catch (error) {
-      console.error("impUid를 가져오는 중 오류 발생:", error);
-      return null;
-    }
-  };
-
   return (
-    <div className="border p-5 px-8 rounded-2xl">
-      <div className="flex justify-start gap-5">
-        {premiums.length === 0 ? (
-          <p className="mt-10 ">상품이 존재하지 않습니다.</p>
-        ) : (
-          premiums.map((premium) => (
-            <label
-              key={premium.id}
-              className="border border-gray-300 rounded-2xl py-2 px-4 w-full"
-              style={{
-                backgroundSize: "cover",
-                backgroundRepeat: "no-repeat",
-                backgroundPosition: "center",
-              }}
-            >
-              <input
-                type="radio"
-                name="premium"
-                value={premium.id}
-                onChange={handlePremiumSelect}
-                className="h-3 w-3 cursor-pointer"
-              />
-              <br />
-              {premium.plan} <br />
-              {premium.price} 포인트
-            </label>
-          ))
-        )}
-      </div>
-      <br />
-      <div className="grid grid-cols-2 gap-3 w-full">
-        <button
-          className="w-[22vw] h-[5vh] bg-white border border-[var(--color-Harbor-first)] hover:bg-[var(--color-Harbor-first)] hover:text-white"
-          onClick={() => requestPay(price)}
-        >
-          결제
-        </button>
-        <button
-          className="w-[22vw] h-[5vh] bg-white border border-[var(--color-Harbor-first)] hover:bg-[var(--color-Harbor-first)] hover:text-white"
-          onClick={handlePointUsage}
-        >
-          포인트로 결제
-        </button>
-        <CancelPayment />
+    <div className="w-[694px] p-1">
+      <p className="text-[var(--color-Harbor-sec)] text-xl">프리미엄 결제</p>
+      <p className="text-[var(--color-Harbor-sec)] text-sm">
+        <br />
+        변호사 인증 뱃지, 변호사 리스트 상단 노출, 인공지능 채팅을 통한
+        변호사 추천 혜택을 제공합니다.<br />
+        지금 바로 프리미엄 상품을 결제하고, 더 많은 고객과 만나보세요!
+      </p>
+      <div className="w-[650px] items-center px-2 text-center">
+        <div>
+          <div className="grid grid-cols-3 gird-row-2 justify-center gap-5 mt-5">
+            {premiums.length === 0 ? (
+              <p className="mt-10 ">상품이 존재하지 않습니다.</p>
+            ) : (
+              premiums.map((premium) => (
+                <div
+                  key={premium.id}
+                  className="border-2 border-[var(--color-Harbor-firth)] rounded-2xl p-10 w-full"
+                  style={{
+                    backgroundSize: "cover",
+                    backgroundRepeat: "no-repeat",
+                    backgroundPosition: "center",
+                  }}
+                >
+                  <p className="text-lg text-[var(--color-Harbor-sec)]">
+                    {" "}
+                    {premium.plan === "monthly"
+                      ? "1개월 플랜"
+                      : premium.plan === "quarterly"
+                      ? "3개월 플랜"
+                      : premium.plan === "annual"
+                      ? "1년 플랜"
+                      : premium.plan}
+                  </p>
+                  <p className="text-[var(--color-Harbor-sec)]">{premium.price} 원</p>
+                  <button
+                    className="mt-2 text-white bg-[var(--color-Harbor-first)] p-2 border border-[var(--color-Harbor-sec)] rounded-xl hover:bg-white hover:text-[var(--color-Harbor-sec)] text-sm"
+                    onClick={() => requestPay(premium.id, premium.price)}
+                  >
+                    결제하기
+                  </button>
+                </div>
+              ))
+            )}
+          </div>
+        </div>
       </div>
     </div>
   );

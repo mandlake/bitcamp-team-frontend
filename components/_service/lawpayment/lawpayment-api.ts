@@ -46,13 +46,19 @@ export const cancelLawPaymentAPI = async (lawPayment: ILawPayment) => {
   }
 };
 
-export const findLawPaymentByLawyerAPI = async (lawyer: string) => {
+export const findLawPaymentByLawyerAPI = async (lawyerId: string) => {
   try {
-    const response = await userInstance().get(`law/payments/findLawyer/${lawyer}`);
-    return response.data || [];
-  } catch (error) {
-    console.error('Error fetching law payment data:', error);
-    throw error;
-    return [];
-  }
+    const response = await userInstance().get(`law/payments/findLawyer/${lawyerId}`);
+    return response.data;
+  } 
+  catch (error: any) {
+    if (error.response) {
+      console.error("Server responded with status:", error.response.status);
+      console.error("Response data:", error.response.data);
+    } else if (error.request) {
+      console.error("No response received:", error.request);
+    } else {
+      console.error("Error setting up request:", error.message);
+    }
+}
 };

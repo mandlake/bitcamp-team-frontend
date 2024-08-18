@@ -24,9 +24,10 @@ export const cancelLawPayment: any = createAsyncThunk(
 );
 
 export const getLawPaymentByLawyerId: any = createAsyncThunk(
-  "/lawPayment/getLawPaymentByLawyerId",
-  async (lawyer: string) => {
-    const data: any = await findLawPaymentByLawyerAPI(lawyer);
+  "/lawPayment/findLawyer",
+  async (id: any) => {
+    const data: any = await findLawPaymentByLawyerAPI(id);
+    console.log("data: " + data);
     return data;
-  }
+    }
 );

@@ -46,16 +46,3 @@ export const findPremiumByIdAPI = async (id: number) => {
     return error;
   }
 };
-
-
-export const findPremiumByLawyerAPI = async (id: number) => {
-  try {
-    const response = await userInstance().get(`premium/findLawyer/${id}`, {
-      params: { id },
-    });
-    return response.data;
-  } catch (error) {
-    console.log(error);
-    return error;
-  }
-}

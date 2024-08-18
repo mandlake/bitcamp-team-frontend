@@ -7,4 +7,7 @@ export interface ILawPayment {
   premium?: {
     id?: number;
   };
+  startDate?: string;
+  expireDate?: string;
+  isExpired?: boolean;
 }

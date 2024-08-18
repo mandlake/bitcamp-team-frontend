@@ -18,6 +18,7 @@ import { useRouter } from "next/navigation";
 import { parseCookies } from "nookies";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
+import UserId from "@/components/hooks/userId";
 
 declare global {
   interface Window {
@@ -40,21 +41,40 @@ const LawyerSingleInfoPage = () => {
   const [notifications, setNotifications] = useState([] as any[]); // 추가된 상태
   const [lawPayments, setLawPayments] = useState([] as ILawPayment[]);
   const [premiums, setPremiums] = useState([] as any[]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const getLawyer = async () => {
-    await dispatch(getLawyerById(decodedToken.id)).then((res: any) => {
-      setLawyer(res.payload);
-      dispatch(getLawPaymentByLawyerId(res.payload.id)).then((buy: any) => {
-        setLawPayments(buy.payload);
-        const payments = buy.payload || [];
-        getLawPaymentsAndPremiums(payments);
-        buy.payload?.map((pay: any) => {
-          console.log("lawPayment data: ", pay);
-        });
-      });
-    });
+  const openModal = () => {
+    setIsModalOpen(true);
   };
 
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
+  const lawyerId = parseInt(UserId() || "");
+
+  const getLawyer = async () => {
+    try {
+      await dispatch(getLawyerById(decodedToken.id)).then((res: any) => {
+        setLawyer(res.payload);
+        const lawyerId = res.payload.id;
+        dispatch(getLawPaymentByLawyerId(lawyerId)).then((buy: any) => {
+          const lawPayments = Array.isArray(buy.payload)
+            ? buy.payload
+            : buy.payload
+            ? [buy.payload]
+            : [];
+          console.log("lawPayment data: ", lawPayments);
+          setLawPayments(lawPayments);
+          getLawPaymentsAndPremiums(lawPayments);
+          lawPayments.map((pay: any) => {
+            console.log("lawPayment data: ", pay);
+          });
+        });
+      });
+    } catch (error) {
+      console.error("Error fetching lawyer data:", error);
+    }
+  };
   const getLawyerDetail = async () => {
     await dispatch(getLawyerDetailById(parseCookies().id)).then((res: any) => {
       setLawyerDetail(res.payload);
@@ -538,7 +558,13 @@ const LawyerSingleInfoPage = () => {
             </div>
           </div>
           <div className="w-[694px] border-2 border-[var(--color-Harbor-firth)] rounded-2xl p-5">
-            <p className="text-[var(--color-Harbor-sec)]">예약 내역</p>
+            <p className="text-[var(--color-Harbor-sec)]">받은 상담 예약</p>
+            <div className="flex flex-row w-full items-center border-b py-2">
+              <div className="w-[150px]">예약 날짜</div>
+              <div className="w-[150px]">예약 시간</div>
+              <div className="w-[200px]">금액</div>
+              <div className="w-[300px]">내용</div>
+            </div>
             {notifications.length > 0 ? (
               notifications.map((notification) => (
                 <div
@@ -556,9 +582,9 @@ const LawyerSingleInfoPage = () => {
             )}
           </div>
           <div className="w-[694px] border-2 border-[var(--color-Harbor-firth)] rounded-2xl p-5">
-            <p className="text-[var(--color-Harbor-sec)]">플랜 정보</p>
-            <div className="flex flex-row w-[650px] items-center px-2 pt-5">
-              <div>
+            <p className="text-[var(--color-Harbor-sec)]">프리미엄 구독 내역</p>
+            <div>
+              <div className="border-b py-2">
                 <div className="flex flex-row gap-5">
                   <div className="flex items-center justify-center">
                     <p className="w-36">플랜</p>
@@ -570,32 +596,98 @@ const LawyerSingleInfoPage = () => {
                     <p className="w-36">가격</p>
                   </div>
                   <div className="flex items-center justify-center">
-                    <p className="w-36">현재 진행상태</p>
+                    <p className="w-36">상태</p>
                   </div>
                 </div>
-                <div className="mb-8">
-                  {lawPayments.map((lawPayments: any) => (
-                    <div key={lawPayments?.id} className="flex flex-row gap-5">
+              </div>
+              <div className="mb-8">
+                {Array.isArray(lawPayments) && lawPayments.length > 0 ? (
+                  lawPayments.map((lawPayment: any) => (
+                    <div key={lawPayment?.id} className="flex flex-row gap-5">
                       <div className="flex items-center justify-center">
-                        <p className="w-36">{lawPayments?.premium?.id}</p>
+                        <p className="w-36">
+                          {lawPayment?.premium?.plan === "monthly"
+                            ? "1개월 플랜"
+                            : lawPayment?.premium?.plan === "quarterly"
+                            ? "3개월 플랜"
+                            : lawPayment?.premium?.plan === "annual"
+                            ? "1년 플랜"
+                            : lawPayment?.premium?.plan}
+                        </p>
                       </div>
                       <div className="flex items-center justify-center">
-                        <p className="w-36">{lawPayments?.premium?.id}</p>
+                        <p className="w-36">
+                          {new Date(lawPayment?.start_date).toLocaleDateString(
+                            "ko-KR"
+                          )}
+                          부터
+                          {new Date(lawPayment?.expire_date).toLocaleDateString(
+                            "ko-KR"
+                          )}
+                          까지
+                        </p>
                       </div>
                       <div className="flex items-center justify-center">
-                        <p className="w-36">{lawPayments?.amount} 원</p>
+                        <p className="w-36">{lawPayment?.amount} 원</p>
                       </div>
                       <div className="flex items-center justify-center">
-                        <p className="w-36">{lawPayments?.status}</p>
+                        <p className="w-36">
+                          {(() => {
+                            if (
+                              lawPayment?.is_expired !== undefined &&
+                              lawPayment?.is_expired !== null
+                            ) {
+                              return lawPayment.is_expired;
+                            }
+
+                            const currentDate = new Date();
+                            const expireDate = new Date(
+                              lawPayment?.expire_date
+                            );
+
+                            // 남은 일수 계산
+                            const timeDifference =
+                              expireDate.getTime() - currentDate.getTime();
+                            const daysRemaining = Math.ceil(
+                              timeDifference / (1000 * 3600 * 24)
+                            );
+
+                            return daysRemaining > 0 ? "enabled" : "expired";
+                          })()}
+                        </p>
                       </div>
-                      <CancelPayment impUid={lawPayments?.imp_uid}  />
                     </div>
-                  ))}
-                </div>
+                  ))
+                ) : (
+                  <p>구독 내역이 없습니다.</p>
+                )}
               </div>
             </div>
+            <div className="flex flex-row w-full">
+              <p className="text-[var(--color-Harbor-sec)] w-[583px] justify-between items-center">
+                프리미엄 상품을 결제하여 다양한 혜택을 누리실 수 있습니다.
+              </p>
+              <button
+                onClick={openModal}
+                className="text-white bg-[var(--color-Harbor-first)] p-2 border border-[var(--color-Harbor-sec)] rounded-xl hover:bg-white hover:text-[var(--color-Harbor-sec)] text-sm"
+              >
+                구독하기
+              </button>
+            </div>
           </div>
-          <Premium />
+          {isModalOpen && (
+            <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+              <div className="bg-white rounded-lg p-5 w-[694px]">
+                <button
+                  onClick={closeModal}
+                  className="text-right text-xl font-bold mb-4"
+                >
+                  &times;
+                </button>
+                <Premium lawyerId={lawyer.id} />
+              </div>
+            </div>
+          )}{" "}
         </div>
       </div>
     </>
