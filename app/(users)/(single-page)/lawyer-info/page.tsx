@@ -1,11 +1,15 @@
 "use client";
 
+import CancelPayment from "@/app/(payment)/cancel/[id]/page";
 import Premium from "@/app/(premium)/premium/[id]/page";
+import { ILawPayment } from "@/components/_model/lawpayment/lawpayment";
 import { ILawyer, ILawyerDetail } from "@/components/_model/lawyer/lawyer";
 import {
   getLawyerById,
   getLawyerDetailById,
 } from "@/components/_service/lawyer/lawyer.service";
+import { findPremiumById } from "@/components/_service/premium/premium-service";
+import { getLawPaymentByLawyerId } from "@/components/_service/lawpayment/lawpayment-service";
 import { userURL } from "@/components/common/url";
 import axios from "axios";
 import { jwtDecode } from "jwt-decode";
@@ -34,10 +38,20 @@ const LawyerSingleInfoPage = () => {
   const [decodedToken, setDecodedToken] = useState({} as any);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [notifications, setNotifications] = useState([] as any[]); // 추가된 상태
+  const [lawPayments, setLawPayments] = useState([] as ILawPayment[]);
+  const [premiums, setPremiums] = useState([] as any[]);
 
   const getLawyer = async () => {
     await dispatch(getLawyerById(decodedToken.id)).then((res: any) => {
       setLawyer(res.payload);
+      dispatch(getLawPaymentByLawyerId(res.payload.id)).then((buy: any) => {
+        setLawPayments(buy.payload);
+        const payments = buy.payload || [];
+        getLawPaymentsAndPremiums(payments);
+        buy.payload?.map((pay: any) => {
+          console.log("lawPayment data: ", pay);
+        });
+      });
     });
   };
 
@@ -56,6 +70,26 @@ const LawyerSingleInfoPage = () => {
     } catch (error) {
       console.error("Error fetching notifications:", error);
     }
+  };
+
+  const getLawPaymentsAndPremiums = async (payments: ILawPayment[]) => {
+    const paymentsWithRelatedData = await Promise.all(
+      payments.map(async (payment) => {
+        const premium = payment.premium?.id
+          ? await dispatch(findPremiumById(payment.premium.id)).then(
+              (res: any) => res.payload
+            )
+          : null;
+        const lawyer = payment.lawyer
+          ? await dispatch(getLawyerById(payment.lawyer)).then(
+              (res: any) => res.payload
+            )
+          : null;
+
+        return { ...payment, premium, lawyer };
+      })
+    );
+    setLawPayments(paymentsWithRelatedData);
   };
 
   useEffect(() => {
@@ -520,6 +554,46 @@ const LawyerSingleInfoPage = () => {
             ) : (
               <p>예약 내역이 없습니다.</p>
             )}
+          </div>
+          <div className="w-[694px] border-2 border-[var(--color-Harbor-firth)] rounded-2xl p-5">
+            <p className="text-[var(--color-Harbor-sec)]">플랜 정보</p>
+            <div className="flex flex-row w-[650px] items-center px-2 pt-5">
+              <div>
+                <div className="flex flex-row gap-5">
+                  <div className="flex items-center justify-center">
+                    <p className="w-36">플랜</p>
+                  </div>
+                  <div className="flex items-center justify-center">
+                    <p className="w-36">기간</p>
+                  </div>
+                  <div className="flex items-center justify-center">
+                    <p className="w-36">가격</p>
+                  </div>
+                  <div className="flex items-center justify-center">
+                    <p className="w-36">현재 진행상태</p>
+                  </div>
+                </div>
+                <div className="mb-8">
+                  {lawPayments.map((lawPayments: any) => (
+                    <div key={lawPayments?.id} className="flex flex-row gap-5">
+                      <div className="flex items-center justify-center">
+                        <p className="w-36">{lawPayments?.premium?.id}</p>
+                      </div>
+                      <div className="flex items-center justify-center">
+                        <p className="w-36">{lawPayments?.premium?.id}</p>
+                      </div>
+                      <div className="flex items-center justify-center">
+                        <p className="w-36">{lawPayments?.amount} 원</p>
+                      </div>
+                      <div className="flex items-center justify-center">
+                        <p className="w-36">{lawPayments?.status}</p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+                <CancelPayment impUid="" />
+              </div>
+            </div>
           </div>
           <Premium />
         </div>
